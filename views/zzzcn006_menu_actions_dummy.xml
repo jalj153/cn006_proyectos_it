@@ -1,0 +1,25 @@
+<odoo>
+    
+    <!-- Vista vacía -->
+    <record id="view_empty_form" model="ir.ui.view">
+        <field name="name">view.empty.form</field>
+        <field name="model">ir.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <!-- Vista vacía -->
+            </form>
+        </field>
+    </record>
+    
+    <!-- Menú > Detalles > Cuadres -->
+    <record id="cn006_action_dummy" model="ir.actions.act_window">
+        <field name="name">(REAL) Cuadres Cartera</field>
+        <field name="res_model">ir.model</field> <!-- Referencia a un modelo vacío que no realiza ninguna acción -->
+        <field name="view_mode">form</field> <!-- Usamos una vista de formulario vacía para que no haga nada -->
+        <field name="view_id" ref="view_empty_form"/> <!-- Referencia a una vista vacía -->
+        <field name="context">{}</field> <!-- Sin contexto adicional -->
+    </record>
+
+    
+</odoo>
+	

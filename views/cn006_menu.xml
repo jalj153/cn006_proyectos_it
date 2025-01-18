@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Menú Principal -->
+    <menuitem id="CN006_menu_principal" name="(REAL) CN006 Proyectos IT" sequence="10"/>
+
+    <!-- Submenús del menú principal -->
+    <menuitem parent="CN006_menu_principal" sequence="10" id="CN006_menu_proyectos_it"  name="Proyectos"     action="cn006_action_dummy" />
+    <menuitem parent="CN006_menu_principal" sequence="20" id="CN006_menu_tareas"        name="Tareas"        action="cn006_action_dummy" />
+    <menuitem parent="CN006_menu_principal" sequence="30" id="CN006_menu_configuracion" name="Configuración" action="cn006_action_dummy" />
+        <menuitem parent="CN006_menu_configuracion" sequence="10" id="CN006_menu_urgencia"    name="Urgencia" action="cn006_action_dummy" />
+        <menuitem parent="CN006_menu_configuracion" sequence="20" id="CN006_menu_importancia" name="Importancia" action="cn006_action_dummy" />
+
+</odoo>

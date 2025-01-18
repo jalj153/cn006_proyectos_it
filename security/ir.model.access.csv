@@ -1,1 +1,26 @@
-# Creado por mk_python 
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+cn005_adm_log_independiente,CN005 - Administradores - Log Independiente,cn005_cartera_cuadre.model_cn005_cuadre_cartera_log_independiente,cn005_cartera_cuadre_administradores,1,1,1,1
+cn005_sup_log_independiente,CN005 - Supervisores - Log Independiente,cn005_cartera_cuadre.model_cn005_cuadre_cartera_log_independiente,cn005_cartera_cuadre_supervisores,1,1,1,0
+cn005_usu_log_independiente,CN005 - Usuarios - Log Independiente,cn005_cartera_cuadre.model_cn005_cuadre_cartera_log_independiente,cn005_cartera_cuadre_usuarios,1,1,1,0
+
+cn005_adm_cuadre_cartera,CN005 - Administradores Cuadre Cartera,cn005_cartera_cuadre.model_cn005_cuadre_cartera,cn005_cartera_cuadre_administradores,1,1,1,1
+cn005_sup_cuadre_cartera,CN005 - Supervisores Cuadre Cartera,cn005_cartera_cuadre.model_cn005_cuadre_cartera,cn005_cartera_cuadre_supervisores,1,1,1,0
+cn005_usu_cuadre_cartera,CN005 - Usuarios Cuadre Cartera,cn005_cartera_cuadre.model_cn005_cuadre_cartera,cn005_cartera_cuadre_usuarios,1,1,1,0
+
+cn005_adm_pasos,CN005 - Administradores - Pasos,cn005_cartera_cuadre.model_cn005_cuadre_cartera_pasos,cn005_cartera_cuadre_administradores,1,1,1,1
+cn005_sup_pasos,CN005 - Supervisores - Pasos,cn005_cartera_cuadre.model_cn005_cuadre_cartera_pasos,cn005_cartera_cuadre_supervisores,1,1,1,0
+cn005_usu_pasos,CN005 - Usuarios - Pasos,cn005_cartera_cuadre.model_cn005_cuadre_cartera_pasos,cn005_cartera_cuadre_usuarios,1,1,1,0
+
+cn005_adm_datos,CN005 - Administradores - Datos,cn005_cartera_cuadre.model_cn005_cuadre_cartera_datos,cn005_cartera_cuadre_administradores,1,1,1,1
+cn005_sup_datos,CN005 - Supervisores - Datos,cn005_cartera_cuadre.model_cn005_cuadre_cartera_datos,cn005_cartera_cuadre_supervisores,1,1,1,0
+cn005_usu_datos,CN005 - Usuarios - Datos,cn005_cartera_cuadre.model_cn005_cuadre_cartera_datos,cn005_cartera_cuadre_usuarios,1,1,1,0
+
+cn005_adm_comparacion,CN005 - Administradores - Comparacion,cn005_cartera_cuadre.model_cn005_cuadre_cartera_comparacion,cn005_cartera_cuadre_administradores,1,1,1,1
+cn005_sup_comparacion,CN005 - Supervisores - Comparacion,cn005_cartera_cuadre.model_cn005_cuadre_cartera_comparacion,cn005_cartera_cuadre_supervisores,1,1,1,0
+cn005_usu_comparacion,CN005 - Usuarios - Comparacion,cn005_cartera_cuadre.model_cn005_cuadre_cartera_comparacion,cn005_cartera_cuadre_usuarios,1,1,1,0
+
+cn005_adm_gestores_excepcion,CN005 - Administradores - Gestor Excepción,cn005_cartera_cuadre.model_cn005_cobradores_telecobros_excepciones,cn005_cartera_cuadre_administradores,1,1,1,1
+cn005_sup_gestores_excepcion,CN005 - Supervisores - Gestor Excepción,cn005_cartera_cuadre.model_cn005_cobradores_telecobros_excepciones,cn005_cartera_cuadre_supervisores,1,1,1,0
+cn005_usu_gestores_excepcion,CN005 - Usuarios - Gestor Excepción,cn005_cartera_cuadre.model_cn005_cobradores_telecobros_excepciones,cn005_cartera_cuadre_usuarios,1,1,1,0
+
+

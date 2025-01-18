@@ -1,0 +1,88 @@
+<odoo>
+
+    <!-- Menú > Resultados -->
+    <record id="cn006_action_cuadre_cartera_comparacion" model="ir.actions.act_window">
+        <field name="name">(REAL) CN006 Cuadre Cartera Comparación</field>
+        <field name="res_model">cn006.cuadre.cartera.comparacion</field>
+        <field name="view_mode">tree,form,pivot,kanban</field>
+        <field name="view_id" ref="cn006_cuadre_cartera_comparacion_view_tree"/>
+        <field name="context">{'group_by': ['id_cuadre_cartera', 'empresa_nombre', 'tipo_cuadre', 'key_cuadre']}</field>
+        <field name="search_view_id" ref="cn006_cuadre_cartera_comparacion_search_view"/>
+    </record>
+
+    <!-- Menú > Detalles > Cuadres -->
+    <record id="cn006_action_cuadres" model="ir.actions.act_window">
+        <field name="name">(REAL) Cuadres Cartera</field>
+        <field name="res_model">cn006.cuadre.cartera</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="cn006_cuadre_cartera_view_tree"/>
+        <field name="context">{'group_by': [], 'default_order': 'id desc'}</field>
+    </record>
+
+    <!-- Menú > Detalles > Log Inicio Fallido -->
+    <record id="cn006_action_log_fallidos" model="ir.actions.act_window">
+        <field name="name">(REAL) Cuadres Fallidos</field>
+        <field name="res_model">cn006.cuadre.cartera.log.independiente</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="cn006_log_fallidos_view_tree"/>
+    </record>
+
+    <!-- Menú > Detalles > Pasos -->
+    <record id="cn006_action_log_pasos" model="ir.actions.act_window">
+        <field name="name">(REAL) Detalle Pasos por Cuadre</field>
+        <field name="res_model">cn006.cuadre.cartera.pasos</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0), 
+                                    (0, 0, {'view_mode': 'tree', 'view_id': ref('cn006_log_pasos_view_tree')}), 
+                                    (0, 0, {'view_mode': 'form', 'view_id': ref('cn006_log_pasos_form')})]"/>
+        <field name="context">{'group_by': ['id_cuadre_cartera']}</field>
+    </record>
+
+
+    <!-- Menú > Detalles > Datos detallados -->
+    <record id="cn006_action_detalle_datos" model="ir.actions.act_window">
+        <field name="name">(REAL) Detalle datos</field>
+        <field name="res_model">cn006.cuadre.cartera.datos</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="cn006_datos_detallados_view_tree"/>
+    </record>
+    
+    <!-- Menú > Detalles > Comparación detalles -->
+    <record id="cn006_action_comparacion_detalles" model="ir.actions.act_window">
+        <field name="name">(REAL) Comparación detalles</field>
+        <field name="res_model">cn006.cuadre.cartera.comparacion</field>
+        <field name="view_mode">tree,form,pivot,kanban</field>
+        <field name="view_id" ref="cn006_cuadre_cartera_comparacion_view_tree"/>
+        <field name="search_view_id" ref="cn006_cuadre_cartera_comparacion_search_view"/>
+    </record>
+
+    
+
+    <!-- Menú > Detalles > Comparación agrupada -->
+    <!-- Es la acción cn006_action_cuadre_cartera_comparacion  -->
+
+    <!-- Menú > Detalles > Revisión Telecobros -->
+    <record id="cn006_action_revision_telecobros" model="ir.actions.act_window">
+        <field name="name">(REAL) Revisión Telecobros</field>
+        <field name="res_model">cn006.cobradores.telecobros.excepciones</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_id" ref="cn006_cobradores_telecobros_excepciones_view_tree"/>
+        <field name="search_view_id" ref="cn006_cobradores_telecobros_excepciones_search"/>
+    </record>
+
+
+
+
+
+    <!-- Menú > Ejecución Manual > Ejecución cuadre -->
+    <record id="cn006_action_ejecutar_cuadre_manual" model="ir.actions.server">
+        <field name="name">(REAL) Ejecutar Cuadre manual</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="model_cn006_cuadre_cartera"/>
+        <field name="code">
+            env['cn006.cuadre.cartera'].sudo().ejecutar_cuadre()
+        </field>
+    </record>
+
+</odoo>
+	
