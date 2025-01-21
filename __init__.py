@@ -1,1 +1,3 @@
-# Creado por mk_python 
+# .\__init__.py
+
+from . import models

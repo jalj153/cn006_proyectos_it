@@ -4,12 +4,12 @@
         <!-- Grupos Específicos del módulo -->
         <!-- Grupo de Usuarios -->
         <record id="cn006_proyectos_it_usuarios" model="res.groups">
-            <field name="name">(CN006) Usuarios Cuadre Carteras</field>
+            <field name="name">(CN006) Usuarios Proyectos IT</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
         <!-- Grupo de Supervisores -->
         <record id="cn006_proyectos_it_supervisores" model="res.groups">
-            <field name="name">(CN006) Supervisores Cuadre Carteras</field>
+            <field name="name">(CN006) Supervisores Proyectos IT</field>
             <field name="implied_ids" eval="[
                 (4, ref('base.group_user')),
                 (4, ref('cn006_proyectos_it_usuarios'))
@@ -17,7 +17,7 @@
         </record>
         <!-- Grupo de Administradores -->
         <record id="cn006_proyectos_it_administradores" model="res.groups">
-            <field name="name">(CN006) Administradores Cuadre Carteras</field>
+            <field name="name">(CN006) Administradores Proyectos IT</field>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
             <field name="implied_ids" eval="[
                 (4, ref('base.group_user')), 

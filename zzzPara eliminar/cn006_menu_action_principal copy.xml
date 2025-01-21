@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Acción para listar proyectos en Kanban -->
+    <record id="cn006_action_project_kanban" model="ir.actions.act_window">
+        <field name="name">(Real) Proyectos</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('project.view_project_kanban')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('project.view_project_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('project.edit_project')})
+        ]"/>
+    </record>
+
+    <!-- Acción para listar tareas del proyecto seleccionado -->
+    <record id="cn006_action_project_tasks" model="ir.actions.act_window">
+        <field name="name">Tareas del Proyecto</field>
+        <field name="res_model">project.task</field>
+        <field name="domain">[('project_id', '=', active_id)]</field>
+        <field name="context">{'default_project_id': active_id}</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('project.view_task_kanban')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('project.view_task_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('cn006_project_task_view_form')})
+        ]"/>
+    </record>
+
+    <!-- Modificación de la vista kanban de proyectos para enlazar a tareas -->
+    <record id="cn006_view_project_kanban" model="ir.ui.view">
+        <field name="name">cn006.project.project.kanban</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="name"/>
+                <a type="action" name="cn006_action_project_tasks">
+                    <div class="o_kanban_image_fill oe_kanban_global_click">
+                        <strong><field name="name"/></strong>
+                    </div>
+                </a>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Acción para abrir la vista personalizada de CN006 -->
+    <record id="cn006_action_task_custom_form" model="ir.actions.act_window">
+        <field name="name">Detalles de Tarea</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="cn006_project_task_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Modificación de la vista kanban de tareas para enlazar a la vista CN006 -->
+    <record id="cn006_view_task_kanban" model="ir.ui.view">
+        <field name="name">cn006.project.task.kanban</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <a type="action" name="cn006_action_task_custom_form">
+                    <div class="o_kanban_image_fill oe_kanban_global_click">
+                        <strong><field name="name"/></strong>
+                    </div>
+                </a>
+            </xpath>
+        </field>
+    </record>
+</odoo>

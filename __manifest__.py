@@ -6,7 +6,7 @@
 
 {
     'name': '(CN006) Gestión Proyectos IT',
-    'version': '00.00.005',
+    'version': '00.00.048',
     'summary': '(CN006) Gestión Proyectos IT',
     'description': '(CN006) Gestión de proyectos del área de IT',
     'author': 'Neotropo®',
@@ -26,8 +26,11 @@
             
         # Orden Menú:  Vistas > Acciones > Menú
             # Vistas
-                
+                'views/cn006_project_project_view_form.xml',
+                'views/cn006_project_project_view_kanban.xml',
+                'views/cn006_project_task_view_form.xml',
             # Acciones
+                'views/cn006_menu_actions.xml',
                 'views/zzzcn006_menu_actions_dummy.xml',
             # Menú
                 'views/cn006_menu.xml',
