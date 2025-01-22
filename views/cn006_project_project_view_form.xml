@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
     <record id="cn006_project_project_view_form" model="ir.ui.view">
         <field name="name">(CN006) Proyecto - Proyecto - Edición</field>
         <field name="model">project.project</field>

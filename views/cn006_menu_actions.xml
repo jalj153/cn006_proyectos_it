@@ -21,6 +21,13 @@
         <field name="target">current</field>
     </record>
 
-    
+    <!--  Menú > Configuración > Clasificaciones-->
+    cn006_action_proyecto_clasificacion
+    <record id="cn006_action_proyecto_clasificacion" model="ir.actions.act_window">
+        <field name="name">Clasificación de Proyectos</field>
+        <field name="res_model">cn006.proyecto.clasificacion</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="cn006_proyectos_it.cn006_proyecto_clasificacion_view_tree"/>
+    </record>
 
 </odoo>

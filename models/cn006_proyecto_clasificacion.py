@@ -4,13 +4,13 @@ from odoo.exceptions import ValidationError
 class CN006ProyectoClasificacion(models.Model):
     _name = 'cn006.proyecto.clasificacion'
     _description = '(CN006) Clasificación de los proyectos IT'
-    _order = 'cn006_clasificacion ASC'
+    _order = 'name ASC'
 
-    cn006_clasificacion = fields.Char(string='Clasificación', required=True, unique=True)
+    name = fields.Char(string='Clasificación', required=True) 
     cn006_descripcion = fields.Char(string='Descripción', required=False)
 
     
     _sql_constraints = [
-        ('unique_cn006_clasificacion', 'UNIQUE(cn006_clasificacion)', 'La clasificación debe ser única.'),
+        ('unique_name', 'UNIQUE(name)', 'La clasificación debe ser única.'),
     ]
 

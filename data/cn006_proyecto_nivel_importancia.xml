@@ -1,15 +1,15 @@
 <odoo>
     <data noupdate="1">
         <record id="importancia_1" model="cn006.proyecto.nivel.importancia">
-            <field name="cn006_nivel_importancia">1</field>
+            <field name="name">1</field>
             <field name="cn006_descripcion">Nivel de importancia bajo</field>
         </record>
         <record id="importancia_2" model="cn006.proyecto.nivel.importancia">
-            <field name="cn006_nivel_importancia">2</field>
+            <field name="name">2</field>
             <field name="cn006_descripcion">Nivel de importancia medio</field>
         </record>
         <record id="importancia_3" model="cn006.proyecto.nivel.importancia">
-            <field name="cn006_nivel_importancia">3</field>
+            <field name="name">3</field>
             <field name="cn006_descripcion">Nivel de importancia alto</field>
         </record>
     </data>

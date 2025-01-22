@@ -1,0 +1,12 @@
+<odoo>
+    <record id="cn006_proyecto_clasificacion_view_tree" model="ir.ui.view">
+        <field name="name">cn006.proyecto.clasificacion.tree</field>
+        <field name="model">cn006.proyecto.clasificacion</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="name"/>
+                <field name="cn006_descripcion"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

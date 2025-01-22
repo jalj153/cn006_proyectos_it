@@ -2,15 +2,15 @@
     <data noupdate="1">
         <record id="tamano_pequeño" model="cn006.proyecto.tamano">
             <field name="cn006_orden">10</field>
-            <field name="cn006_tamano">PEQUEÑO</field>
+            <field name="name">PEQUEÑO</field>
         </record>
         <record id="tamano_mediano" model="cn006.proyecto.tamano">
             <field name="cn006_orden">20</field>
-            <field name="cn006_tamano">MEDIANO</field>
+            <field name="name">MEDIANO</field>
         </record>
         <record id="tamano_grande" model="cn006.proyecto.tamano">
             <field name="cn006_orden">30</field>
-            <field name="cn006_tamano">GRANDE</field>
+            <field name="name">GRANDE</field>
         </record>
     </data>
 </odoo>

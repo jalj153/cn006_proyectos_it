@@ -2,14 +2,16 @@
 <odoo>
     <!--  Vista Kanban-->
     <!--  esta definición va antes de type para ver las tasks
-    action="action_view_tasks"  -->
+    action="action_view_tasks"  
+    on_create="project.open_create_project" 
+    -->
     <record id="cn006_project_project_view_kanban_mod" model="ir.ui.view">
         <field name="name">(CN006) Proyecto - Proyecto - Kanban</field>
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
-                on_create="project.open_create_project" 
+                on_create="project.cn006_project_project_view_form_simplified" 
                  type="object" sample="1" 
                 default_order="sequence, name, id">
 
