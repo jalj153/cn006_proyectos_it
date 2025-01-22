@@ -1,0 +1,19 @@
+<odoo>
+    <data noupdate="1">
+        <record id="complejidad_baja" model="cn006.proyecto.grado.complejidad">
+            <field name="cn006_orden">10</field>
+            <field name="cn006_complejidad">BAJA</field>
+            <field name="cn006_descripcion">Proyecto de baja complejidad</field>
+        </record>
+        <record id="complejidad_media" model="cn006.proyecto.grado.complejidad">
+            <field name="cn006_orden">20</field>
+            <field name="cn006_complejidad">MEDIA</field>
+            <field name="cn006_descripcion">Proyecto de complejidad media</field>
+        </record>
+        <record id="complejidad_alta" model="cn006.proyecto.grado.complejidad">
+            <field name="cn006_orden">30</field>
+            <field name="cn006_complejidad">ALTA</field>
+            <field name="cn006_descripcion">Proyecto de alta complejidad</field>
+        </record>
+    </data>
+</odoo>

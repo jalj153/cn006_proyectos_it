@@ -1,0 +1,54 @@
+<odoo>
+    <data noupdate="1">
+        <record id="avance_10" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">10</field>
+            <field name="cn006_grado_avance">COLA</field>
+            <field name="cn006_descripcion">En cola de espera</field>
+        </record>
+        <record id="avance_20" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">20</field>
+            <field name="cn006_grado_avance">ASIGNADO</field>
+            <field name="cn006_descripcion">Asignado a responsable</field>
+        </record>
+        <record id="avance_30" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">30</field>
+            <field name="cn006_grado_avance">ANALISIS</field>
+            <field name="cn006_descripcion">En análisis de requerimientos</field>
+        </record>
+        <record id="avance_40" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">40</field>
+            <field name="cn006_grado_avance">DESARROLLO_25%</field>
+            <field name="cn006_descripcion">Desarrollo en un 25%</field>
+        </record>
+        <record id="avance_50" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">50</field>
+            <field name="cn006_grado_avance">DESARROLLO_50%</field>
+            <field name="cn006_descripcion">Desarrollo en un 50%</field>
+        </record>
+        <record id="avance_60" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">60</field>
+            <field name="cn006_grado_avance">DESARROLLO_75%</field>
+            <field name="cn006_descripcion">Desarrollo en un 75%</field>
+        </record>
+        <record id="avance_70" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">70</field>
+            <field name="cn006_grado_avance">DESARROLLO_100%</field>
+            <field name="cn006_descripcion">Desarrollo completado</field>
+        </record>
+        <record id="avance_80" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">80</field>
+            <field name="cn006_grado_avance">IMPLEMENTACION</field>
+            <field name="cn006_descripcion">Implementación en curso</field>
+        </record>
+        <record id="avance_90" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">90</field>
+            <field name="cn006_grado_avance">CERTIFICADO</field>
+            <field name="cn006_descripcion">Certificación finalizada</field>
+        </record>
+        <record id="avance_100" model="cn006.proyecto.grado.avance">
+            <field name="cn006_orden">100</field>
+            <field name="cn006_grado_avance">FINALIZADO</field>
+            <field name="cn006_descripcion">Proyecto finalizado</field>
+        </record>
+    </data>
+</odoo>
