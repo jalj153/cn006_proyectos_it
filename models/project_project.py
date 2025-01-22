@@ -36,6 +36,6 @@ class ProjectProject(models.Model):
 
     cn006_fecha_cierre_estimada = fields.Datetime(required=False, string='Fecha cierre'           , help='Fecha en que se estima cerrar el proyecto')
     cn006_fecha_cierre_oficial  = fields.Datetime(required=False, string='Fecha Real cierre'      , help='Fecha en que realmente se cerró el proyecto')
-    cn006_fecha_cierre_oficial  = fields.Datetime(required=False, string='(SIS) Fecha Real cierre', help='Fecha en que se actualizó el proyecto - Fecha en que realmente se cerró el proyecto')
+    cn006_fecha_cierre_sistema  = fields.Datetime(required=False, string='(SIS) Fecha Real cierre', help='Fecha en que se actualizó el proyecto - Fecha en que realmente se cerró el proyecto')
 
 

@@ -6,7 +6,7 @@
 
 {
     'name': '(CN006) Gestión Proyectos IT',
-    'version': '00.00.050',
+    'version': '00.00.064',
     'summary': '(CN006) Gestión Proyectos IT',
     'description': '(CN006) Gestión de proyectos del área de IT',
     'author': 'Neotropo®',
@@ -22,8 +22,7 @@
         # Definición de la seguridad
             'security/cn006_security.xml',
             
-        # datos / cron
-            
+        
         # Orden Menú:  Vistas > Acciones > Menú
             # Vistas
                 'views/cn006_project_project_view_form.xml',
@@ -34,6 +33,13 @@
                 'views/zzzcn006_menu_actions_dummy.xml',
             # Menú
                 'views/cn006_menu.xml',
+
+        # datos / cron
+            # 'data/cn006_proyecto_clasificacion.csv',
+            # 'data/cn006_proyecto_grado_avance.csv',
+            # 'data/cn006_proyecto_grado_complejidad.csv',
+            # 'data/cn006_proyecto_nivel_importancia.csv',
+            # 'data/cn006_proyecto_nivel_urgencia.csv',
     ],
     'installable': True,
     'application': True,

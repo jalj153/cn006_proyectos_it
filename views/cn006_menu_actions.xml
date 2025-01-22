@@ -10,7 +10,17 @@
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_project_view_kanban')}),
             (0, 0, {'view_mode': 'form','view_id': ref('cn006_proyectos_it.cn006_project_project_view_form')})
         ]"/>
-
     </record>
+
+    <!--  Acción para abrir vista de modificación de proyectos  -->
+    <record id="cn006_action_project_form" model="ir.actions.act_window">
+        <field name="name">Proyectos IT</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="cn006_proyectos_it.cn006_project_project_view_form"/>
+        <field name="target">current</field>
+    </record>
+
+    
 
 </odoo>
