@@ -2,7 +2,7 @@
 <odoo>
     <!-- Acción para listar proyectos para modificación en Kanban -->
     <record id="cn006_action_project_kanban_mod" model="ir.actions.act_window">
-        <field name="name">(Real) Proyectos</field>
+        <field name="name">(CN006) Proyectos</field>
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_ids" eval="[
@@ -12,19 +12,21 @@
         ]"/>
     </record>
 
-    <!--  Acción para abrir vista de modificación de proyectos  -->
-    <record id="cn006_action_project_form" model="ir.actions.act_window">
-        <field name="name">Proyectos IT</field>
-        <field name="res_model">project.project</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="cn006_proyectos_it.cn006_project_project_view_form"/>
-        <field name="target">current</field>
-    </record>
+        <!--  Esta acción es utilizada dentro del Kanban MOD-->
+        <record id="cn006_action_create_project" model="ir.actions.act_window">
+            <field name="name">(CN006) Crear Proyecto</field>
+            <field name="res_model">project.project</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cn006_proyectos_it.cn006_project_project_view_form_simplified"/>
+            <field name="target">new</field>
+        </record>
+
+
 
     <!--  Menú > Configuración > Clasificaciones-->
     cn006_action_proyecto_clasificacion
     <record id="cn006_action_proyecto_clasificacion" model="ir.actions.act_window">
-        <field name="name">Clasificación de Proyectos</field>
+        <field name="name">(CN006) Clasificación de Proyectos</field>
         <field name="res_model">cn006.proyecto.clasificacion</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="cn006_proyectos_it.cn006_proyecto_clasificacion_view_tree"/>

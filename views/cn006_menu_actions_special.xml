@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+        <!--  Esta acción es utilizada dentro del Kanban MOD-->
+        <record id="cn006_action_create_project_simplified" model="ir.actions.act_window">
+            <field name="name">(CN006) Crear Proyecto Simplificada</field>
+            <field name="res_model">project.project</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cn006_proyectos_it.cn006_project_project_view_form_simplified"/>
+            <field name="target">new</field>
+        </record>
+
+
+</odoo>

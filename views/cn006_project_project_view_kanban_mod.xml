@@ -6,12 +6,12 @@
     on_create="project.open_create_project" 
     -->
     <record id="cn006_project_project_view_kanban_mod" model="ir.ui.view">
-        <field name="name">(CN006) Proyecto - Proyecto - Kanban</field>
+        <field name="name">(CN006) Proyecto - Proyecto - Kanban MOD</field>
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
-                on_create="project.cn006_project_project_view_form_simplified" 
+                on_create="cn006_action_create_project_simplified" 
                  type="object" sample="1" 
                 default_order="sequence, name, id">
 
