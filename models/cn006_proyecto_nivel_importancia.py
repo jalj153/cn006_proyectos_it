@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 class CN006ProyectoNivelImportancia(models.Model):
     _name = 'cn006.proyecto.nivel.importancia'
     _description = '(CN006) Niveles de Importancia de los proyectos IT'
-    _order = 'nivel_importancia ASC'
+    _order = 'cn006_nivel_importancia ASC'
 
     cn006_nivel_importancia = fields.Integer(string='Nivel de Importancia', required=True, unique=True)
     cn006_descripcion = fields.Char(string='Descripción', required=False)

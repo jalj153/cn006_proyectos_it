@@ -6,7 +6,7 @@
 
 {
     'name': '(CN006) Gestión Proyectos IT',
-    'version': '00.00.066',
+    'version': '00.00.080',
     'summary': '(CN006) Gestión Proyectos IT',
     'description': '(CN006) Gestión de proyectos del área de IT',
     'author': 'Neotropo®',
@@ -21,12 +21,12 @@
 
         # Definición de la seguridad
             'security/cn006_security.xml',
-            
+            'security/ir.model.access.csv',
         
         # Orden Menú:  Vistas > Acciones > Menú
             # Vistas
                 'views/cn006_project_project_view_form.xml',
-                'views/cn006_project_project_view_kanban.xml',
+                'views/cn006_project_project_view_kanban_mod.xml',
                 'views/cn006_project_task_view_form.xml',
             # Acciones
                 'views/cn006_menu_actions.xml',

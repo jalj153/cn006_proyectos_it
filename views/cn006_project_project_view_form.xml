@@ -4,9 +4,15 @@
     <record id="cn006_project_project_view_form" model="ir.ui.view">
         <field name="name">(CN006) Proyecto - Proyecto - Edición</field>
         <field name="model">project.project</field>
+        <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <form string="Project" class="o_form_project_project" js_class="project_form">
                     <h4>NT cn006_project_project_view_form</h4>
+                    <nt_custom_module>
+                        <nt_module_id>cn006</nt_module_id>
+                        <nt_view_type>form</nt_view_type>
+                    </nt_custom_module>
+
                     <field name="company_id" invisible="1"/>
                     <field name="analytic_account_id" invisible="1"/>
                     <header>
@@ -46,17 +52,42 @@
                                 <field name="name" class="o_text_overflow" placeholder="e.g. Office Party"/>
                             </h1>
                         </div>
-                        <group>
-                            <group>
-                                <field name="label_tasks" string="Name of the tasks"/>
-                                <field name="partner_id" widget="res_partner_many2one"/>
+                        <!-- (NT) Campos  -->
+                        <group>  <!-- (NT) Sección superior-->
+                            <group>  <!--  (NT) Lado Izquierdo  -->
+                                <field name="cn006_clasificacion_id" create="0" edit="0"/>
+                                <field name="cn006_grado_complejidad_id" create="0" edit="0"/>
+                                <field name="cn006_nivel_importancia_id" create="0" edit="0"/>
+                                <field name="cn006_nivel_urgencia_id" create="0" edit="0"/>
+                                <field name="cn006_tamano_id" create="0" edit="0"/>
+                                <field name="cn006_grado_avance_id" create="0" edit="0"/>
+
+                                
+                                
                                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                                 <field name="company_id" groups="base.group_multi_company"/>
                             </group>
-                            <group>
+                            <group>  <!--  (NT) Lado Derecho  -->
                                 <field name="active" invisible="1"/>
-                                <field name="cn006_grado_avance_id"/>
-                                <field name="user_id" string="Project Manager" widget="many2one_avatar_user" attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
+                                <field name="partner_id" widget="res_partner_many2one"/>
+                                <field name="user_id" string="Responsable" widget="many2one_avatar_user" attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
+
+
+                                <field name="cn006_fecha_creacion_oficial" widget="datetime"/>
+                                <field name="cn006_fecha_inicio_oficial" widget="datetime"/>
+
+                                <field name="cn006_fecha_entrega_informatica_estimada" widget="datetime"/>
+                                <field name="cn006_fecha_entrega_informatica_oficial" widget="datetime"/>
+
+                                <field name="cn006_fecha_entrega_usuario_estimada" widget="datetime"/>
+                                <field name="cn006_fecha_entrega_usuario_oficial" widget="datetime"/>
+
+                                <field name="cn006_fecha_cierre_estimada" widget="datetime"/>
+                                <field name="cn006_fecha_cierre_oficial" widget="datetime"/>
+
+                                
+                                <!-- (NT)  
+                                <field name="fecha_inicio" widget="datetime" string="Fecha de Inicio"/>
                                 <label for="date_start" string="Planned Date"/>
                                 <div name="dates" class="o_row">
                                     <field name="date_start" widget="daterange" options="{&quot;related_end_date&quot;: &quot;date&quot;}"/>
@@ -64,9 +95,10 @@
                                     <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow" attrs="{'invisible': [('date_start', '=', False), ('date', '=', False)]}"/>
                                     <field name="date" widget="daterange" options="{&quot;related_start_date&quot;: &quot;date_start&quot;}"/>
                                 </div>
+                                (NT)  -->
                             </group>
                         </group>
-                        <notebook>
+                        <notebook>  <!--  (NT)  Sección inferior TABs-->
                             <page name="description" string="Description">
                                 <field name="description" options="{'resizable': false}" placeholder="Project description..."/>
                             </page>
@@ -179,7 +211,24 @@
                                     </group>
                                 </group>
                             </page>
-                        </notebook>
+                            <page name="datos_adicionales" string="Datos Adicionales">
+                                <field name="label_tasks" string="Name of the tasks" readonly="1"/>
+                                <field name="cn006_es_cn006"  readonly="1"/>
+                                <field name="cn006_fecha_creacion_sistema" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_creacion_oficial" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_inicio_oficial" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_inicio_sistema" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_entrega_informatica_estimada" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_entrega_informatica_oficial" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_entrega_informatica_sistema" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_entrega_usuario_estimada" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_entrega_usuario_oficial" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_entrega_usuario_sistema" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_cierre_estimada" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_cierre_oficial" widget="datetime" readonly="1"/>
+                                <field name="cn006_fecha_cierre_sistema" widget="datetime" readonly="1"/>
+                            </page>  <!-- (NT) Datos adicionales  -->
+                        </notebook>  <!--  (NT)  Sección inferior TABs-->
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>

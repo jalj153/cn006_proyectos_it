@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Acción para listar proyectos en Kanban -->
-    <record id="cn006_action_project_kanban" model="ir.actions.act_window">
+    <!-- Acción para listar proyectos para modificación en Kanban -->
+    <record id="cn006_action_project_kanban_mod" model="ir.actions.act_window">
         <field name="name">(Real) Proyectos</field>
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_ids" eval="[
             (5, 0, 0),
-            (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_project_view_kanban')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_project_view_kanban_mod')}),
             (0, 0, {'view_mode': 'form','view_id': ref('cn006_proyectos_it.cn006_project_project_view_form')})
         ]"/>
     </record>
