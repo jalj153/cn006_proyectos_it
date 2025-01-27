@@ -12,7 +12,7 @@ class ProjectProject(models.Model):
     cn006_tamano_id            = fields.Many2one('cn006.proyecto.tamano',            string='Tamaño', help='Tamaño del proyecto.')
     #endregion Campos relacionados
 
-    cn006_es_cn006 = fields.Boolean(required=False, string='Pertenece al módulo CN006', help='Permite filtrar los proyectos asociados al módulo', default=False)
+    cn006_project = fields.Boolean(required=False, string='Proyecto (CN006)', help='Permite filtrar los proyectos asociados al módulo', default=False)
 
     #region Fechas del Proyecto
     """ 
@@ -24,22 +24,22 @@ class ProjectProject(models.Model):
     """
     #endregion Fechas del Proyecto
 
-    cn006_fecha_creacion_sistema = fields.Datetime(required=True, string='(SIS) Fecha Creación', help='Fecha en que se grabó el proyecto en el sistema', default=fields.Datetime.now)
-    cn006_fecha_creacion_oficial = fields.Datetime(required=False, string='Fecha Creación'     , help='Fecha en que se gestó el proyecto.')
+    cn006_fecha_creacion_sistema = fields.Date(required=True,  string='(SIS) Fecha Creación', help='Fecha en que se grabó el proyecto en el sistema', default=fields.Date.context_today)
+    cn006_fecha_creacion_oficial = fields.Date(required=False, string='Fecha Creación'     , help='Fecha en que se gestó el proyecto.')
 
-    cn006_fecha_inicio_oficial = fields.Datetime(required=False, string='Fecha Inicio'      , help='Fecha en que iniciaron trabajos en el proyecto.  El proyecto empezó a comsumir horas.')
-    cn006_fecha_inicio_sistema = fields.Datetime(required=False, string='(SIS) Fecha Inicio', help='Fecha en que actualizó el proyecto - Fecha en que iniciaron trabajos en el proyecto.  El proyecto empezó a comsumir horas.')
+    cn006_fecha_inicio_oficial = fields.Date(required=False, string='Fecha Inicio'      , help='Fecha en que iniciaron trabajos en el proyecto.  El proyecto empezó a comsumir horas.')
+    cn006_fecha_inicio_sistema = fields.Date(required=False, string='(SIS) Fecha Inicio', help='Fecha en que actualizó el proyecto - Fecha en que iniciaron trabajos en el proyecto.  El proyecto empezó a comsumir horas.')
 
-    cn006_fecha_entrega_informatica_estimada = fields.Datetime(required=False, string='Fecha Entrega a Informática'            , help='Fecha en que el responsable (interno externo) debe entregar a Informática')
-    cn006_fecha_entrega_informatica_oficial  = fields.Datetime(required=False, string='Fecha Real Entrega a Informática'       , help='Fecha en que el responsable (interno externo) realmente entregó a Informática')
-    cn006_fecha_entrega_informatica_sistema  = fields.Datetime(required=False, string='(SIS) Fecha Entrega Real a Informática' , help='Fecha en que se actualizó el proyecto - Fecha en que el responsable (interno externo) realmente entregó a Informática')
+    cn006_fecha_entrega_informatica_estimada = fields.Date(required=False, string='Fecha Entrega a Informática'            , help='Fecha en que el responsable (interno externo) debe entregar a Informática')
+    cn006_fecha_entrega_informatica_oficial  = fields.Date(required=False, string='Fecha Real Entrega a Informática'       , help='Fecha en que el responsable (interno externo) realmente entregó a Informática')
+    cn006_fecha_entrega_informatica_sistema  = fields.Date(required=False, string='(SIS) Fecha Entrega Real a Informática' , help='Fecha en que se actualizó el proyecto - Fecha en que el responsable (interno externo) realmente entregó a Informática')
 
-    cn006_fecha_entrega_usuario_estimada = fields.Datetime(required=False, string='Fecha Entrega a Usuario'            , help='Fecha en que se debe entregar a usuario')
-    cn006_fecha_entrega_usuario_oficial  = fields.Datetime(required=False, string='Fecha Real Entrega a Usuario'       , help='Fecha en que realmente se entregó a usuario')
-    cn006_fecha_entrega_usuario_sistema  = fields.Datetime(required=False, string='(SIS) Fecha Real Entrega a Usuario' , help='Fecha en que se actualizó el proyecto - Fecha en que realmente se entregó a usuario')
+    cn006_fecha_entrega_usuario_estimada = fields.Date(required=False, string='Fecha Entrega a Usuario'            , help='Fecha en que se debe entregar a usuario')
+    cn006_fecha_entrega_usuario_oficial  = fields.Date(required=False, string='Fecha Real Entrega a Usuario'       , help='Fecha en que realmente se entregó a usuario')
+    cn006_fecha_entrega_usuario_sistema  = fields.Date(required=False, string='(SIS) Fecha Real Entrega a Usuario' , help='Fecha en que se actualizó el proyecto - Fecha en que realmente se entregó a usuario')
 
-    cn006_fecha_cierre_estimada = fields.Datetime(required=False, string='Fecha cierre'           , help='Fecha en que se estima cerrar el proyecto')
-    cn006_fecha_cierre_oficial  = fields.Datetime(required=False, string='Fecha Real cierre'      , help='Fecha en que realmente se cerró el proyecto')
-    cn006_fecha_cierre_sistema  = fields.Datetime(required=False, string='(SIS) Fecha Real cierre', help='Fecha en que se actualizó el proyecto - Fecha en que realmente se cerró el proyecto')
+    cn006_fecha_cierre_estimada = fields.Date(required=False, string='Fecha cierre'           , help='Fecha en que se estima cerrar el proyecto')
+    cn006_fecha_cierre_oficial  = fields.Date(required=False, string='Fecha Real cierre'      , help='Fecha en que realmente se cerró el proyecto')
+    cn006_fecha_cierre_sistema  = fields.Date(required=False, string='(SIS) Fecha Real cierre', help='Fecha en que se actualizó el proyecto - Fecha en que realmente se cerró el proyecto')
 
 

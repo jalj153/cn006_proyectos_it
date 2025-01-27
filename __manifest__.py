@@ -6,12 +6,12 @@
 
 {
     'name': '(CN006) Gestión Proyectos IT',
-    'version': '00.00.108',
+    'version': '00.00.118',
     'summary': '(CN006) Gestión Proyectos IT',
     'description': '(CN006) Gestión de proyectos del área de IT',
     'author': 'Neotropo®',
     'license': 'Other proprietary',
-    'website': 'https://www.neotropo.com',
+    'website': 'https://www.neotropo.com/odoo_dev',
     'category': 'Project',
     'icon': '/cn006_proyectos_it/static/description/icon.png',
     'depends': ['base','project','hr_timesheet'],
@@ -25,9 +25,11 @@
             'views/cn006_menu_actions_special.xml',
         # Orden Menú:  Vistas > Acciones > Menú
             # Vistas
-                'views/cn006_project_project_view_kanban_mod.xml',
+                
                 'views/cn006_project_task_view_form.xml',
+                'views/cn006_proyecto_stage_tree.xml',
                 'views/cn006_proyecto_clasificacion_views.xml',
+                'views/cn006_project_project_view_kanban_mod.xml',
             # Acciones
                 'views/cn006_menu_actions.xml',
                 'views/zzzcn006_menu_actions_dummy.xml',
@@ -39,7 +41,8 @@
             'data/cn006_proyecto_grado_complejidad.xml',
             'data/cn006_proyecto_nivel_importancia.xml',
             'data/cn006_proyecto_nivel_urgencia.xml',
-            'data/cn006_proyecto_tamano.xml'
+            'data/cn006_proyecto_stage.xml',
+            'data/cn006_proyecto_tamano.xml',
     ],
     'installable': True,
     'application': True,
