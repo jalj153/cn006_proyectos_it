@@ -11,8 +11,11 @@
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
-                on_create="cn006_action_create_project_simplified" 
-                 type="object" sample="1" 
+                action="action_view_tasks"
+                on_create="cn006_action_create_project" 
+                type="object" sample="1" 
+                default_group_by="stage_id"
+                domain="[('stage_id', 'in', [26,27,28,29,30,31,32,33,34,35])]"
                 default_order="sequence, name, id">
 
 
