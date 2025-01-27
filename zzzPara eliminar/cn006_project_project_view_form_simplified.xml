@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="cn006_project_project_view_form_simplified" model="ir.ui.view">
+        <field name="name">(CN006) Proyecto - Proyecto - Edición SIMPLE</field>
+        <field name="model">project.project</field>
+        <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+            <form string="Project">
+                <div class="oe_title">
+                    <label for="name" string="Nombre"/>
+                    <h1>
+                        <field name="name" class="o_project_name oe_inline" placeholder="e.g. Fiesta en la oficina" modifiers="{&quot;required&quot;: true}"/>
+                    </h1>
+                </div>
+                <field name="user_id" modifiers="{&quot;invisible&quot;: true}" can_create="true" can_write="true"/>
+                <div class="row mt16 o_settings_container">
+            <div class="col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                    <field name="company_id" modifiers="{&quot;invisible&quot;: true, &quot;required&quot;: true}" can_create="true" can_write="true"/>
+                    <field name="allow_billable"/>
+                </div>
+                <div class="o_setting_right_pane">
+                    <label for="allow_billable"/>
+                    <div class="text-muted" id="allow_billable_setting">
+                        Facture su tiempo y material a los clientes
+                    </div>
+                </div>
+            </div>
+                <div class="col-lg-6 o_setting_box">
+                    <div class="o_setting_left_pane">
+                        <field name="allow_timesheets"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="allow_timesheets" string="Partes de horas"/>
+                        <div class="text-muted">
+                            Registrar el tiempo en las tareas
+                        </div>
+                    </div>
+                </div>
+            <div class="col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                    <field name="allow_forecast"/>
+                </div>
+                <div class="o_setting_right_pane">
+                    <label for="allow_forecast"/>
+                    <div class="text-muted" id="allow_forecast_setting">
+                        Planifique sus recursos en las tareas del proyecto
+                    </div>
+                </div>
+            </div></div>
+                <div name="alias_def" colspan="2" modifiers="{&quot;invisible&quot;: [[&quot;alias_domain&quot;, &quot;=&quot;, false]]}">
+                    <label for="alias_name" class="oe_inline mt-4" string="Cree tareas enviando un correo electrónico a"/>
+                    <field name="alias_enabled" on_change="1" modifiers="{&quot;invisible&quot;: true}"/>
+                    <span>
+                        <field name="alias_name" class="oe_inline" placeholder="p.ej. fiesta de oficina" on_change="1"/>@<field name="alias_domain" class="oe_inline" on_change="1" modifiers="{&quot;readonly&quot;: true}"/>
+                    </span>
+                </div>
+                <footer>
+                    <button string="Create project" name="action_view_tasks" type="object" class="btn-primary o_open_tasks" data-hotkey="q"/>
+                    <button string="Descartar" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+
+            </form>  <!--  string="Project"-->
+        </field>  <!--  arch-->
+    </record>  <!--  id="cn006_project_project_view_form_simplified" model="ir.ui.view"  -->
+
+</odoo>

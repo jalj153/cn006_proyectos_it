@@ -6,6 +6,7 @@
     <!-- Submenús del menú principal -->
     <menuitem parent="CN006_menu_principal" sequence="10" id="CN006_menu_tareas"        name="Tareas"        action="cn006_action_dummy" />
     <menuitem parent="CN006_menu_principal" sequence="20" id="CN006_menu_proyectos_it"  name="Proyectos"     action="cn006_action_project_kanban_mod" />
+        <menuitem parent="CN006_menu_proyectos_it" sequence="10" id="CN006_menu_proyecto_mantenimiento" name="Mantenimiento" action="cn006_action_create_project" />
     <menuitem parent="CN006_menu_principal" sequence="30" id="CN006_menu_configuracion" name="Configuración" action="cn006_action_dummy" />
         <menuitem parent="CN006_menu_configuracion" sequence="10" id="CN006_menu_clasificacion"    name="Clasificaciones" action="cn006_action_proyecto_clasificacion" />
         <menuitem parent="CN006_menu_configuracion" sequence="10" id="CN006_menu_urgencia"    name="Urgencia" action="cn006_action_dummy" />

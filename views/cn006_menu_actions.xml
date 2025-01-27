@@ -12,19 +12,8 @@
         ]"/>
     </record>
 
-        <!--  Esta acción es utilizada dentro del Kanban MOD-->
-        <record id="cn006_action_create_project" model="ir.actions.act_window">
-            <field name="name">(CN006) Crear Proyecto</field>
-            <field name="res_model">project.project</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="cn006_proyectos_it.cn006_project_project_view_form_simplified"/>
-            <field name="target">new</field>
-        </record>
-
-
 
     <!--  Menú > Configuración > Clasificaciones-->
-    cn006_action_proyecto_clasificacion
     <record id="cn006_action_proyecto_clasificacion" model="ir.actions.act_window">
         <field name="name">(CN006) Clasificación de Proyectos</field>
         <field name="res_model">cn006.proyecto.clasificacion</field>
