@@ -17,9 +17,9 @@
     </record>
 
     <!--  Acción para abrir kanban de tareas de un proyecto -->
-    <record id="cn006_action_project_kanban_tasks" model="ir.actions.act_window">
-        <field name="name">(CN006) Proyectos (para trabajar tareas)</field>
-        <field name="res_model">project.project</field>
+    <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">
+        <field name="name">(CN006) Tareas (del proyecto seleccionado)</field>
+        <field name="res_model">project.task</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_ids" eval="[
             (5, 0, 0),
@@ -31,6 +31,7 @@
             ('cn006_project', '=', True)
         ]</field>
     </record>
+
 
 
 

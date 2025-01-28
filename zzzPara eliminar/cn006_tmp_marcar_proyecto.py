@@ -1,12 +1,16 @@
 import openpyxl
 import logging
 import sys
+import ssl
 import xmlrpc.client
 from datetime import datetime
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+context = ssl._create_unverified_context()
 
 # Credenciales de autenticación
 _ambiente = "STAGE"
@@ -16,19 +20,19 @@ if (_ambiente == "PROD"):
     username = 'odoo_reportes@canella.com.gt'
     password = '2adb5989440eaad90ad2b706d69e311757d6d389'
 elif (_ambiente == "STAGE"):
-    db = 'canella-canellatest2-17912071'
+    url="https://canella-canellatest2-17948159.dev.odoo.com"
+    db = 'canella-canellatest2-17948159' 
     username = 'odoo_reportes@canella.com.gt'
     password = '2adb5989440eaad90ad2b706d69e311757d6d389'
 
-# URL de Odoo (ajustar según el entorno)
-url = 'https://canella-canellatest2-17912071.dev.odoo.com/'
+#
 
 # Conectar a Odoo
 print("010 Conectando con odoo")
 logger.info("010 Conectando con odoo")
-common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
+common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url), context=context)
 uid = common.authenticate(db, username, password, {})
-models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url), context=context)
 
 # Filtrar proyectos que contienen "(cn006)" en el nombre
 try:

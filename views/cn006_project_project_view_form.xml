@@ -58,7 +58,7 @@
                         <group>  <!-- (NT) Sección superior-->
                             <group>  <!--  (NT) Lado Izquierdo  -->
                                 <field name="cn006_project" edit="1"/> 
-                                    <!-- attrs="{'readonly': [('user.groups_id', 'not in', [ref('cn006_proyectos_it.group_cn006_proyectos_it_administradores')])]}"  -->
+                                    
                                 
 
                                 <field name="cn006_clasificacion_id" create="0" edit="0"/>
@@ -75,8 +75,17 @@
                             </group>
                             <group>  <!--  (NT) Lado Derecho  -->
                                 <field name="active" invisible="1"/>
-                                <field name="partner_id" widget="res_partner_many2one"/>
-                                <field name="user_id" string="Responsable" widget="many2one_avatar_user" attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
+
+                                
+                                <field name="partner_id" widget="res_partner_many2one" string="Usuario Canella" domain="[('cn_is_portal_user', '=', True)]"/>
+
+                                <!-- (NT) Cambiar el id grupo usuarios cn006 en dominio  -->
+                                <!--  <field name="user_id" string="Responsable" widget="many2one_avatar_user" attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>  -->
+                                <field name="user_id" 
+                                    string="Responsable" 
+                                    widget="many2one_avatar_user" 
+                                    attrs="{'readonly':[('active','=',False)]}" 
+                                    domain="[('groups_id', 'in', [191]), ('share', '=', False)]"/>
 
 
                                 <field name="cn006_fecha_creacion_oficial" widget="date"/>

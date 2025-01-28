@@ -4,14 +4,7 @@
         <field name="name">(CN006) Proyecto - Tarea - Form</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-
             <form string="Task" class="o_form_project_tasks" js_class="project_task_form">
-                <!--
-                <nt_custom_module>
-                    <nt_module_id>cn006</nt_module_id>
-                    <nt_view_type>form</nt_view_type>
-                </nt_custom_module>
-                -->
                 <field name="allow_subtasks" invisible="1"/>
                 <field name="is_closed" invisible="1"/>
                 <field name="allow_recurring_tasks" invisible="1"/>
@@ -90,9 +83,7 @@
                 <div class="oe_title pe-0">
                     <h1 class="d-flex justify-content-between align-items-center">
                         <div class="d-flex w-100">
-                            <!--  
                             <field name="priority" widget="priority" class="me-3"/>
-                            -->
                             <field name="name" class="o_task_name text-truncate w-100 w-md-75 pe-2" placeholder="Task Title..."/>
                         </div>
                         <field name="kanban_state" widget="state_selection" class=""/>
@@ -100,11 +91,12 @@
                 </div>
                 <group>
                     <group>
-                        <h4>FORM PROPIA DE NEOTROPO</h4>
                         <field name="project_id" placeholder="Private" domain="[('active', '=', True), ('company_id', '=', company_id)]" attrs="{'invisible': [('parent_id', '!=', False)]}" widget="project_private_task"/>
                         <field name="display_project_id" string="Project" attrs="{'invisible': [('parent_id', '=', False)]}" domain="[('active', '=', True), ('company_id', '=', company_id)]"/>
                         <field name="milestone_id" placeholder="e.g. Product Launch" context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id}" attrs="{'invisible': ['|', ('project_id', '=', False), ('allow_milestones', '=', False)]}"/>
-                        <field name="user_ids" class="o_task_user_field" options="{'no_open': True, 'no_quick_create': True}" widget="many2many_avatar_user" domain="[('share', '=', False), ('active', '=', True)]"/>
+                        
+                        <!-- (NT) Cambiar el id grupo usuarios cn006 en dominio  -->
+                        <field name="user_ids" class="o_task_user_field" options="{'no_open': True, 'no_quick_create': True}" widget="many2many_avatar_user" domain="[('groups_id', 'in', [191]), ('share', '=', False), ('active', '=', True)]"/>
                     </group>
                     <group>
                         <field name="active" invisible="1"/>
@@ -119,7 +111,7 @@
                 </group>
                 <field attrs="{'invisible': [('project_id', '=', False)]}" name="task_properties" nolabel="1" columns="2" hideKanbanOption="1"/>
                 <notebook>
-                    <page name="description_page" string="NT-Description">
+                    <page name="description_page" string="Description">
                         <field name="description" type="html" options="{'collaborative': true, 'resizable': false}" placeholder="Task description..."/>
                     </page>
                     <page name="sub_tasks_page" string="Sub-tasks" attrs="{'invisible': [('allow_subtasks', '=', False)]}">
@@ -132,9 +124,7 @@
                                 <field name="is_closed" invisible="1"/>
                                 <field name="allow_milestones" invisible="1"/>
                                 <field name="sequence" widget="handle"/>
-                                <!--  
                                 <field name="priority" widget="priority" optional="show" nolabel="1"/>
-                                -->
                                 <field name="id" optional="hide"/>
                                 <field name="child_text" invisible="1"/>
                                 <field name="allow_subtasks" invisible="1"/>
@@ -142,7 +132,10 @@
                                 <field name="display_project_id" string="Project" optional="hide" options="{'no_open': 1}"/>
                                 <field name="milestone_id" optional="hide" context="{'default_project_id': display_project_id or project_id}" attrs="{'invisible': [('allow_milestones', '=', False)], 'column_invisible': [('parent.allow_milestones', '=', False)]}"/>
                                 <field name="partner_id" optional="hide"/>
-                                <field name="user_ids" widget="many2many_avatar_user" optional="show" domain="[('share', '=', False), ('active', '=', True)]"/>
+                                <!-- (NT) Cambiar el id grupo usuarios cn006 en dominio  -->
+                                <!--  <field name="user_ids" widget="many2many_avatar_user" optional="show" domain="[('share', '=', False), ('active', '=', True)]"/>  -->
+                                <field name="user_ids" widget="many2many_avatar_user" optional="show" domain="[('groups_id', 'in', [191]),('share', '=', False), ('active', '=', True)]"/>
+
                                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
                                 <field name="company_id" invisible="1"/>
                                 <field name="activity_ids" string="Next Activity" widget="list_activity" optional="hide"/>
@@ -162,9 +155,7 @@
                                 <field name="parent_id" invisible="1"/>
                                 <field name="display_project_id" invisible="1"/>
                                 <field name="is_closed" invisible="1"/>
-                                <!--  
                                 <field name="priority" widget="priority" optional="show" nolabel="1"/>
-                                -->
                                 <field name="child_text" invisible="1"/>
                                 <field name="allow_subtasks" invisible="1"/>
                                 <field name="name" widget="name_with_subtask_count"/>
@@ -173,7 +164,11 @@
                                 <field name="milestone_id" optional="hide" context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id}" attrs="{'invisible': [('allow_milestones', '=', False)], 'column_invisible': [('parent.allow_milestones', '=', False)]}"/>
                                 <field name="partner_id" optional="hide"/>
                                 <field name="parent_id" optional="hide" attrs="{'invisible': [('allow_subtasks', '=', False)]}" groups="base.group_no_one"/>
-                                <field name="user_ids" widget="many2many_avatar_user" optional="show" domain="[('share', '=', False), ('active', '=', True)]"/>
+                                
+                                <!-- (NT) Cambiar el id grupo usuarios cn006 en dominio  -->
+                                <!--  <field name="user_ids" widget="many2many_avatar_user" optional="show" domain="[('share', '=', False), ('active', '=', True)]"/>  -->
+
+                                <field name="user_ids" widget="many2many_avatar_user" optional="show" domain="[('groups_id', 'in', [191]),('share', '=', False), ('active', '=', True)]"/>
                                 <field name="company_id" optional="hide" groups="base.group_multi_company"/>
                                 <field name="company_id" invisible="1"/>
                                 <field name="activity_ids" string="Next Activity" widget="list_activity" optional="hide"/>
@@ -270,8 +265,10 @@
                     <field name="activity_ids"/>
                     <field name="message_ids"/>
                 </div>
-            </form>
-            
+            </form>            
+
+
+
         </field>  <!-- name="arch"-->
     </record>
 </odoo>

@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="cn006_project_task_view_kanban" model="ir.ui.view">
-        <field name="name">(CN006) Proyectos (mantenimiento tareas)</field>
+        <field name="name">(CN006) Proyectos (mantenimiento proyectos)</field>
         <field name="model">project.task</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
