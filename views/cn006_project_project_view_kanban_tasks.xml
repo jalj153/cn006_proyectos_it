@@ -6,13 +6,13 @@
     on_create="project.open_create_project" 
     domain="[('stage_id', 'in', [26,27,28,29,30,31,32,33,34,35])]"
     -->
-    <record id="cn006_project_project_view_kanban_mod" model="ir.ui.view">
-        <field name="name">(CN006) Proyecto - Proyecto - Kanban MOD</field>
+    <record id="cn006_project_project_view_kanban_tasks" model="ir.ui.view">
+        <field name="name">(CN006) Proyectos (mantenimiento tareas)</field>
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
-                action="action_view_tasks"
+                action="cn006_action_project_kanban_tasks"
                 on_create="cn006_action_create_project" 
                 type="object" sample="1" 
                 default_group_by="stage_id"

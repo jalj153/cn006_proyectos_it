@@ -11,7 +11,7 @@
                 </nt_custom_module>
                 -->
                 <!-- <field name="sequence" widget="handle"/>  -->
-                <field name="sequence"/>
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="cn006_stage"/>
                 <field name="mail_template_id" optional="hide" context="{'default_model': 'project.project'}"/>

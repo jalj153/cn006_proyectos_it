@@ -1,5 +1,5 @@
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="cn006_CERTIFICADO" model="project.project.stage">
             <field name="active">True</field>
             <field name="cn006_stage">True</field>

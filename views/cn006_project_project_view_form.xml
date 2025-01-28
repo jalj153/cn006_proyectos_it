@@ -5,7 +5,7 @@
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <form string="Project" class="o_form_project_project" js_class="project_form">
+            <form string="(CN006) Datos proyecto" class="o_form_project_project" js_class="project_form">
                     <!-- 
                     <nt_custom_module>
                         <nt_module_id>cn006</nt_module_id>
@@ -22,6 +22,7 @@
                         />
                     </header>
                     <sheet string="Project">
+                        <h4>NT cn006_project_project_view_form</h4>
                         <div class="oe_button_box" name="button_box" groups="base.group_user">
                             <button class="oe_stat_button" name="project_update_all_action" type="object" groups="project.group_project_manager">
                                 <div class="ps-4">
