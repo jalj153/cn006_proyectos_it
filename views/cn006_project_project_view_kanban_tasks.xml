@@ -11,11 +11,19 @@
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
+            <!--  <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
                 action="cn006_action_project_task_kanban"
                 on_create="cn006_action_create_project" 
                 type="object" sample="1" 
                 default_group_by="stage_id"
+                default_order="sequence, name, id">
+            -->
+
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
+                on_create="project.open_create_project" 
+                action="action_view_tasks" 
+                type="object" sample="1" 
+                default_group_by="stage_id" 
                 default_order="sequence, name, id">
 
 
