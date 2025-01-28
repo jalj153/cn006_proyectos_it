@@ -10,68 +10,51 @@
 
     <record id="cn006_project_task_view_kanban_filter" model="ir.ui.view">
         <field name="name">(CN006) Tasks - kanban filter</field>
-        <field name="model">project.task</field>
+        <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
 
-            <search string="Tasks">
-                    <field name="name" string="Task" filter_domain="['|', ('name', 'ilike', self), ('id', 'ilike', self)]"/>
-                    <field name="tag_ids"/>
-                    <field name="user_ids" filter_domain="[('user_ids.name', 'ilike', self), ('user_ids.active', 'in', [True, False])]"/>
-                    <field name="milestone_id" groups="project.group_project_milestone"/>
-                    <field name="ancestor_id" groups="project.group_subtask_project"/>
-                    <field name="stage_id"/>
-                    <field name="partner_id" operator="child_of"/>
-                    <field name="description"/>
-                    <field name="rating_last_text"/>
-                    <filter string="My Tasks" name="my_tasks" domain="[('user_ids', 'in', uid)]"/>
-                    <filter string="Followed Tasks" name="followed_by_me" domain="[('message_is_follower', '=', True)]"/>
-                    <filter string="Unassigned" name="unassigned" domain="[('user_ids', '=', False)]"/>
-                    <separator/>
-                    <filter string="High Priority" name="high_priority" domain="[('priority', '=', 1)]"/>
-                    <filter string="Low Priority" name="low_priority" domain="[('priority', '=', 0)]"/>
-                    <separator/>
-                    <filter string="Blocked" name="blocked" domain="[('is_blocked', '=', True)]" groups="project.group_project_task_dependencies"/>
-                    <filter string="Not Blocked" name="not_blocked" domain="[('is_blocked', '=', False), ('is_private', '=', False)]" groups="project.group_project_task_dependencies"/>
-                    <separator groups="project.group_project_task_dependencies"/>
-                    <filter string="Blocking" name="blocking" domain="[('is_closed', '=', False), ('dependent_ids', '!=', False)]" groups="project.group_project_task_dependencies"/>
-                    <filter string="Not Blocking" name="not_blocking" domain="['|', ('is_closed', '=', True), ('dependent_ids', '=', False), ('is_private', '=', False)]" groups="project.group_project_task_dependencies"/>
-                    <separator groups="project.group_project_task_dependencies"/>
-                    <filter string="Late Milestones" name="late_milestone" domain="[('is_closed', '=', False), ('has_late_and_unreached_milestone', '=', True)]" groups="project.group_project_milestone"/>
-                    <filter string="Late Tasks" name="late" domain="[('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d')), ('is_closed', '=', False)]"/>
-                    <filter string="Tasks Due Today" name="tasks_due_today" domain="[('date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
-                    <filter string="Stalling for 30 Days+" name="stall_last_30_days" domain="[('is_closed', '=', False), ('date_last_stage_update', '&lt;=', datetime.datetime.now() - relativedelta(days=30))]"/>
-                    <separator/>
-                    <filter string="Open Tasks" name="open_tasks" domain="[('is_closed', '=', False)]"/>
-                    <filter string="Closed Tasks" name="closed_tasks" domain="[('is_closed', '=', True)]"/>
-                    <filter string="Closed Last 7 Days" name="closed_last_7_days" domain="[('is_closed', '=', True), ('date_last_stage_update', '&gt;', datetime.datetime.now() - relativedelta(days=7))]"/>
-                    <filter string="Closed Last 30 Days" name="closed_last_30_days" domain="[('is_closed', '=', True), ('date_last_stage_update', '&gt;', datetime.datetime.now() - relativedelta(days=30))]"/>
-                    <separator/>
-                    <filter name="rating_satisfied" string="Satisfied" domain="[('rating_avg', '&gt;=', 3.66)]" groups="project.group_project_rating"/>
-                    <filter name="rating_okay" string="Okay" domain="[('rating_avg', '&lt;', 3.66), ('rating_avg', '&gt;=', 2.33)]" groups="project.group_project_rating"/>
-                    <filter name="dissatisfied" string="Dissatisfied" domain="[('rating_avg', '&lt;', 2.33), ('rating_last_value', '!=', 0)]" groups="project.group_project_rating"/>
-                    <filter name="no_rating" string="No Rating" domain="[('rating_last_value', '=', 0)]" groups="project.group_project_rating"/>
-                    <separator/>
-                    <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction', '=', True)]"/>
-                    <separator/>
-                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
-                    <separator/>
-                    <filter invisible="1" string="Late Activities" name="activities_overdue" domain="[('my_activity_date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]" help="Show all records which has next action date is before today"/>
-                    <filter invisible="1" string="Today Activities" name="activities_today" domain="[('my_activity_date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
-                    <filter invisible="1" string="Future Activities" name="activities_upcoming_all" domain="[('my_activity_date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Stage" name="stage" context="{'group_by': 'stage_id'}"/>
-                        <filter string="Personal Stage" name="personal_stage" context="{'group_by': 'personal_stage_type_ids'}"/>
-                        <filter string="Assignees" name="user" context="{'group_by': 'user_ids'}"/>
-                        <filter string="Ancestor Task" name="groupby_ancestor_task" context="{'group_by': 'ancestor_id'}" groups="project.group_subtask_project"/>
-                        <filter string="Milestone" name="milestone" context="{'group_by': 'milestone_id'}" groups="project.group_project_milestone"/>
-                        <filter string="Customer" name="customer" context="{'group_by': 'partner_id'}"/>
-                        <filter string="Kanban State" name="kanban_state" context="{'group_by': 'kanban_state'}"/>
-                        <filter string="Deadline" name="date_deadline" context="{'group_by': 'date_deadline'}"/>
-                        <filter string="Creation Date" name="group_create_date" context="{'group_by': 'create_date'}"/>
-                    </group>
-                </search>
+            <search string="Search Project">
+                <field name="name" string="Project"/>
+                <field name="tag_ids"/>
+                <field name="user_id" string="Project Manager"/>
+                <field name="partner_id" string="Customer" filter_domain="[('partner_id', 'child_of', self)]"/>
+                <field name="analytic_account_id"/>
+                
+                <field name="stage_id" groups="project.group_project_stages"/>
 
+                
+                <filter string="My Projects" name="own_projects" domain="[('user_id', '=', uid)]"/>
+                <filter string="My Favorites" name="my_projects" domain="[('favorite_user_ids', 'in', uid)]"/>
+                <filter string="Followed" name="followed_by_me" domain="[('message_is_follower', '=', True)]"/>
+                <filter string="Unassigned" name="unassigned_projects" domain="[('user_id', '=', False)]"/>
+                <separator/>
+                <filter string="Late Milestones" name="late_milestones" domain="[('is_milestone_exceeded', '=', True)]" groups="project.group_project_milestone"/>
+                <separator/>
+                <filter string="Open" name="open_project" domain="[('stage_id.fold', '=', False)]" groups="project.group_project_stages"/>
+                <filter string="Closed" name="closed_project" domain="[('stage_id.fold', '=', True)]" groups="project.group_project_stages"/>
+                <separator/>
+                <filter string="Start Date" name="start_date" date="date_start"/>
+                <filter string="End Date" name="end_date" date="date"/>
+                <separator/>
+                <filter name="rating_satisfied" string="Satisfied" domain="[('rating_active', '=', True), ('rating_avg', '&gt;=', 3.66)]" groups="project.group_project_rating"/>
+                <filter name="rating_okay" string="Okay" domain="[('rating_active', '=', True), ('rating_avg', '&lt;', 3.66), ('rating_avg', '&gt;=', 2.33)]" groups="project.group_project_rating"/>
+                <filter name="dissatisfied" string="Dissatisfied" domain="[('rating_active', '=', True), ('rating_avg', '&lt;', 2.33), ('rating_avg', '&gt;', 0)]" groups="project.group_project_rating"/>
+                <filter name="no_rating" string="No Rating" domain="['|', ('rating_active', '=', False), ('rating_avg', '=', 0)]" groups="project.group_project_rating"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter invisible="1" string="Late Activities" name="activities_overdue" domain="[('my_activity_date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]" help="Show all records which has next action date is before today"/>
+                <filter invisible="1" string="Today Activities" name="activities_today" domain="[('my_activity_date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter invisible="1" string="Future Activities" name="activities_upcoming_all" domain="[('my_activity_date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project Manager" name="Manager" context="{'group_by': 'user_id'}"/>
+                    <filter string="Customer" name="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Status" name="status" context="{'group_by': 'last_update_status'}"/>
+                    <filter string="Stage" name="groupby_stage" context="{'group_by': 'stage_id'}" groups="project.group_project_stages"/> 
+                </group>
+            </search>
+        
         </field>  <!--  arch-->
     </record>  <!--  id="cn006_project_project_view_kanban_filter" model="ir.ui.view"  -->
 

@@ -2,7 +2,7 @@
 <odoo>
     <!-- Acción para listar proyectos para modificación en Kanban -->
     <record id="cn006_action_project_kanban_tasks" model="ir.actions.act_window">
-        <field name="name">(CN006) Proyectos (para trabajar tareas)</field>
+        <field name="name">(CN006) Mantenimiento de Tareas</field>
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_ids" eval="[
@@ -17,6 +17,21 @@
     </record>
 
     <!--  Acción para abrir kanban de tareas de un proyecto -->
+    <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">
+        <field name="name">(CN006) Mantenimiento Proyectos</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_task_view_kanban')}),
+            (0, 0, {'view_mode': 'form','view_id': ref('cn006_proyectos_it.cn006_project_project_view_form')})
+        ]"/>
+        <field name="search_view_id" ref="cn006_proyectos_it.cn006_project_task_view_kanban_filter"/>
+        <field name="domain">[
+            ('cn006_project', '=', True)
+        ]</field>
+    </record>
+
     
     <!--  ORIGINAL 
     <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">
@@ -34,22 +49,6 @@
         ]</field>
     </record>
     -->
-
-    <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">
-        <field name="name">(CN006) Mantenimiento Proyectos</field>
-        <field name="res_model">project.task</field>
-        <field name="view_mode">kanban,form</field>
-        <field name="view_ids" eval="[
-            (5, 0, 0),
-            (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_task_view_kanban')}),
-            (0, 0, {'view_mode': 'form','view_id': ref('cn006_proyectos_it.cn006_project_project_view_form')})
-        ]"/>
-        <field name="search_view_id" ref="cn006_proyectos_it.cn006_project_task_view_kanban_filter"/>
-        <field name="domain">[
-            ('cn006_project', '=', True)
-        ]</field>
-    </record>
-
 
 
 
