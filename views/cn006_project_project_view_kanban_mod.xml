@@ -4,6 +4,7 @@
     <!--  esta definición va antes de type para ver las tasks
     action="action_view_tasks"  
     on_create="project.open_create_project" 
+    domain="[('stage_id', 'in', [26,27,28,29,30,31,32,33,34,35])]"
     -->
     <record id="cn006_project_project_view_kanban_mod" model="ir.ui.view">
         <field name="name">(CN006) Proyecto - Proyecto - Kanban MOD</field>
@@ -15,7 +16,6 @@
                 on_create="cn006_action_create_project" 
                 type="object" sample="1" 
                 default_group_by="stage_id"
-                domain="[('stage_id', 'in', [26,27,28,29,30,31,32,33,34,35])]"
                 default_order="sequence, name, id">
 
 

@@ -4,6 +4,7 @@
     <!--  esta definición va antes de type para ver las tasks
     action="action_view_tasks"  
     on_create="project.open_create_project" 
+    <field name="stage_id" groups="project.group_project_stages"/>
     -->
 
     <!--
@@ -24,7 +25,9 @@
                 <field name="user_id" string="Project Manager"/>
                 <field name="partner_id" string="Customer" filter_domain="[('partner_id', 'child_of', self)]"/>
                 <field name="analytic_account_id"/>
-                <field name="stage_id" groups="project.group_project_stages"/>
+                
+                <field name="stage_id" groups="project.group_project_stages" />
+
                 
                 <filter string="My Projects" name="own_projects" domain="[('user_id', '=', uid)]"/>
                 <filter string="My Favorites" name="my_projects" domain="[('favorite_user_ids', 'in', uid)]"/>
@@ -53,7 +56,7 @@
                     <filter string="Project Manager" name="Manager" context="{'group_by': 'user_id'}"/>
                     <filter string="Customer" name="Partner" context="{'group_by': 'partner_id'}"/>
                     <filter string="Status" name="status" context="{'group_by': 'last_update_status'}"/>
-                    <filter string="Stage" name="groupby_stage" context="{'group_by': 'stage_id'}" groups="project.group_project_stages"/>
+                    <filter string="Stage" name="groupby_stage" context="{'group_by': 'stage_id'}" groups="project.group_project_stages"/> 
                 </group>
             </search>
         
