@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- Menú Principal -->
-    <menuitem id="CN006_menu_principal" name="(REAL) CN006 Proyectos IT" sequence="10"/>
+    <menuitem id="CN006_menu_principal" name="Proyectos IT (CN006)" sequence="10"/>
 
     <!-- Submenús del menú principal -->
     <menuitem parent="CN006_menu_principal" sequence="10" id="CN006_menu_tareas"        name="Tareas"        action="cn006_action_dummy" />
