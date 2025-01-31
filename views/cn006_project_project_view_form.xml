@@ -57,7 +57,8 @@
                         <!-- (NT) Campos  -->
                         <group>  <!-- (NT) Sección superior-->
                             <group>  <!--  (NT) Lado Izquierdo  -->
-                                <field name="cn006_project" edit="1"/> 
+                                <field name="cn006_project" widget="boolean_toggle"/> 
+                                <field name="cn006_emergente" widget="boolean_toggle"/> 
                                     
                                 
 
@@ -228,6 +229,7 @@
                             </page>
                             <page name="datos_adicionales" string="Datos Adicionales">
                                 <field name="label_tasks" string="Name of the tasks" readonly="1"/>
+                                <!-- 
                                 <field name="cn006_project"  readonly="1"/>
                                 <field name="cn006_fecha_creacion_sistema" widget="date" readonly="1"/>
                                 <field name="cn006_fecha_creacion_oficial" widget="date" readonly="1"/>
@@ -242,6 +244,7 @@
                                 <field name="cn006_fecha_cierre_estimada" widget="date" readonly="1"/>
                                 <field name="cn006_fecha_cierre_oficial" widget="date" readonly="1"/>
                                 <field name="cn006_fecha_cierre_sistema" widget="date" readonly="1"/>
+                                -->
                             </page>  <!-- (NT) Datos adicionales  -->
                         </notebook>  <!--  (NT)  Sección inferior TABs-->
                     </sheet>

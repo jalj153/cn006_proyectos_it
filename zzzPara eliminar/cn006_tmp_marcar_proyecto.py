@@ -67,8 +67,8 @@ try:
             actualizar = proyecto['cn006_project'] != True
 
             #Actualizar cn006_project a True
+            project_id = proyecto['id']
             if actualizar:
-                project_id = proyecto['id']
                 print(f"Actualizando proyecto: {proyecto['name']} (ID: {project_id})")
                 models.execute_kw(db, uid, password,
                       'project.project', 'write',
@@ -77,11 +77,11 @@ try:
                 print(f"Proyecto {proyecto} - actualizado y asignado a las etapas correctamente.")
 
                 # # Asignar el proyecto a las etapas indicadas
-                # for etapa_id in etapas_tareas:
-                #     models.execute_kw(db, uid, password,
-                #         'project.task.type', 'write',
-                #         [[etapa_id], {'project_ids': [(4, project_id)]}]  # Agrega el proyecto sin duplicarlo
-                #     )
+                for etapa_id in etapas_tareas:
+                    models.execute_kw(db, uid, password,
+                        'project.task.type', 'write',
+                        [[etapa_id], {'project_ids': [(4, project_id)]}]  # Agrega el proyecto sin duplicarlo
+                    )
 
             
 

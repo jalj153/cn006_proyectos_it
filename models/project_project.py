@@ -12,7 +12,8 @@ class ProjectProject(models.Model):
     cn006_tamano_id            = fields.Many2one('cn006.proyecto.tamano',            string='Tamaño', help='Tamaño del proyecto.')
     #endregion Campos relacionados
 
-    cn006_project = fields.Boolean(required=False, string='Proyecto Marcado (CN006)', help='Permite filtrar los proyectos asociados al módulo', default=False)
+    cn006_project   = fields.Boolean(required=False, string='Proyecto Marcado (CN006)', help='Permite filtrar los proyectos asociados al módulo', default=False)
+    cn006_emergente = fields.Boolean(required=False, string='¿Es emergente?',           help='Determinar el grupo de gestión del proyecto', default=False)
 
     #region Fechas del Proyecto
     """ 
