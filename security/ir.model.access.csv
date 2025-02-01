@@ -2,9 +2,9 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 cn006_adm_proy_clasificacion,CN006 - Administradores - Proy Clasificación,cn006_proyectos_it.model_cn006_proyecto_clasificacion,cn006_proyectos_it_administradores,1,1,1,1
 cn006_sup_proy_clasificacion,CN006 - Supervisores - Proy Clasificación,cn006_proyectos_it.model_cn006_proyecto_clasificacion,cn006_proyectos_it_supervisores,1,1,1,0
 cn006_usu_proy_clasificacion,CN006 - Usuarios - Proy Clasificación,cn006_proyectos_it.model_cn006_proyecto_clasificacion,cn006_proyectos_it_usuarios,1,1,1,0
-cn006_adm_proy_grado_avance,CN006 - Administradores - Proy Grado Avance,cn006_proyectos_it.model_cn006_proyecto_grado_avance,cn006_proyectos_it_administradores,1,1,1,1
-cn006_sup_proy_grado_avance,CN006 - Supervisores - Proy Grado Avance,cn006_proyectos_it.model_cn006_proyecto_grado_avance,cn006_proyectos_it_supervisores,1,1,1,0
-cn006_usu_proy_grado_avance,CN006 - Usuarios - Proy Grado Avance,cn006_proyectos_it.model_cn006_proyecto_grado_avance,cn006_proyectos_it_usuarios,1,1,1,0
+cn006_adm_proy_grado_avance,CN006 - Administradores - Proye Tarea Grado Avance,cn006_proyectos_it.model_cn006_proyecto_tarea_grado_avance,cn006_proyectos_it_administradores,1,1,1,1
+cn006_sup_proy_grado_avance,CN006 - Supervisores - Proy Tarea Grado Avance,cn006_proyectos_it.model_cn006_proyecto_tarea_grado_avance,cn006_proyectos_it_supervisores,1,1,1,0
+cn006_usu_proy_grado_avance,CN006 - Usuarios - Proy Tarea Grado Avance,cn006_proyectos_it.model_cn006_proyecto_tarea_grado_avance,cn006_proyectos_it_usuarios,1,1,1,0
 cn006_adm_proy_grado_complejidad,CN006 - Administradores - Proy Grado Complejidad,cn006_proyectos_it.model_cn006_proyecto_grado_complejidad,cn006_proyectos_it_administradores,1,1,1,1
 cn006_sup_proy_grado_complejidad,CN006 - Supervisores - Proy Grado Complejidad,cn006_proyectos_it.model_cn006_proyecto_grado_complejidad,cn006_proyectos_it_supervisores,1,1,1,0
 cn006_usu_proy_grado_complejidad,CN006 - Usuarios - Proy Grado Complejidad,cn006_proyectos_it.model_cn006_proyecto_grado_complejidad,cn006_proyectos_it_usuarios,1,1,1,0

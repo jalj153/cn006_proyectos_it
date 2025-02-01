@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- Acción para listar proyectos para modificación en Kanban -->
+    <!--  <record id="cn006_action_project_kanban_tasks" model="ir.actions.act_window">  -->
     <record id="cn006_action_project_kanban_tasks" model="ir.actions.act_window">
         <field name="name">(CN006) Mantenimiento de Tareas</field>
         <field name="res_model">project.project</field>
@@ -17,6 +18,7 @@
     </record>
 
     <!--  Acción para abrir kanban de tareas de un proyecto -->
+    <!--  <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">  -->
     <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">
         <field name="name">(CN006) Mantenimiento Proyectos</field>
         <field name="res_model">project.project</field>

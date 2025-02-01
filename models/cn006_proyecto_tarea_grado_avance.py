@@ -1,8 +1,8 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-class CN006ProyectoGradoAvance(models.Model):
-    _name = 'cn006.proyecto.grado.avance'
+class CN006TareaGradoAvance(models.Model):
+    _name = 'cn006.proyecto_tarea.grado.avance'
     _description = '(CN006) Grado de Avance de los proyectos IT'
     _order = 'cn006_orden ASC'
 

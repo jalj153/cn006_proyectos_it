@@ -3,8 +3,15 @@
     <record id="cn006_project_task_view_form" model="ir.ui.view">
         <field name="name">(CN006) Proyecto - Tarea - Form</field>
         <field name="model">project.task</field>
+        <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <form string="Task" class="o_form_project_tasks" js_class="project_task_form">
+                <!-- 
+                    <nt_custom_module>
+                        <nt_module_id>cn006</nt_module_id>
+                        <nt_view_type>form</nt_view_type>
+                    </nt_custom_module>
+                -->
                 <field name="allow_subtasks" invisible="1"/>
                 <field name="is_closed" invisible="1"/>
                 <field name="allow_recurring_tasks" invisible="1"/>
@@ -20,6 +27,7 @@
                 <field name="parent_id" invisible="1"/>
                 <field name="company_id" invisible="1"/>
                 <header>
+                    <h4>NT cn006_project_task_view_form</h4>
                     <button name="action_assign_to_me" string="Assign to Me" type="object" attrs="{'invisible': &quot;['|', ('user_ids', 'in', uid), ('user_ids', '=', [])]&quot;}" data-hotkey="q"/>
                     <button name="action_assign_to_me" string="Assign to Me" type="object" class="oe_highlight" attrs="{'invisible' : &quot;['|', ('user_ids', 'in', uid), ('user_ids', '!=', [])]&quot;}" data-hotkey="q"/>
                     <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False), ('stage_id', '=', False)]}"/>
@@ -97,6 +105,7 @@
                         
                         <!-- (NT) Cambiar el id grupo usuarios cn006 en dominio  -->
                         <field name="user_ids" class="o_task_user_field" options="{'no_open': True, 'no_quick_create': True}" widget="many2many_avatar_user" domain="[('groups_id', 'in', [191]), ('share', '=', False), ('active', '=', True)]"/>
+                        <field name="cn006_grado_avance_id" create="0" edit="0"/>
                     </group>
                     <group>
                         <field name="active" invisible="1"/>

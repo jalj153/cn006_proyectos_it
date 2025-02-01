@@ -15,15 +15,13 @@
                 default_order="sequence, name, id">
             -->
 
+            <!--  action="action_view_projects"   -->
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
                 on_create="project.open_create_project" 
-                action="action_view_projects" 
                 type="object" 
                 sample="1" 
                 default_order="sequence, name, id">
             
-
-
 
                 <!--
                 <nt_custom_module>

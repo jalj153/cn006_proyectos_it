@@ -67,7 +67,7 @@
                                 <field name="cn006_nivel_importancia_id" create="0" edit="0"/>
                                 <field name="cn006_nivel_urgencia_id" create="0" edit="0"/>
                                 <field name="cn006_tamano_id" create="0" edit="0"/>
-                                <field name="cn006_grado_avance_id" create="0" edit="0"/>
+                                
 
                                 
                                 

@@ -2,12 +2,13 @@
     <record id="cn006_proyecto_clasificacion_view_tree" model="ir.ui.view">
         <field name="name">(CN006) Proyecto - Clasificación - tree</field>
         <field name="model">cn006.proyecto.clasificacion</field>
+        <field name="priority" eval="100"/>
         <field name="arch" type="xml">
             <tree editable="top">
                 <!--
                 <nt_custom_module>
                     <nt_module_id>cn006</nt_module_id>
-                    <nt_view_type>kanban</nt_view_type>
+                    <nt_view_type>tree</nt_view_type>
                 </nt_custom_module>
                 -->
                 <field name="name"/>

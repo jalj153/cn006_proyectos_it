@@ -15,6 +15,12 @@
         <field name="arch" type="xml">
 
             <search string="Search Project">
+                <!-- 
+                    <nt_custom_module>
+                        <nt_module_id>cn006</nt_module_id>
+                        <nt_view_type>search</nt_view_type>
+                    </nt_custom_module>
+                -->
                 <field name="name" string="Project"/>
                 <field name="tag_ids"/>
                 <field name="user_id" string="Project Manager"/>
@@ -23,7 +29,7 @@
                 
                 <field name="stage_id" groups="project.group_project_stages"/>
 
-                
+                <filter string="CN006 task" name="cn006_project_task_filter" domain="[('cn006_project', '=', True)]"/>
                 <filter string="My Projects" name="own_projects" domain="[('user_id', '=', uid)]"/>
                 <filter string="My Favorites" name="my_projects" domain="[('favorite_user_ids', 'in', uid)]"/>
                 <filter string="Followed" name="followed_by_me" domain="[('message_is_follower', '=', True)]"/>
@@ -56,6 +62,6 @@
             </search>
         
         </field>  <!--  arch-->
-    </record>  <!--  id="cn006_project_project_view_kanban_filter" model="ir.ui.view"  -->
+    </record>  <!--  id="cn006_project_task_view_kanban_filter" model="ir.ui.view"  -->
 
 </odoo>
