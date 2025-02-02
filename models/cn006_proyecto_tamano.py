@@ -6,7 +6,7 @@ class CN006ProyectoTamano(models.Model):
     _description = 'Tamaño de los proyectos IT'
     _order = 'cn006_orden ASC'
 
-    cn006_orden = fields.Integer(string='Orden', required=True, unique=True)
+    cn006_orden = fields.Integer(string='Orden', required=True)
     name = fields.Char(string='Tamaño', required=True)  # Este campo se usará para mostrar valores
     cn006_descripcion = fields.Char(string='Descripción', required=False)
 

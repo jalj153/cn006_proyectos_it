@@ -6,7 +6,7 @@
 
 {
     'name': '(CN006) Gestión Proyectos IT',
-    'version': '00.00.191',
+    'version': '00.00.200',
     'summary': '(CN006) Gestión Proyectos IT',
     'description': '(CN006) Gestión de proyectos del área de IT',
     'author': 'Neotropo®',
@@ -50,6 +50,7 @@
             'data/cn006_proyecto_stage.xml',
             'data/cn006_proyecto_tamano.xml',
             'data/cn006_tarea_grado_avance.xml',
+            'data/cn006_tarea_tipificacion.xml',
     ],
     'installable': True,
     'application': True,

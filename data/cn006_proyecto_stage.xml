@@ -1,5 +1,5 @@
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="cn006_CERTIFICADO" model="project.project.stage">
             <field name="active">True</field>
             <field name="cn006_stage">True</field>
@@ -16,36 +16,12 @@
             <field name="display_name">IMPLEMENTACION</field>
             <field name="sequence">1</field>
         </record>
-        <record id="cn006_DESARROLLO_100" model="project.project.stage">
+        <record id="cn006_DESARROLLO" model="project.project.stage">
             <field name="active">True</field>
             <field name="cn006_stage">True</field>
             <field name="fold">False</field>
-            <field name="name">DESARROLLO_100</field>
+            <field name="name">DESARROLLO</field>
             <field name="display_name">DESARROLLO_100</field>
-            <field name="sequence">1</field>
-        </record>
-        <record id="cn006_DESARROLLO_75" model="project.project.stage">
-            <field name="active">True</field>
-            <field name="cn006_stage">True</field>
-            <field name="fold">False</field>
-            <field name="name">DESARROLLO_75</field>
-            <field name="display_name">DESARROLLO_75</field>
-            <field name="sequence">1</field>
-        </record>
-        <record id="cn006_DESARROLLO_50" model="project.project.stage">
-            <field name="active">True</field>
-            <field name="cn006_stage">True</field>
-            <field name="fold">False</field>
-            <field name="name">DESARROLLO_50</field>
-            <field name="display_name">DESARROLLO_50</field>
-            <field name="sequence">1</field>
-        </record>
-        <record id="cn006_DESARROLLO_25" model="project.project.stage">
-            <field name="active">True</field>
-            <field name="cn006_stage">True</field>
-            <field name="fold">False</field>
-            <field name="name">DESARROLLO_25</field>
-            <field name="display_name">DESARROLLO_25</field>
             <field name="sequence">1</field>
         </record>
         <record id="cn006_ANALISIS" model="project.project.stage">

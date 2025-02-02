@@ -1,5 +1,5 @@
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="tamano_pequeño" model="cn006.proyecto.tamano">
             <field name="cn006_orden">10</field>
             <field name="name">PEQUEÑO</field>

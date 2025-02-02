@@ -23,16 +23,12 @@
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_ids" eval="[
-
             (5, 0, 0),
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_project_view_kanban')}),
             (0, 0, {'view_mode': 'form','view_id': ref('cn006_proyectos_it.cn006_project_project_view_form')})
-            
         ]"/>
-        <field name="search_view_id" ref="cn006_proyectos_it.cn006_project_task_view_kanban_filter"/>
-        <field name="domain">[
-            ('cn006_project', '=', True)
-        ]</field>
+        <field name="search_view_id" ref="cn006_proyectos_it.cn006_project_project_view_kanban_filter"/>
+        <field name="domain">[('cn006_project', '=', True)]</field>
     </record>
 
     <!-- Listar tareas para después editarlas -->

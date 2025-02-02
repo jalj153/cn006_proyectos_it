@@ -1,0 +1,29 @@
+<odoo>
+    <data noupdate="0">
+        <record id="cn006_proyecto_tarea_tipificacion_10" model="cn006.proyecto.tarea.tipificacion">
+            <field name="cn006_orden">10</field>
+            <field name="name">ANALISIS</field>
+            <field name="cn006_descripcion">En análisis de requerimientos</field>
+        </record>
+        <record id="cn006_proyecto_tarea_tipificacion_20" model="cn006.proyecto.tarea.tipificacion">
+            <field name="cn006_orden">20</field>
+            <field name="name">DESARROLLO_25%</field>
+            <field name="cn006_descripcion">Desarrollo en un 25%</field>
+        </record>
+        <record id="cn006_proyecto_tarea_tipificacion_30" model="cn006.proyecto.tarea.tipificacion">
+            <field name="cn006_orden">30</field>
+            <field name="name">IMPLEMENTACION</field>
+            <field name="cn006_descripcion">Implementación en curso</field>
+        </record>
+        <record id="cn006_proyecto_tarea_tipificacion_40" model="cn006.proyecto.tarea.tipificacion">
+            <field name="cn006_orden">40</field>
+            <field name="name">CERTIFICACIÓN</field>
+            <field name="cn006_descripcion">Certificación finalizada</field>
+        </record>
+        <record id="cn006_proyecto_tarea_tipificacion_50" model="cn006.proyecto.tarea.tipificacion">
+            <field name="cn006_orden">50</field>
+            <field name="name">FINALIZACIÓN</field>
+            <field name="cn006_descripcion">Proyecto finalizado</field>
+        </record>
+    </data>
+</odoo>

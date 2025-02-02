@@ -1,5 +1,5 @@
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="clasif_api" model="cn006.proyecto.clasificacion">
             <field name="name">API</field>
             <field name="cn006_descripcion">Desarrollo de interfaces de programación</field>

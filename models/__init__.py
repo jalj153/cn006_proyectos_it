@@ -4,6 +4,7 @@ from . import cn006_proyecto_nivel_importancia
 from . import cn006_proyecto_nivel_urgencia
 from . import cn006_proyecto_tamano
 from . import cn006_proyecto_tarea_grado_avance
+from . import cn006_proyecto_tarea_tipificacion
 
 from . import project_project
 from . import project_task
