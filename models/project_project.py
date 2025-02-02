@@ -1,4 +1,7 @@
+import logging
 from odoo import models, fields
+
+_logger = logging.getLogger(__name__)
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'
@@ -42,4 +45,24 @@ class ProjectProject(models.Model):
     cn006_fecha_cierre_oficial  = fields.Date(required=False, string='Fecha Real cierre'      , help='Fecha en que realmente se cerró el proyecto')
     cn006_fecha_cierre_sistema  = fields.Date(required=False, string='(SIS) Fecha Real cierre', help='Fecha en que se actualizó el proyecto - Fecha en que realmente se cerró el proyecto')
 
+#region Métodos para Acciones de Kanban Dashboard   
+#   Estos métodos se llaman desde el kanban view inicial del módulo CN004
+#   No tiene sentido llamarlos desde otros módulos
+#   No se valida que están en módulo CN004 porque el nombre debe evitar llamadas no requeridas
+# 
+    def cn006_method_view_project_tasks(self, **kwargs):
+        # Validar y forzar que venga solamente 1 registro
+        self.ensure_one()  
 
+        # Obtener la acción creada por el módulo
+        _logger.info(f"(cn006) Tomando la acción")
+        action = self.env.ref('cn006_proyectos_it.cn006_action_project_task_view_kanban').read()[0]
+                               
+
+        _logger.info(f"(cn006) Ya se tiene la acción \n***********\n\n{action}\n***********\n\n")
+        
+        if not isinstance(action, dict):
+            raise TypeError(f"El valor de 'action' no es un diccionario. Es de tipo: {type(action)}\n  valor: {action}")
+        
+        return action  #cn006_method_view_project_tasks
+#endregion Métodos para Acciones de Kanban Dashboard   

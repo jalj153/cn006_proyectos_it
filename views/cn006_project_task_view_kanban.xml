@@ -2,164 +2,124 @@
 <odoo>
 
     <record id="cn006_project_task_view_kanban" model="ir.ui.view">
-        <field name="name">(CN006) Proyectos (mantenimiento proyectos)</field>
-        <field name="model">project.project</field>
+        <field name="name">(CN006) Listado de Tareas (nuevo)</field>
+        <field name="model">project.task</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-
-            <!-- <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
-                on_create="project.open_create_project" 
-                action="action_view_tasks" 
-                type="object" sample="1" 
-                default_group_by="stage_id" 
-                default_order="sequence, name, id">
+            <!--
+                quick_create_view="project.quick_create_task_form" 
             -->
+            <kanban default_group_by="stage_id" 
+                    class="o_kanban_small_column o_kanban_project_tasks" 
+                    on_create="quick_create" 
+                    examples="project" 
+                    js_class="project_task_kanban" 
+                    sample="1"
+                >
 
-            <!--  action="action_view_projects"   -->
-            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
-                on_create="project.open_create_project" 
-                type="object" 
-                sample="1" 
-                default_order="sequence, name, id">
-            
 
                 <!--
-                <nt_custom_module>
-                    <nt_module_id>cn006</nt_module_id>
-                    <nt_view_type>kanban</nt_view_type>
-                </nt_custom_module>
+                    <nt_custom_module>
+                        <nt_module_id>cn006</nt_module_id>
+                        <nt_view_type>kanban</nt_view_type>
+                    </nt_custom_module>
                 -->
-                <field name="display_name"/>
-                <field name="partner_id"/>
-                <field name="commercial_partner_id"/>
+
                 <field name="color"/>
-                <field name="task_count"/>
-                <field name="milestone_count_reached"/>
-                <field name="milestone_count"/>
-                <field name="allow_milestones"/>
-                <field name="label_tasks"/>
-                <field name="alias_id"/>
-                <field name="alias_name"/>
-                <field name="alias_domain"/>
-                <field name="is_favorite"/>
+                <field name="priority"/>
+                <field name="stage_id" options="{&quot;group_by_tooltip&quot;: {&quot;description&quot;: &quot;Description&quot;}}"/>
+                <field name="user_ids"/>
+                <field name="partner_id"/>
+                <field name="sequence"/>
+                <field name="is_closed"/>
+                <field name="partner_is_company"/>
+                <field name="displayed_image_id"/>
+                <field name="active"/>
+                <field name="legend_blocked"/>
+                <field name="legend_normal"/>
+                <field name="legend_done"/>
+                <field name="activity_ids"/>
+                <field name="activity_state"/>
                 <field name="rating_count"/>
                 <field name="rating_avg"/>
-                <field name="rating_status"/>
+                <field name="allow_subtasks"/>
+                <field name="child_text"/>
+                <field name="is_private"/>
                 <field name="rating_active"/>
-                <field name="analytic_account_id"/>
-                <field name="date"/>
-                <field name="privacy_visibility"/>
-                <field name="last_update_color"/>
-                <field name="last_update_status"/>
-                <field name="tag_ids"/>
-                <progressbar field="last_update_status" colors="{&quot;on_track&quot;: &quot;success&quot;, &quot;at_risk&quot;: &quot;warning&quot;, &quot;off_track&quot;: &quot;danger&quot;, &quot;on_hold&quot;: &quot;info&quot;}"/>
-                <field name="sequence" widget="handle"/>
+                <field name="has_late_and_unreached_milestone"/>
+                <field name="allow_milestones"/>
+                <progressbar field="kanban_state" colors="{&quot;done&quot;: &quot;success&quot;, &quot;blocked&quot;: &quot;danger&quot;, &quot;normal&quot;: &quot;200&quot;}"/>
                 <templates>
-                    <t t-name="kanban-box">
-                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon oe_kanban_content oe_kanban_card">
-                            <div class="o_project_kanban_main ">
-                                <div class="o_kanban_card_content mw-100">
-                                    <div class="o_kanban_primary_left">
-                                        <div class="o_primary">
-                                            <span class="o_text_overflow" t-att-title="record.display_name.value"><t t-esc="record.display_name.value"/></span>
-                                            <span class="o_text_overflow text-muted" t-if="record.partner_id.value">
-                                                <span class="fa fa-user me-2" aria-label="Partner" title="Partner"/><t t-esc="record.partner_id.value"/>
-                                            </span>
-                                            <div t-if="record.date.raw_value or record.date_start.raw_value" class="text-muted o_row">
-                                                <span class="fa fa-clock-o me-2" title="Dates"/><field name="date_start"/>
-                                                <i t-if="record.date.raw_value and record.date_start.raw_value" class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow"/>
-                                                <field name="date"/>
-                                            </div>
-                                            <div t-if="record.alias_name.value and record.alias_domain.value" class="text-muted text-truncate" t-att-title="record.alias_id.value">
-                                                <span class="fa fa-envelope-o me-2" aria-label="Domain Alias" title="Domain Alias"/><t t-esc="record.alias_id.value"/>
-                                            </div>
-                                            <div t-if="record.rating_active.raw_value and record.rating_count.raw_value &gt; 0" class="text-muted" groups="project.group_project_rating">
-                                                <b class="me-1">
-                                                    <span style="font-weight:bold;" class="fa mt4 fa-smile-o text-success" t-if="record.rating_avg.raw_value &gt;= 3.66" title="Average Rating: Satisfied" role="img" aria-label="Happy face"/>
-                                                    <span style="font-weight:bold;" class="fa mt4 fa-meh-o text-warning" t-elif="record.rating_avg.raw_value &gt;= 2.33" title="Average Rating: Okay" role="img" aria-label="Neutral face"/>
-                                                    <span style="font-weight:bold;" class="fa mt4 fa-frown-o text-danger" t-else="" title="Average Rating: Dissatisfied" role="img" aria-label="Sad face"/>
-                                                </b>
-                                                <field name="rating_avg_percentage" widget="percentage"/>
-                                            </div>
-                                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                        </div>
+                <t t-name="kanban-box">
+                    <div t-attf-class="{{!selection_mode ? 'oe_kanban_color_' + kanban_getcolor(record.color.raw_value) : ''}} oe_kanban_card oe_kanban_global_click">
+                        <div class="oe_kanban_content">
+                            <div class="o_kanban_record_top">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title">
+                                        <s t-if="!record.active.raw_value"><field name="name" widget="name_with_subtask_count"/></s>
+                                        <t t-else=""><field name="name" widget="name_with_subtask_count"/></t>
+                                    </strong>
+                                    <span invisible="context.get('default_project_id', False)"><br/><field name="project_id" widget="project_private_task" options="{'no_open': True}"/></span>
+                                    <span t-if="record.allow_milestones.raw_value and record.milestone_id.raw_value" t-attf-class="{{record.has_late_and_unreached_milestone.raw_value ? 'text-danger' : ''}}">
+                                        <br/>
+                                        <field name="milestone_id" options="{'no_open': True}"/>
+                                    </span>
+                                    <br/>
+                                    <t t-if="record.partner_id.value">
+                                        <span t-if="!record.partner_is_company.raw_value">
+                                            <field name="commercial_partner_id"/>
+                                        </span>
+                                        <span t-else="">
+                                            <field name="partner_id"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="record.email_from.raw_value"><span><field name="email_from"/></span></t>
+                                </div>
+                                <div class="o_dropdown_kanban dropdown" t-if="!selection_mode" groups="base.group_user">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-bs-toggle="dropdown" data-bs-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a t-if="widget.editable" role="menuitem" type="set_cover" class="dropdown-item" data-field="displayed_image_id">Set Cover Image</a>
+                                        <a name="235" role="menuitem" type="action" class="dropdown-item">Share</a>
+                                        <a t-if="widget.editable" role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                        <div role="separator" class="dropdown-divider"/>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
                                     </div>
                                 </div>
-                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu" groups="base.group_user">
-                                    <div class="row">
-                                        <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
-                                            <div role="menuitem" class="o_kanban_card_manage_title">
-                                                <span>View</span>
-                                            </div>
-                                            <div role="menuitem">
-                                                <a name="action_view_tasks" type="object">Tasks</a>
-                                            </div>
-                                            <div role="menuitem" groups="project.group_project_milestone" t-if="record.allow_milestones.raw_value">
-                                                <a name="action_get_list_view" type="object">Milestones</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 o_kanban_card_manage_section o_kanban_manage_reporting">
-                                            <div role="menuitem" class="o_kanban_card_manage_title" groups="project.group_project_user">
-                                                <span>Reporting</span>
-                                            </div>
-                                            <div role="menuitem" groups="project.group_project_user">
-                                                <a name="action_view_tasks_analysis" type="object">Tasks Analysis</a>
-                                            </div>
-                                            <div role="menuitem" name="project_burndown_menu" groups="project.group_project_user">
-                                                <a name="action_project_task_burndown_chart_report" type="object">Burndown Chart</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="o_kanban_card_manage_settings row">
-                                        <div role="menuitem" aria-haspopup="true" class="col-6" groups="project.group_project_manager">
-                                            <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
-                                        </div>
-                                        <div role="menuitem" class="col-6" groups="project.group_project_manager">
-                                            <a t-if="record.privacy_visibility.raw_value == 'portal'" class="dropdown-item" role="menuitem" name="427" type="action">Share</a>
-                                            <a class="dropdown-item" role="menuitem" type="edit">Settings</a>
-                                        </div>
-                                        <div class="o_kanban_card_manage_section o_kanban_manage_view col-12 row ps-0" groups="!project.group_project_manager">
-                                            <div role="menuitem" class="w-100">
-                                                <a class="dropdown-item mx-0" role="menuitem" type="open">View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="o_kanban_manage_toggle_button o_dropdown_kanban" href="#" groups="base.group_user">
-                                    <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
-                                </a>
-                                <span>
-                                    <field name="is_favorite" widget="boolean_favorite" nolabel="1" force_save="1"/>
-                                </span>
                             </div>
-                            <div class="o_kanban_record_bottom mt-3">
-                                <div class="oe_kanban_bottom_left">
-                                    <div class="o_project_kanban_boxes d-flex align-items-baseline">
-                                        <a class="o_project_kanban_box" name="action_view_tasks" type="object">
-                                            <div>
-                                                <span class="o_value"><t t-esc="record.task_count.value"/></span>
-                                                <span class="o_label ms-1"><t t-esc="record.label_tasks.value"/></span>
-                                            </div>
-                                        </a>
-                                        <a groups="project.group_project_milestone" t-if="record.allow_milestones and record.allow_milestones.raw_value and record.milestone_count.value &gt; 0" class="o_kanban_inline_block text-muted small" name="action_get_list_view" type="object" t-attf-title="#{record.milestone_count_reached.value} Milestones reached out of #{record.milestone_count.value}">
-                                            <span class="fa fa-check-square-o me-1"/>
-                                            <t t-out="record.milestone_count_reached.value"/>/<t t-out="record.milestone_count.value"/>
-                                        </a>
-                                    </div>
-                                    <field name="activity_ids" widget="kanban_activity"/>
+                            <div class="o_kanban_record_body">
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <div t-if="record.date_deadline.raw_value" name="date_deadline" attrs="{'invisible': [('is_closed', '=', True)]}">
+                                    <field name="date_deadline" widget="remaining_days"/>
                                 </div>
-                                <div class="oe_kanban_bottom_right">
-                                    <field t-if="record.last_update_status.value &amp;&amp; widget.editable" name="last_update_status" widget="project_state_selection" options="{'color_field': 'last_update_color', 'hide_label': 1}"/>
-                                    <span t-if="record.last_update_status.value &amp;&amp; !widget.editable" t-att-class="'o_status_bubble mx-0 o_color_bubble_' + record.last_update_color.value" t-att-title="record.last_update_status.value"/>
-                                    <field name="user_id" widget="many2one_avatar_user" t-if="record.user_id.raw_value"/>
+                                <div t-if="record.displayed_image_id.value">
+                                    <field name="displayed_image_id" widget="attachment_image"/>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom" t-if="!selection_mode">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="priority" widget="priority"/>
+                                    <field name="activity_ids" widget="kanban_activity"/>
+                                    <b t-if="record.rating_active.raw_value and record.rating_count.raw_value &gt; 0" groups="project.group_project_rating">
+                                        <span style="font-weight:bold;" class="fa fa-fw mt4 fa-smile-o text-success" t-if="record.rating_avg.raw_value &gt;= 3.66" title="Average Rating: Satisfied" role="img" aria-label="Happy face"/>
+                                        <span style="font-weight:bold;" class="fa fa-fw mt4 fa-meh-o text-warning" t-elif="record.rating_avg.raw_value &gt;= 2.33" title="Average Rating: Okay" role="img" aria-label="Neutral face"/>
+                                        <span style="font-weight:bold;" class="fa fa-fw mt4 fa-frown-o text-danger" t-else="" title="Average Rating: Dissatisfied" role="img" aria-label="Sad face"/>
+                                    </b>
+                                </div>
+                                <div class="oe_kanban_bottom_right" t-if="!selection_mode">
+                                    <field name="kanban_state" widget="state_selection" groups="base.group_user"/>
+                                    <t t-if="record.user_ids.raw_value"><field name="user_ids" widget="many2many_avatar_user"/></t>
                                 </div>
                             </div>
                         </div>
-                    </t>
+                        <div class="clearfix"/>
+                    </div>
+                </t>
                 </templates>
             </kanban>
-            
         </field>  <!--  arch-->
-    </record>  <!--  id="cn006_project_project_view_kanban" model="ir.ui.view"  -->
+    </record>
+
 
 </odoo>
