@@ -6,15 +6,19 @@
         <field name="name">(CN006) Mantenimiento de Tareas</field>
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,form</field>
+        <field name="context">
+            {
+                'group_by': 'stage_id',
+                'search_default_order': 'stage_id.sequence ASC, sequence ASC'
+            }
+        </field>
         <field name="view_ids" eval="[
             (5, 0, 0),
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_project_view_kanban_tasks')}),
             (0, 0, {'view_mode': 'form','view_id': ref('cn006_proyectos_it.cn006_project_project_view_form')})
         ]"/>
         <field name="search_view_id" ref="cn006_proyectos_it.cn006_project_project_view_kanban_filter"/>
-        <field name="domain">[
-            ('cn006_project', '=', True)
-        ]</field>
+        <field name="domain">[('cn006_project', '=', True)]</field>
     </record>
 
     <!-- Listar proyectos y modificar proyectos -->
@@ -22,6 +26,12 @@
         <field name="name">(CN006) Mantenimiento Proyectos</field>
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,form</field>
+        <field name="context">
+                {
+                    'group_by': 'stage_id',
+                    'search_default_order': 'stage_id.sequence ASC, sequence ASC'
+                }
+        </field>
         <field name="view_ids" eval="[
             (5, 0, 0),
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_project_view_kanban')}),
@@ -44,31 +54,14 @@
             
         ]"/>
         <field name="domain">[('project_id', '=', context.get('default_project_id'))]</field>
+        <!--  'default_cn006_tipificacion_id': ref('cn006.proyecto.tarea.tipificacion.cn006_proyecto_tarea_tipificacion_10')  -->
+        <field name="context">
+            {
+                'default_name': '(--  Nombre de la Tarea  --)',
+                'default_user_ids': [(4, uid)],
+            }
+        </field>
     </record>
-
-
-
-    
-
-
-
-    <!--  ORIGINAL 
-    <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">
-        <field name="name">(CN006) Mantenimiento Proyectos</field>
-        <field name="res_model">project.task</field>
-        <field name="view_mode">kanban,form</field>
-        <field name="view_ids" eval="[
-            (5, 0, 0),
-            (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_task_view_kanban')}),
-            (0, 0, {'view_mode': 'form','view_id': ref('cn006_proyectos_it.cn006_project_project_view_form')})
-        ]"/>
-        <field name="search_view_id" ref="cn006_proyectos_it.cn006_project_task_view_kanban_filter"/>
-        <field name="domain">[
-            ('cn006_project', '=', True)
-        ]</field>
-    </record>
-    -->
-
 
 
     <!--  Menú > Configuración > Etapas Proyectos-->
@@ -77,6 +70,14 @@
         <field name="res_model">project.project.stage</field>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="cn006_proyectos_it.cn006_proyecto_etapa_view_tree"/>
+    </record>
+
+    <!--  Menú > Configuración > Etapas Tareas-->
+    <record id="cn006_action_proyecto_tarea_etapa" model="ir.actions.act_window">
+        <field name="name">(CN006) Etapas de Tareas (de Proyectos)</field>
+        <field name="res_model">project.task.type</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="cn006_proyectos_it.cn006_proyecto_task_type_view_tree"/>
     </record>
 
     <!--  Menú > Configuración > Clasificaciones-->

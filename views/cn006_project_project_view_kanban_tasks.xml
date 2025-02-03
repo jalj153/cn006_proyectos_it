@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!--
-                <nt_custom_module>
-                    <nt_module_id>cn006</nt_module_id>
-                    <nt_view_type>kanban</nt_view_type>
-                </nt_custom_module>
-                -->
+    
 
     <!--  Lista proyectos para luego editar sus tareas -->
     <record id="cn006_project_project_view_kanban_tasks" model="ir.ui.view">
@@ -13,9 +8,23 @@
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
+            <nt_custom_module>
+                <nt_module_id>cn006</nt_module_id>
+                <nt_view_type>kanban</nt_view_type>
+            </nt_custom_module>
+            
 
-
-            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" on_create="project.open_create_project" action="action_view_tasks" type="object" sample="1" default_order="sequence, name, id">
+            <!--  
+                on_create="project.open_create_project" 
+                action="action_view_tasks" 
+            -->
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
+                quick_create="false" 
+                open_form="false"
+                type="object" 
+                sample="1" 
+                default_order="sequence, name, id"
+            >
                     <field name="display_name"/>
                     <field name="partner_id"/>
                     <field name="commercial_partner_id"/>

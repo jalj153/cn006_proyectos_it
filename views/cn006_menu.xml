@@ -16,8 +16,11 @@
         
     <menuitem parent="CN006_menu_principal" sequence="30" id="CN006_menu_configuracion" name="Configuración" action="cn006_action_dummy" />
         <menuitem parent="CN006_menu_configuracion" sequence="10" id="CN006_menu_etapa"         name="Etapas Proyectos" action="cn006_action_proyecto_etapa" />
-        <menuitem parent="CN006_menu_configuracion" sequence="20" id="CN006_menu_clasificacion" name="Clasificaciones"  action="cn006_action_proyecto_clasificacion" />
+        <menuitem parent="CN006_menu_configuracion" sequence="20" id="CN006_menu_etapa_tarea"   name="Etapas Tareas"    action="cn006_action_proyecto_tarea_etapa" />
+        <menuitem parent="CN006_menu_configuracion" sequence="30" id="CN006_menu_clasificacion" name="Clasificaciones"  action="cn006_action_proyecto_clasificacion" />
+        <!--  Pendientes de implementar
         <menuitem parent="CN006_menu_configuracion" sequence="30" id="CN006_menu_urgencia"      name="Urgencia" action="cn006_action_dummy" />
         <menuitem parent="CN006_menu_configuracion" sequence="40" id="CN006_menu_importancia"   name="Importancia" action="cn006_action_dummy" />
+        -->
 
 </odoo>

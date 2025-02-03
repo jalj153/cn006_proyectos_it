@@ -17,3 +17,6 @@ cn006_usu_proy_nivel_urgencia,CN006 - Usuarios - Proy Nivel Urgencia,cn006_proye
 cn006_adm_proy_tamano,CN006 - Administradores - Proy Tamaño,cn006_proyectos_it.model_cn006_proyecto_tamano,cn006_proyectos_it_administradores,1,1,1,1
 cn006_sup_proy_tamano,CN006 - Supervisores - Proy Tamaño,cn006_proyectos_it.model_cn006_proyecto_tamano,cn006_proyectos_it_supervisores,1,1,1,0
 cn006_usu_proy_tamano,CN006 - Usuarios - Proy Tamaño,cn006_proyectos_it.model_cn006_proyecto_tamano,cn006_proyectos_it_usuarios,1,1,1,0
+cn006_adm_proy_tarea_tipificacion,CN006 - Administradores - Proy Tarea Tipificacion,cn006_proyectos_it.model_cn006_proyecto_tarea_tipificacion,cn006_proyectos_it_administradores,1,1,1,1
+cn006_sup_proy_tarea_tipificacion,CN006 - Supervisores - Proy Tarea Tipificacion,cn006_proyectos_it.model_cn006_proyecto_tarea_tipificacion,cn006_proyectos_it_supervisores,1,1,1,0
+cn006_usu_proy_tarea_tipificacion,CN006 - Usuarios - Proy Tarea Tipificacion,cn006_proyectos_it.model_cn006_proyecto_tarea_tipificacion,cn006_proyectos_it_usuarios,1,1,1,0

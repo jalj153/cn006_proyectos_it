@@ -5,13 +5,12 @@
         <field name="model">project.task</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
+            <nt_custom_module>
+                <nt_module_id>cn006</nt_module_id>
+                <nt_view_type>form</nt_view_type>
+            </nt_custom_module>
+
             <form string="Task" class="o_form_project_tasks" js_class="project_task_form">
-                <!-- 
-                    <nt_custom_module>
-                        <nt_module_id>cn006</nt_module_id>
-                        <nt_view_type>form</nt_view_type>
-                    </nt_custom_module>
-                -->
                 <field name="allow_subtasks" invisible="1"/>
                 <field name="is_closed" invisible="1"/>
                 <field name="allow_recurring_tasks" invisible="1"/>
@@ -99,20 +98,38 @@
                 </div>
                 <group>
                     <group>
-                        <field name="project_id" placeholder="Private" domain="[('active', '=', True), ('company_id', '=', company_id)]" attrs="{'invisible': [('parent_id', '!=', False)]}" widget="project_private_task"/>
+                        <!--  CAMPOS  -->
+                        <field name="project_id" placeholder="Private" domain="[('active', '=', True), ('company_id', '=', company_id)]" 
+                                    attrs="{'invisible': [('parent_id', '!=', False)]}" widget="project_private_task"
+                                    read_only="1"
+                                    />
+
                         <field name="display_project_id" string="Project" attrs="{'invisible': [('parent_id', '=', False)]}" domain="[('active', '=', True), ('company_id', '=', company_id)]"/>
-                        <field name="milestone_id" placeholder="e.g. Product Launch" context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id}" attrs="{'invisible': ['|', ('project_id', '=', False), ('allow_milestones', '=', False)]}"/>
+
+                        <field name="milestone_id" placeholder="e.g. Product Launch" 
+                                    context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id}" 
+                                    attrs="{'invisible': ['|', ('project_id', '=', False), ('allow_milestones', '=', False)]}"
+                                    invisible="1"
+                                    />
                         
                         <!-- (NT) Cambiar el id grupo usuarios cn006 en dominio  -->
-                        <field name="user_ids" class="o_task_user_field" options="{'no_open': True, 'no_quick_create': True}" widget="many2many_avatar_user" domain="[('groups_id', 'in', [191]), ('share', '=', False), ('active', '=', True)]"/>
-                        <field name="cn006_grado_avance_id" create="0" edit="0"/>
+                        <field name="user_ids" class="o_task_user_field" options="{'no_open': True, 'no_quick_create': True}" 
+                                    widget="many2many_avatar_user" 
+                                    domain="[('groups_id', 'in', [191]), ('share', '=', False), ('active', '=', True)]"
+                                    />
+
+                        <!--  Grado de Avance está en las etapas de las actividades  -->
+                        <field name="cn006_grado_avance_id" create="0" edit="0" invisible="1"/>
+
+                        <field name="cn006_tipificacion_id" create="0" edit="0"/>
                     </group>
                     <group>
                         <field name="active" invisible="1"/>
-                        <field name="partner_id" widget="res_partner_many2one" class="o_task_customer_field"/>
+                        <field name="partner_id" widget="res_partner_many2one" class="o_task_customer_field" invisible="1"/>
                         <field name="partner_phone" widget="phone" attrs="{'invisible': True}"/>
                         <field name="date_deadline" attrs="{'invisible': [('is_closed', '=', True)]}"/>
-                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" context="{'project_id': project_id}"/>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" 
+                                    context="{'project_id': project_id}" invisible="1"/>
                         <field name="legend_blocked" invisible="1"/>
                         <field name="legend_normal" invisible="1"/>
                         <field name="legend_done" invisible="1"/>
@@ -123,7 +140,8 @@
                     <page name="description_page" string="Description">
                         <field name="description" type="html" options="{'collaborative': true, 'resizable': false}" placeholder="Task description..."/>
                     </page>
-                    <page name="sub_tasks_page" string="Sub-tasks" attrs="{'invisible': [('allow_subtasks', '=', False)]}">
+                    <!--  <page name="sub_tasks_page" string="Sub-tasks" attrs="{'invisible': [('allow_subtasks', '=', False)]}" >  -->
+                    <page name="sub_tasks_page" string="Sub-tasks" attrs="{'invisible': [(1, '=', 1)]}" >
                         <field name="child_ids" context="{'search_view_ref' : 'project.view_task_search_form_extended', 'default_project_id': project_id if not parent_id or not display_project_id else display_project_id, 'default_user_ids': user_ids, 'default_parent_id': id,                                     'default_partner_id': partner_id, 'default_milestone_id': allow_milestones and milestone_id, 'search_default_display_project_id': project_id }" widget="many2many" domain="['!', ('id', 'parent_of', id)]">
                             <tree editable="bottom" decoration-muted="is_closed == True">
                                 <field name="legend_normal" invisible="1"/>
@@ -193,7 +211,8 @@
                             </tree>
                         </field>
                     </page>
-                    <page name="recurrence" string="Recurrent" groups="project.group_project_recurring_tasks">
+                    <page name="recurrence" string="Recurrent" groups="project.group_project_recurring_tasks" 
+                            attrs="{'invisible': [(1, '=', 1)]}">
                         <label for="recurring_task"/>
                         <field name="recurring_task" attrs="{'invisible': ['|', ('allow_recurring_tasks', '=', False), ('active', '=', False)]}"/>
                         <group attrs="{'invisible': [('recurring_task', '=', False)]}">

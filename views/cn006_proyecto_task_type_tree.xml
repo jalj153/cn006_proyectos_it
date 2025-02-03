@@ -1,20 +1,22 @@
 <odoo>
-    <record id="cn006_proyecto_etapa_view_tree" model="ir.ui.view">
-        <field name="name">(CN006) Proyecto - Etapas - tree</field>
-        <field name="model">project.project.stage</field>
+    <record id="cn006_proyecto_task_type_view_tree" model="ir.ui.view">
+        <field name="name">(CN006) Proyecto - Etapas de Tareas - tree</field>
+        <field name="model">project.task.type</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
+            <!--  
             <nt_custom_module>
                 <nt_module_id>cn006</nt_module_id>
                 <nt_view_type>tree</nt_view_type>
             </nt_custom_module>
+            -->
 
             <tree editable="top" sample="1">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
-                <field name="cn006_stage"/>
-                <field name="mail_template_id" optional="hide" context="{'default_model': 'project.project'}"/>
+                <field name="cn006_task_type"/>
                 <field name="fold" optional="show"/>
+                <field name="description" optional="hide"/>
             </tree>
         </field>
     </record>

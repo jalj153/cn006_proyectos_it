@@ -4,13 +4,12 @@
         <field name="model">cn006.proyecto.clasificacion</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
+            <nt_custom_module>
+                <nt_module_id>cn006</nt_module_id>
+                <nt_view_type>tree</nt_view_type>
+            </nt_custom_module>
+
             <tree editable="top">
-                <!--
-                <nt_custom_module>
-                    <nt_module_id>cn006</nt_module_id>
-                    <nt_view_type>tree</nt_view_type>
-                </nt_custom_module>
-                -->
                 <field name="name"/>
                 <field name="cn006_descripcion"/>
             </tree>

@@ -5,13 +5,12 @@
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
+            <nt_custom_module>
+                <nt_module_id>cn006</nt_module_id>
+                <nt_view_type>form</nt_view_type>
+            </nt_custom_module>
+
             <form string="(CN006) Datos proyecto" class="o_form_project_project" js_class="project_form">
-                    <!-- 
-                    <nt_custom_module>
-                        <nt_module_id>cn006</nt_module_id>
-                        <nt_view_type>form</nt_view_type>
-                    </nt_custom_module>
-                    -->
                     <field name="company_id" invisible="1"/>
                     <field name="analytic_account_id" invisible="1"/>
                     <header>

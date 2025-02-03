@@ -1,0 +1,41 @@
+<odoo>
+    <data noupdate="0">
+        <record id="cn006_task_type_avance000" model="project.task.type">
+            <field name="name">BACKLOG</field>
+            <field name="cn006_task_type">True</field>
+            <field name="sequence">510</field>
+            <field name="fold">False</field>
+            <field name="description">Tareas pendientes de iniciar (solamente están definidas).  Equivalente a "planificadas".</field>
+        </record>
+        <record id="cn006_task_type_avance025" model="project.task.type">
+            <field name="name">AVANCE 25%</field>
+            <field name="cn006_task_type">True</field>
+            <field name="sequence">520</field>
+            <field name="fold">False</field>
+            <field name="description">Avance de 25% o una cuarta parte de avance.</field>
+        </record>
+        <record id="cn006_task_type_avance050" model="project.task.type">
+            <field name="name">AVANCE 50%</field>
+            <field name="cn006_task_type">True</field>
+            <field name="sequence">530</field>
+            <field name="fold">False</field>
+            <field name="description">Avance de 50% o "a la mitad".</field>
+        </record>
+        <record id="cn006_task_type_avance075" model="project.task.type">
+            <field name="name">AVANCE 75%</field>
+            <field name="cn006_task_type">True</field>
+            <field name="sequence">540</field>
+            <field name="fold">False</field>
+            <field name="description">Avance del 75% o "tres cuartas partes".</field>
+        </record>
+        <record id="cn006_task_type_avance100" model="project.task.type">
+            <field name="name">AVANCE 100%</field>
+            <field name="cn006_task_type">True</field>
+            <field name="sequence">550</field>
+            <field name="fold">True</field>
+            <field name="description">Tarea finalizada.</field>
+        </record>
+    </data>
+</odoo>
+
+

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <!--
-    <nt_custom_module>
-        <nt_module_id>cn006</nt_module_id>
-        <nt_view_type>search</nt_view_type>
-    </nt_custom_module>
-    -->
+    
 
     <record id="cn006_project_task_view_kanban_filter" model="ir.ui.view">
         <field name="name">(CN006) Tasks - kanban filter</field>
         <field name="model">project.task</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
+            <nt_custom_module>
+                <nt_module_id>cn006</nt_module_id>
+                <nt_view_type>search</nt_view_type>
+            </nt_custom_module>
+    
 
         <search string="Tasks">
                     <field name="name" string="Task" filter_domain="['|', ('name', 'ilike', self), ('id', 'ilike', self)]"/>

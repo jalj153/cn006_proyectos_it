@@ -7,7 +7,7 @@
         </record>
         <record id="cn006_proyecto_tarea_tipificacion_20" model="cn006.proyecto.tarea.tipificacion">
             <field name="cn006_orden">20</field>
-            <field name="name">DESARROLLO_25%</field>
+            <field name="name">DESARROLLO</field>
             <field name="cn006_descripcion">Desarrollo en un 25%</field>
         </record>
         <record id="cn006_proyecto_tarea_tipificacion_30" model="cn006.proyecto.tarea.tipificacion">
