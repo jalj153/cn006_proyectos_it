@@ -21,6 +21,7 @@
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
                 quick_create="false" 
                 open_form="false"
+                no_open="1"
                 type="object" 
                 sample="1" 
                 default_order="sequence, name, id"
@@ -66,11 +67,22 @@
                                                 </span>
 
                                                 <!--  NT BOTÓN  -->
+                                                <!--  
                                                 <button class="btn btn-primary o_helpdesk_ticket_btn-" 
                                                     name="cn006_method_view_project_tasks" type="object" 
                                                     context="{'default_project_id': active_id, 'show_project_update': True}"
                                                     >(cn006) Tareas
-                                                </button>   
+                                                </button>
+                                                -->
+
+                                                <div class="o_task_button mt-auto"> <!-- Empuja hacia abajo si hay más contenido -->
+                                                    <button class="btn btn-primary w-100"  
+                                                        name="cn006_method_view_project_tasks" 
+                                                        type="object" 
+                                                        context="{'default_project_id': active_id, 'show_project_update': True}">
+                                                        (cn006) Tareas
+                                                    </button>
+                                                </div>   
 
                                                 <!--  Fechas del proyecto  -->
                                                 <div t-if="record.date.raw_value or record.date_start.raw_value" class="text-muted o_row">
