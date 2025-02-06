@@ -1,0 +1,30 @@
+<odoo>
+    <data noupdate="0">
+        <record id="cn006_proyecto_tarea_tipo_soporte_010" model="cn006.proyecto.tarea.tipo.soporte">
+            <field name="cn006_orden">10</field>
+            <field name="name">Requerimiento Nuevo</field>
+            <field name="cn006_descripcion">Requerimiento que no estaba contemplado en el alcance original.</field>
+        </record>
+        <record id="cn006_proyecto_tarea_tipo_soporte_020" model="cn006.proyecto.tarea.tipo.soporte">
+            <field name="cn006_orden">20</field>
+            <field name="name">Requerimiento Ampliado</field>
+            <field name="cn006_descripcion">El requerimiento si existía en el alcance, pero no se había comprendido a profundidad.</field>
+        </record>
+        <record id="cn006_proyecto_tarea_tipo_soporte_030" model="cn006.proyecto.tarea.tipo.soporte">
+            <field name="cn006_orden">30</field>
+            <field name="name">Requerimiento Modificado</field>
+            <field name="cn006_descripcion">El requerimiento existía en el alcance pero la funcionalidad cambió en el tiempo.</field>
+        </record>
+        <record id="cn006_proyecto_tarea_tipo_soporte_040" model="cn006.proyecto.tarea.tipo.soporte">
+            <field name="cn006_orden">40</field>
+            <field name="name">Error en programación</field>
+            <field name="cn006_descripcion"></field>
+        </record>
+        <record id="cn006_proyecto_tarea_tipo_soporte_050" model="cn006.proyecto.tarea.tipo.soporte">
+            <field name="cn006_orden">50</field>
+            <field name="name">Otros</field>
+            <field name="cn006_descripcion"></field>
+        </record>
+    </data>
+</odoo>
+

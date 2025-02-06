@@ -106,6 +106,7 @@
 
                         <field name="display_project_id" string="Project" attrs="{'invisible': [('parent_id', '=', False)]}" domain="[('active', '=', True), ('company_id', '=', company_id)]"/>
 
+                        <!--  Milestone  -->
                         <field name="milestone_id" placeholder="e.g. Product Launch" 
                                     context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id}" 
                                     attrs="{'invisible': ['|', ('project_id', '=', False), ('allow_milestones', '=', False)]}"
@@ -121,7 +122,14 @@
                         <!--  Grado de Avance está en las etapas de las actividades  -->
                         <field name="cn006_grado_avance_id" create="0" edit="0" invisible="1"/>
 
-                        <field name="cn006_tipificacion_id" create="0" edit="0"/>
+                        <!--  Tipo de tarea  -->
+                        <field name="cn006_tipificacion_id" on_change="1"/>
+
+                        <!--  NT TEST  -->
+                        <field name="cn006_es_implementacion" read_only="1"/>
+
+                        <!--  Tipo de incidencia si es IMPLEMENTACIÓN  -->
+                        <field name="cn006_tipo_soporte_id" attrs="{'invisible': [('cn006_es_implementacion', '=', False)]}"/>
                     </group>
                     <group>
                         <field name="active" invisible="1"/>

@@ -66,16 +66,9 @@
                                                     <span class="fa fa-user me-2" aria-label="Partner" title="Partner"/><t t-esc="record.partner_id.value"/>
                                                 </span>
 
-                                                <!--  NT BOTÓN  -->
-                                                <!--  
-                                                <button class="btn btn-primary o_helpdesk_ticket_btn-" 
-                                                    name="cn006_method_view_project_tasks" type="object" 
-                                                    context="{'default_project_id': active_id, 'show_project_update': True}"
-                                                    >(cn006) Tareas
-                                                </button>
-                                                -->
-
+                                                
                                                 <div class="o_task_button mt-auto"> <!-- Empuja hacia abajo si hay más contenido -->
+                                                    <!--  NT BOTÓN  -->
                                                     <button class="btn btn-primary w-100"  
                                                         name="cn006_method_view_project_tasks" 
                                                         type="object" 

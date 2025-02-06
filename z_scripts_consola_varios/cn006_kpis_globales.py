@@ -48,9 +48,6 @@ class cCN006_globales:
                 self.cnx_ambiente = "ND"
         return
    
-
-
-
     def autenticar_odoo (self, p_context = None) -> bool: 
         if self.g_debug:
                 print(f"\nIniciando autenticar_odoo ({datetime.now().strftime("%Y-%m-%d %H:%M:%S")})")
@@ -85,6 +82,12 @@ class cCN006_globales:
     def formatear_datos_conexion(self):
         conexion = f"URL ({self.cnx_url})\nDB ({self.cnx_db})\nUSUARIO ({self.cnx_user_name})\nUID ({self.cnx_uid})"
         return conexion
+
+    def msj_debug (self, p_msj):
+        if self.g_debug:
+            print(p_msj)
+        return
+
 
     def str2bool(self, v):
         if isinstance(v, bool):

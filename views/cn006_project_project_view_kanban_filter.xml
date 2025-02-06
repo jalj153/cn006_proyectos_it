@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!--  Vista Kanban-->
-    <!--  esta definición va antes de type para ver las tasks
-    action="action_view_tasks"  
-    on_create="project.open_create_project" 
-    <field name="stage_id" groups="project.group_project_stages"/>
-    -->
-
-  
     <record id="cn006_project_project_view_kanban_filter" model="ir.ui.view">
         <field name="name">(CN006) Proyecto - kanban filter</field>
         <field name="model">project.project</field>
@@ -55,9 +48,6 @@
                     <filter string="Stage" name="groupby_stage" context="{'group_by': 'stage_id'}" groups="project.group_project_stages"/>
                 </group>
             </search>
-
-
         </field>  <!--  arch-->
     </record>  <!--  id="cn006_project_project_view_kanban_filter" model="ir.ui.view"  -->
-
 </odoo>

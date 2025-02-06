@@ -59,10 +59,10 @@
             {
                 'default_name': '(--  Nombre de la Tarea  --)',
                 'default_user_ids': [(4, uid)],
+                'group_by': 'stage_id'
             }
         </field>
     </record>
-
 
     <!--  Menú > Configuración > Etapas Proyectos-->
     <record id="cn006_action_proyecto_etapa" model="ir.actions.act_window">
