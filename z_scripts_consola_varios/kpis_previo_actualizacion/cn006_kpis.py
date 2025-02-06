@@ -1,3 +1,8 @@
+import sys
+import os
+sys.path.append(os.path.abspath(".."))  # Agrega el directorio superior al path
+
+
 from cn006_kpis_globales import cCN006_globales
 import xlsxwriter
 import io
