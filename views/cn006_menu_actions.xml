@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     
+
     <!--  Listar proyectos > mostrar tareas > modificar tareas -->
     <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">
         <field name="name">(CN006) Mantenimiento de Tareas</field>
@@ -9,7 +10,9 @@
         <field name="context">
             {
                 'group_by': 'stage_id',
-                'search_default_order': 'stage_id.sequence ASC, sequence ASC'
+                'search_default_order': 'stage_id.sequence ASC, sequence ASC',
+                'default_get': False,
+                'create': {'name': 'Nuevo Proyecto'}
             }
         </field>
         <field name="view_ids" eval="[
@@ -41,7 +44,7 @@
         <field name="domain">[('cn006_project', '=', True)]</field>
     </record>
 
-    <!-- Listar tareas para después editarlas -->
+    <!-- Listar tareas para después editarlas. -->
     <record id="cn006_action_project_task_view_kanban" model="ir.actions.act_window">
         <field name="name">(CN006) Tareas (para editar)</field>
         <field name="res_model">project.task</field>
@@ -59,7 +62,7 @@
             {
                 'default_name': '(--  Nombre de la Tarea  --)',
                 'default_user_ids': [(4, uid)],
-                'group_by': 'stage_id'
+                'default_order': 'sequence'
             }
         </field>
     </record>

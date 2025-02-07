@@ -5,10 +5,6 @@
         <field name="model">project.task</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <nt_custom_module>
-                <nt_module_id>cn006</nt_module_id>
-                <nt_view_type>form</nt_view_type>
-            </nt_custom_module>
 
             <form string="Task" class="o_form_project_tasks" js_class="project_task_form">
                 <field name="allow_subtasks" invisible="1"/>

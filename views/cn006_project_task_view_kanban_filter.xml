@@ -6,10 +6,6 @@
         <field name="model">project.task</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <nt_custom_module>
-                <nt_module_id>cn006</nt_module_id>
-                <nt_view_type>search</nt_view_type>
-            </nt_custom_module>
 
         <search string="Tasks">
                     <field name="name" string="Task" filter_domain="['|', ('name', 'ilike', self), ('id', 'ilike', self)]"/>

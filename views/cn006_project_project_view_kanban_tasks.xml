@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    
-
     <!--  Lista proyectos para luego editar sus tareas -->
     <record id="cn006_project_project_view_kanban_tasks" model="ir.ui.view">
         <field name="name">(CN006) Proyectos (mantenimiento tareas)</field>
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <nt_custom_module>
-                <nt_module_id>cn006</nt_module_id>
-                <nt_view_type>kanban</nt_view_type>
-            </nt_custom_module>
-            
-
             <!--  
-                on_create="project.open_create_project" 
-                action="action_view_tasks" 
-            -->
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
                 quick_create="false" 
                 open_form="false"
@@ -25,7 +14,15 @@
                 type="object" 
                 sample="1" 
                 default_order="sequence, name, id"
-            >
+                > -->    <!--  KANBAN  -->
+
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
+                quick_create="false" 
+                open_form="true"
+                no_open="0"
+                default_order="sequence, name, id"
+                >  <!--  KANBAN  -->
+
                     <field name="display_name"/>
                     <field name="partner_id"/>
                     <field name="commercial_partner_id"/>
@@ -73,7 +70,7 @@
                                                         name="cn006_method_view_project_tasks" 
                                                         type="object" 
                                                         context="{'default_project_id': active_id, 'show_project_update': True}">
-                                                        (cn006) Tareas
+                                                        (cn006) Tareas Botón
                                                     </button>
                                                 </div>   
 

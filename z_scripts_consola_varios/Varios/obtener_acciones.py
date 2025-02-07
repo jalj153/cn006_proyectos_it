@@ -1,6 +1,12 @@
 import sys
 import os
-sys.path.append(os.path.abspath(".."))  # Agrega el directorio superior al path
+
+#sys.path.append(os.path.abspath(".."))  # Agrega el directorio superior al path
+
+# Obtener la ruta absoluta del directorio del script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.abspath(os.path.join(script_dir, "..")))
+
 
 
 from cn006_kpis_globales import cCN006_globales
@@ -20,9 +26,7 @@ import codecs
 
 #region EXPLICACIÓN DEL PROCESO
 """  ******* EXPLICACIÓN DEL PROCESO
-    1. En la actualización a producción hay varios cambios a la base de datos.  Es importante hacer actualizaciones.
-    2. Pasos que se realizarán
-        a. 
+    
 ************************************************************************  """
 #endregion
 
@@ -30,55 +34,39 @@ import codecs
 # Procesos específicos
 ################################################################################################################
 
-def agregar_etapas_a_proyectos(p_tools: cCN006_globales):
-    try:
-        p_tools.msj_debug(f"\n\n*****  INICIANDO agregar_etapas_a_proyectos")
+def obtener_acciones(p_action_xml_id, p_tools: cCN006_globales):
+    print("\n***  Iniciando obtener_acciones")
+    models = xmlrpc.client.ServerProxy(f"{p_tools.cnx_url}/xmlrpc/2/object")
+    modulo_id, action_id = p_action_xml_id.split('.')
 
-        models = xmlrpc.client.ServerProxy(f"{p_tools.cnx_url}/xmlrpc/2/object")
+    # Buscar el ID real en ir.model.data
+    model_data = models.execute_kw(
+        p_tools.cnx_db, 
+        p_tools.cnx_uid, 
+        p_tools.cnx_password,
+        'ir.model.data', 
+        'search_read', 
+        [[['module', '=', modulo_id], ['name', '=', action_id], ['model', '=', 'ir.actions.act_window']]],
+        {'limit': 1, 'fields': ['res_id']}
+    )
 
-        p_tools.msj_debug(f"\nINICIO - Obtener todos los proyectos donde cn006_project = True")
-        proyectos = models.execute_kw(
-            p_tools.cnx_db, p_tools.cnx_uid, p_tools.cnx_password,
-            'project.project', 'search_read',
-            [[('cn006_project', '=', True)]],
-            {'fields': ['id']}
+    if model_data:
+        action_id = model_data[0]['res_id']
+
+        # Buscar la acción en ir.actions.act_window usando el ID real
+        action = models.execute_kw(
+            p_tools.cnx_db, 
+            p_tools.cnx_uid, 
+            p_tools.cnx_password,
+            'ir.actions.act_window', 
+            'search_read', 
+            [[['id', '=', action_id]]], 
+            {'limit': 1}
         )
-        p_tools.msj_debug(f"FINALIZADO - Obtener todos los proyectos donde cn006_project = True")
-        p_tools.msj_debug(f"Se identificaron {len(proyectos)} del módulo CN006\n")
+    else:
+        action = None  # No se encontró la acción
 
-        p_tools.msj_debug(f"INICIO - Obtener todas las etapas de tarea donde cn006_task_type = True")
-        etapas_tareas = models.execute_kw(
-            p_tools.cnx_db, p_tools.cnx_uid, p_tools.cnx_password,
-            'project.task.type', 'search_read',
-            [[('cn006_task_type', '=', True)]],
-            {'fields': ['id']}
-        )
-        p_tools.msj_debug(f"FINALIZADO - Obtener todas las etapas de tarea donde cn006_task_type = True")
-        p_tools.msj_debug(f"Se identificaron {len(etapas_tareas)} del módulo CN006\n")
-
-        # Extraer los IDs de proyectos y etapas
-        proyecto_ids = [p['id'] for p in proyectos]
-        etapa_ids = [e['id'] for e in etapas_tareas]
-
-        # Asignar todas las etapas a cada proyecto
-        p_tools.msj_debug(f"Se asignarán ({len(etapas_tareas)}) etapas de tareas a cada uno de los proyectos ({len(proyectos)})")
-        p_tools.msj_debug(f"INICIO - Ciclo para asignar ({len(etapas_tareas)}) etapas de tareas a cada uno de los proyectos ({len(proyectos)})")
-        
-        for proyecto_id in proyecto_ids:
-            models.execute_kw(
-                p_tools.cnx_db, p_tools.cnx_uid, p_tools.cnx_password,
-                'project.project', 'write',
-                [[proyecto_id], {'type_ids': [(6, 0, etapa_ids)]}]
-            )
-
-        p_tools.msj_debug(f"FINALIZADO - Ciclo para asignar ({len(etapas_tareas)}) etapas de tareas a cada uno de los proyectos ({len(proyectos)})")
-        p_tools.msj_debug(f"Se asignaron {len(etapa_ids)} etapas a {len(proyecto_ids)} proyectos.\n")
-
-        p_tools.msj_debug(f"*****  FINALIZADO agregar_etapas_a_proyectos\n\n")
-
-    except Exception as e:
-        print(f"\n\n*****   Error en agregar_etapas_a_proyectos:\n>>>>>>>>\n{e}")
-        return []
+    print(f"\n\n*****DETALLE DEL CONTENIDO DEL ACTION\n\n{action}\n\n**** FIN DEL ACTION")
 
 
 ################################################################################################################
@@ -106,12 +94,13 @@ def main(p_ambiente, p_debug) :
         tools.msj_debug(f"030 - Retorno autenticar_odoo")
         #endregion Autenticación con Odoo
 
-        #region Realizar actualizaciones
+        #region 
+        #obtener_acciones("project.act_project_project_2_project_task_all", tools)
+        obtener_acciones("cn006_proyectos_it.cn006_action_project_task_view_kanban", tools)
         
-        agregar_etapas_a_proyectos(tools)
-        agregar_etapas_a_tareas(tools)
-
-        #endregion Realizar actualizaciones
+        #endregion
+        
+        #endregion XMLs que se necesitan    
 
         return
 

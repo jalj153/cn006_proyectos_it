@@ -1,5 +1,5 @@
 import logging
-from odoo import models, fields
+from odoo import models, fields, api
 
 _logger = logging.getLogger(__name__)
 
@@ -45,6 +45,47 @@ class ProjectProject(models.Model):
     cn006_fecha_cierre_oficial  = fields.Date(required=False, string='Fecha Real cierre'      , help='Fecha en que realmente se cerró el proyecto')
     cn006_fecha_cierre_sistema  = fields.Date(required=False, string='(SIS) Fecha Real cierre', help='Fecha en que se actualizó el proyecto - Fecha en que realmente se cerró el proyecto')
 
+
+#region Métodos propios de la gestión del modelo (creates, updates, etc)
+    @api.model_create_multi
+    def create(self, vals_list):
+        """ Al crear un proyecto, asigna las etapas solo si es CN006 """
+        projects = super().create(vals_list)
+        for project in projects:
+            if project.cn006_project:
+                project._assign_cn006_stages()
+        return projects
+
+    def write(self, vals):
+        """ Al modificar un proyecto, revisa si debe asignar etapas """
+        if 'cn006_project' not in vals:
+            return super().write(vals)  # No hacer nada si no se está actualizando cn006_project
+        
+        if vals.get('cn006_project'):  # Solo ejecutar si cn006_project se vuelve True
+            res = super().write(vals)
+            self._assign_cn006_stages()
+            return res
+        
+        return super().write(vals)  # Si cn006_project es False, no hacer nada extra
+
+    def _assign_cn006_stages(self):
+        """ Asigna automáticamente las etapas del proyecto y tareas si es CN006 """
+        self.ensure_one()  # Asegura que se está ejecutando en un solo registro
+        
+        stage_ids = self.env['project.project.stage'].search([('cn006_stage', '=', True)]).ids
+        task_type_ids = self.env['project.task.type'].search([('cn006_task_type', '=', True)]).ids
+
+        updates = {}
+        if stage_ids:
+            updates['type_ids'] = [(6, 0, stage_ids)]  # Asigna todas las etapas del proyecto
+        if task_type_ids:
+            updates['type_ids'] = updates.get('type_ids', []) + [(6, 0, task_type_ids)]  # Asigna etapas de tareas
+
+        if updates:
+            self.write(updates)  # Solo escribe si hay algo que actualizar
+
+#endregion Métodos propios de la gestión del modelo (creates, updates, etc)
+
 #region Métodos para Acciones de Kanban Dashboard   
 #   Estos métodos se llaman desde el kanban view inicial del módulo CN004
 #   No tiene sentido llamarlos desde otros módulos
@@ -55,11 +96,16 @@ class ProjectProject(models.Model):
         self.ensure_one()  
 
         # Obtener la acción creada por el módulo
-        _logger.info(f"(cn006) Tomando la acción")
-        action = self.env.ref('cn006_proyectos_it.cn006_action_project_task_view_kanban').read()[0]
-                               
+        
 
-        _logger.info(f"(cn006) Ya se tiene la acción \n***********\n\n{action}\n***********\n\n")
+
+        _logger.info(f"(cn006) Tomando la acción de ODOO")
+        action = self.env.ref('project.act_project_project_2_project_task_all').read()[0]
+        _logger.info(f"(cn006) Ya se tiene la acción ODOO\n***********\n\n{action}\n***********\n\n")
+
+        _logger.info(f"(cn006) Tomando la acción de Neotropo")
+        action = self.env.ref('cn006_proyectos_it.cn006_action_project_task_view_kanban').read()[0]
+        _logger.info(f"(cn006) Ya se tiene la acción Neotropo\n***********\n\n{action}\n***********\n\n")
         
         if not isinstance(action, dict):
             raise TypeError(f"El valor de 'action' no es un diccionario. Es de tipo: {type(action)}\n  valor: {action}")

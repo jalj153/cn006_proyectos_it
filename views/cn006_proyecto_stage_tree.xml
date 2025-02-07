@@ -4,10 +4,7 @@
         <field name="model">project.project.stage</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <nt_custom_module>
-                <nt_module_id>cn006</nt_module_id>
-                <nt_view_type>tree</nt_view_type>
-            </nt_custom_module>
+
 
             <tree editable="top" sample="1">
                 <field name="sequence" widget="handle"/>

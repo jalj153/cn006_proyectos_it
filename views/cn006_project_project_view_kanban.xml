@@ -7,11 +7,6 @@
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <nt_custom_module>
-                <nt_module_id>cn006</nt_module_id>
-                <nt_view_type>kanban</nt_view_type>
-            </nt_custom_module>
-
             <!--  action="action_view_projects"   -->
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
                 on_create="project.open_create_project" 
