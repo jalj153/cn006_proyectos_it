@@ -6,15 +6,6 @@
         <field name="model">project.project</field>
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
-            <!--  
-            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
-                quick_create="false" 
-                open_form="false"
-                no_open="1"
-                type="object" 
-                sample="1" 
-                default_order="sequence, name, id"
-                > -->    <!--  KANBAN  -->
 
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
                 quick_create="false" 
@@ -62,8 +53,6 @@
                                                 <span class="o_text_overflow text-muted" t-if="record.partner_id.value">
                                                     <span class="fa fa-user me-2" aria-label="Partner" title="Partner"/><t t-esc="record.partner_id.value"/>
                                                 </span>
-
-                                                
                                                 <div class="o_task_button mt-auto"> <!-- Empuja hacia abajo si hay más contenido -->
                                                     <!--  NT BOTÓN  -->
                                                     <button class="btn btn-primary w-100"  
@@ -151,12 +140,18 @@
                                 <div class="o_kanban_record_bottom mt-3">
                                     <div class="oe_kanban_bottom_left">
                                         <div class="o_project_kanban_boxes d-flex align-items-baseline">
-                                            <a class="o_project_kanban_box" name="action_view_tasks" type="object">
-                                                <div>
+                                            <!--  (NT) Número tareas + link tareas-->
+                                            <!-- name="cn006_method_view_project_tasks" -->
+                                            <!--  cn006_proyectos_it.cn006_action_project_task_view_kanban  -->
+                                            
+                                            <!--  <a class="o_project_kanban_box" name="action_view_tasks" type="object">  -->
+                                            <div class="o_project_kanban_box">
+
                                                     <span class="o_value"><t t-esc="record.task_count.value"/></span>
                                                     <span class="o_label ms-1"><t t-esc="record.label_tasks.value"/></span>
-                                                </div>
-                                            </a>
+                                            </div>
+
+
                                             <a groups="project.group_project_milestone" t-if="record.allow_milestones and record.allow_milestones.raw_value and record.milestone_count.value &gt; 0" class="o_kanban_inline_block text-muted small" name="action_get_list_view" type="object" t-attf-title="#{record.milestone_count_reached.value} Milestones reached out of #{record.milestone_count.value}">
                                                 <span class="fa fa-check-square-o me-1"/>
                                                 <t t-out="record.milestone_count_reached.value"/>/<t t-out="record.milestone_count.value"/>

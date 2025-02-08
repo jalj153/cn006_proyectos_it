@@ -12,7 +12,7 @@
                     on_create="quick_create" 
                     examples="project" 
                     js_class="project_task_kanban" 
-                    sample="1"
+                    sample="0"
                 >
                 <field name="color"/>
                 <field name="priority"/>

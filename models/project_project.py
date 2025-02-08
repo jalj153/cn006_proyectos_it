@@ -95,14 +95,9 @@ class ProjectProject(models.Model):
         # Validar y forzar que venga solamente 1 registro
         self.ensure_one()  
 
+        _logger.info(f"(cn006) Contexto recibido:\n ({self.env.context})\n\n")
+
         # Obtener la acción creada por el módulo
-        
-
-
-        _logger.info(f"(cn006) Tomando la acción de ODOO")
-        action = self.env.ref('project.act_project_project_2_project_task_all').read()[0]
-        _logger.info(f"(cn006) Ya se tiene la acción ODOO\n***********\n\n{action}\n***********\n\n")
-
         _logger.info(f"(cn006) Tomando la acción de Neotropo")
         action = self.env.ref('cn006_proyectos_it.cn006_action_project_task_view_kanban').read()[0]
         _logger.info(f"(cn006) Ya se tiene la acción Neotropo\n***********\n\n{action}\n***********\n\n")
