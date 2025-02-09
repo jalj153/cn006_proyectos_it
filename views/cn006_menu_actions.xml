@@ -7,11 +7,15 @@
         <field name="name">(CN006) Mantenimiento de Tareas</field>
         <field name="res_model">project.project</field>
         <field name="view_mode">kanban,form</field>
+
+        <!--  'default_get': False,  -->
         <field name="context">
             {
                 'group_by': 'stage_id',
-                'search_default_order': 'stage_id.sequence ASC, sequence ASC',
-                'default_get': False,
+                'search_default_order':  'is_favorite DESC, sequence ASC',
+                'default_cn006_project': True,
+                'default_alias_enabled': False,
+                'search_default_own_projects': 1,
                 'create': {'name': 'Nuevo Proyecto'}
             }
         </field>

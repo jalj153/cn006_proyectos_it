@@ -51,32 +51,24 @@
                         <!-- (NT) Campos  -->
                         <group>  <!-- (NT) Sección superior-->
                             <group>  <!--  (NT) Lado Izquierdo  -->
-                                <field name="cn006_project" widget="boolean_toggle"/> 
+                                <field name="cn006_project" widget="boolean_toggle" readonly="1"/> 
                                 <field name="cn006_emergente" widget="boolean_toggle"/> 
-                                    
-                                
-
                                 <field name="cn006_clasificacion_id" create="0" edit="0"/>
                                 <field name="cn006_grado_complejidad_id" create="0" edit="0"/>
                                 <field name="cn006_nivel_importancia_id" create="0" edit="0"/>
                                 <field name="cn006_nivel_urgencia_id" create="0" edit="0"/>
                                 <field name="cn006_tamano_id" create="0" edit="0"/>
                                 
+                                <!--  <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>  -->   
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" attrs="{'invisible': True}"/>
 
-                                
-                                
-                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="company_id" groups="base.group_multi_company" readonly="1" options="{'no_open': True}"/>
                             </group>
                             <group>  <!--  (NT) Lado Derecho  -->
-                                <field name="active" invisible="1"/>
-
-                                
                                 <field name="partner_id" widget="res_partner_many2one" string="Usuario Canella" domain="[('cn_is_portal_user', '=', True)]"/>
 
                                 <!-- (NT) Cambiar el id grupo usuarios cn006 en dominio  -->
-                                <!--  <field name="user_id" string="Responsable" widget="many2one_avatar_user" attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>  -->
-                                <field name="user_id" 
+                                 <field name="user_id" 
                                     string="Responsable" 
                                     widget="many2one_avatar_user" 
                                     attrs="{'readonly':[('active','=',False)]}" 
@@ -109,14 +101,21 @@
                             </group>
                         </group>
                         <notebook>  <!--  (NT)  Sección inferior TABs-->
+                            <!--  TAB: Descripción  -->
                             <page name="description" string="Description">
                                 <field name="description" options="{'resizable': false}" placeholder="Project description..."/>
                             </page>
+                            <!--  TAB: Setting  -->
                             <page name="settings" string="Settings">
                                 <group>
                                     <group>
-                                        <field name="analytic_account_id" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]" context="{'default_partner_id': partner_id}" groups="analytic.group_analytic_accounting"/>
-                                        <field name="privacy_visibility" widget="radio"/>
+                                        <field name="analytic_account_id" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]" 
+                                                context="{'default_partner_id': partner_id}" 
+                                                groups="analytic.group_analytic_accounting"
+                                                nolink="1"
+                                                readonly="1"
+                                                options="{'no_open': True}"/>
+                                        <field name="privacy_visibility" widget="radio" readonly="1"/>
                                         <span colspan="2" class="text-muted" attrs="{'invisible':[('access_instruction_message', '=', '')]}">
                                             <i class="fa fa-lightbulb-o"/>&amp;nbsp;<field class="d-inline" name="access_instruction_message" nolabel="1"/>
                                         </span>
@@ -128,7 +127,7 @@
                                         <div name="alias_def" colspan="2" class="pb-2" attrs="{'invisible': [('alias_domain', '=', False)]}">
                                             <!-- Always display the whole alias in edit mode. It depends in read only -->
                                             <field name="alias_enabled" invisible="1"/>
-                                            <label for="alias_name" class="fw-bold o_form_label" string="Create tasks by sending an email to"/>
+                                            <label for="alias_name" class="fw-bold o_form_label" string="Create tasks by sending an email to" readonly="1"/>
                                             <field name="alias_value" class="oe_read_only d-inline" readonly="1" widget="email" attrs="{'invisible':  [('alias_name', '=', False)]}"/>
                                             <span class="oe_edit_only">
                                                 <field name="alias_name" class="oe_inline"/>@<field name="alias_domain" class="oe_inline" readonly="1"/>
@@ -146,7 +145,7 @@
                                         <div>
                                             <div class="o_setting_box" id="subtask_settings" groups="project.group_subtask_project">
                                                 <div class="o_setting_left_pane">
-                                                    <field name="allow_subtasks"/>
+                                                    <field name="allow_subtasks" readonly="1"/>
                                                 </div>
                                                 <div class="o_setting_right_pane">
                                                     <label for="allow_subtasks"/>
@@ -157,7 +156,7 @@
                                             </div>
                                             <div class="o_setting_box mt-4" id="recurring_tasks_setting" groups="project.group_project_recurring_tasks">
                                                 <div class="o_setting_left_pane">
-                                                    <field name="allow_recurring_tasks"/>
+                                                    <field name="allow_recurring_tasks" readonly="1"/>
                                                 </div>
                                                 <div class="o_setting_right_pane">
                                                     <label for="allow_recurring_tasks"/>
@@ -168,7 +167,7 @@
                                             </div>
                                             <div class="o_setting_box mt-4" id="task_dependencies_setting" groups="project.group_project_task_dependencies">
                                                 <div class="o_setting_left_pane">
-                                                    <field name="allow_task_dependencies"/>
+                                                    <field name="allow_task_dependencies" readonly="1"/>
                                                 </div>
                                                 <div class="o_setting_right_pane">
                                                     <label for="allow_task_dependencies"/>
@@ -179,7 +178,7 @@
                                             </div>
                                             <div class="o_setting_box mt-4" id="project_milestone_setting" groups="project.group_project_milestone">
                                                 <div class="o_setting_left_pane">
-                                                    <field name="allow_milestones"/>
+                                                    <field name="allow_milestones" readonly="1"/>
                                                 </div>
                                                 <div class="o_setting_right_pane">
                                                     <label for="allow_milestones"/>
@@ -221,24 +220,11 @@
                                     </group>
                                 </group>
                             </page>
-                            <page name="datos_adicionales" string="Datos Adicionales">
-                                <field name="label_tasks" string="Name of the tasks" readonly="1"/>
-                                <!-- 
-                                <field name="cn006_project"  readonly="1"/>
-                                <field name="cn006_fecha_creacion_sistema" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_creacion_oficial" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_inicio_oficial" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_inicio_sistema" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_entrega_informatica_estimada" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_entrega_informatica_oficial" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_entrega_informatica_sistema" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_entrega_usuario_estimada" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_entrega_usuario_oficial" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_entrega_usuario_sistema" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_cierre_estimada" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_cierre_oficial" widget="date" readonly="1"/>
-                                <field name="cn006_fecha_cierre_sistema" widget="date" readonly="1"/>
-                                -->
+                            <!--  TAB: Datos adicionales  -->
+                            <page name="cn006_datos_adicionales" string="Datos Adicionales">
+                                <field name="active" readonly="1"/>
+                                
+                                
                             </page>  <!-- (NT) Datos adicionales  -->
                         </notebook>  <!--  (NT)  Sección inferior TABs-->
                     </sheet>
