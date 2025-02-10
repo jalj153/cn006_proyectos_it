@@ -4,14 +4,15 @@
     <menuitem id="CN006_menu_principal" name="Proyectos IT (CN006)" sequence="10"/>
 
     <!-- Submenús del menú principal -->
-    <menuitem parent="CN006_menu_principal" sequence="10" id="CN006_menu_tareas"        name="Tareas"        action="cn006_action_dummy" />
+    <!--  <menuitem parent="CN006_menu_principal" sequence="10" id="CN006_menu_tareas"        name="Tareas"        action="cn006_action_dummy" />  -->
     <menuitem parent="CN006_menu_principal" sequence="20" id="CN006_menu_proyectos_it"  name="Proyectos"     />
         <!--  
         <menuitem parent="CN006_menu_proyectos_it" sequence="10" id="CN006_menu_proyecto_tareas"        name="Mantenimiento Tareas"    action="cn006_action_project_kanban_tasks" />
         <menuitem parent="CN006_menu_proyectos_it" sequence="20" id="CN006_menu_proyecto_mantenimiento" name="Mantenimiento Proyectos" action="cn006_action_project_task_kanban" />
+        <menuitem parent="CN006_menu_proyectos_it" sequence="20" id="CN006_menu_proyecto_mantenimiento" name="Mantenimiento Proyectos" action="cn006_action_project_project_kanban" />
         -->
         <menuitem parent="CN006_menu_proyectos_it" sequence="10" id="CN006_menu_proyecto_tareas"        name="Mantenimiento Tareas"    action="cn006_action_project_task_kanban" />
-        <menuitem parent="CN006_menu_proyectos_it" sequence="20" id="CN006_menu_proyecto_mantenimiento" name="Mantenimiento Proyectos" action="cn006_action_project_project_kanban" />
+        
         
         
     <menuitem parent="CN006_menu_principal" sequence="30" id="CN006_menu_configuracion" name="Configuración" action="cn006_action_dummy" />

@@ -1,5 +1,5 @@
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="cn006_task_type_avance000" model="project.task.type">
             <field name="name">BACKLOG</field>
             <field name="cn006_task_type">True</field>

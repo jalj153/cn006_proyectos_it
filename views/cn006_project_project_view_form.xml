@@ -112,7 +112,6 @@
                                         <field name="analytic_account_id" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]" 
                                                 context="{'default_partner_id': partner_id}" 
                                                 groups="analytic.group_analytic_accounting"
-                                                nolink="1"
                                                 readonly="1"
                                                 options="{'no_open': True}"/>
                                         <field name="privacy_visibility" widget="radio" readonly="1"/>

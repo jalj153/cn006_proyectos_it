@@ -1,5 +1,5 @@
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="cn006_proyecto_tarea_avance_10" model="cn006.proyecto.tarea.grado.avance">
             <field name="cn006_orden">210</field>
             <field name="name">BACKLOG</field>

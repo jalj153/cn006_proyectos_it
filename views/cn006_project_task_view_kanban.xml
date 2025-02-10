@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <!--    -->
+    <!--  Listar tareas para editarlas  -->
+    <!--  on_create="cn006_action_project_task_form"  -->
     <record id="cn006_project_task_view_kanban" model="ir.ui.view">
         <field name="name">(CN006) Listado de Tareas (nuevo)</field>
         <field name="model">project.task</field>
@@ -9,11 +10,12 @@
         <field name="arch" type="xml">
             <kanban default_group_by="stage_id" 
                     class="o_kanban_small_column o_kanban_project_tasks" 
-                    on_create="quick_create" 
-                    examples="project" 
+                    quick_create="false"
+                    no_open="1"
                     js_class="project_task_kanban" 
                     sample="0"
                 >
+
                 <field name="color"/>
                 <field name="priority"/>
                 <field name="stage_id" options="{&quot;group_by_tooltip&quot;: {&quot;description&quot;: &quot;Description&quot;}}"/>

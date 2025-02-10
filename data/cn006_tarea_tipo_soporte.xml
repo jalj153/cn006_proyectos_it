@@ -1,5 +1,10 @@
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
+        <record id="cn006_proyecto_tarea_tipo_soporte_001" model="cn006.proyecto.tarea.tipo.soporte">
+            <field name="cn006_orden">01</field>
+            <field name="name">N/A</field>
+            <field name="cn006_descripcion">Tarea normal de implementación.  No es algo adicional.</field>
+        </record>
         <record id="cn006_proyecto_tarea_tipo_soporte_010" model="cn006.proyecto.tarea.tipo.soporte">
             <field name="cn006_orden">10</field>
             <field name="name">Requerimiento Nuevo</field>

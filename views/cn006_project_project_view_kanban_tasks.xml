@@ -7,11 +7,16 @@
         <field name="priority" eval="100"/>
         <field name="arch" type="xml">
 
+            <!--
+                
+                no_open="0"  
+                on_create="project.open_create_project" 
+            -->
             <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" 
+                default_order="sequence, name, id"
                 quick_create="false" 
                 open_form="true"
-                no_open="0"
-                default_order="sequence, name, id"
+                type="object" 
                 >  <!--  KANBAN  -->
 
                     <field name="display_name"/>

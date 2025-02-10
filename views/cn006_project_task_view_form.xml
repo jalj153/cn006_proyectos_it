@@ -19,8 +19,9 @@
                 <field name="rating_last_value" invisible="1"/>
                 <field name="rating_count" invisible="1"/>
                 <field name="allow_milestones" invisible="1"/>
-                <field name="parent_id" invisible="1"/>
-                <field name="company_id" invisible="1"/>
+                <field name="parent_id" invisible="1" read_only="1"/>
+                <field name="company_id" invisible="1" read_only="1"/>
+
                 <header>
                     <h4>NT cn006_project_task_view_form</h4>
                     <button name="action_assign_to_me" string="Assign to Me" type="object" attrs="{'invisible': &quot;['|', ('user_ids', 'in', uid), ('user_ids', '=', [])]&quot;}" data-hotkey="q"/>
@@ -98,6 +99,7 @@
                         <field name="project_id" placeholder="Private" domain="[('active', '=', True), ('company_id', '=', company_id)]" 
                                     attrs="{'invisible': [('parent_id', '!=', False)]}" widget="project_private_task"
                                     read_only="1"
+                                    options="{'no_open': True, 'no_create': True}"
                                     />
 
                         <field name="display_project_id" string="Project" attrs="{'invisible': [('parent_id', '=', False)]}" domain="[('active', '=', True), ('company_id', '=', company_id)]"/>
@@ -119,13 +121,15 @@
                         <field name="cn006_grado_avance_id" create="0" edit="0" invisible="1"/>
 
                         <!--  Tipo de tarea  -->
-                        <field name="cn006_tipificacion_id" on_change="1"/>
+                        <field name="cn006_tipificacion_id" on_change="1" required="1" options="{'no_open': True, 'no_create': True}"/>
 
                         <!--  NT TEST  -->
                         <field name="cn006_es_implementacion" read_only="1"/>
 
                         <!--  Tipo de incidencia si es IMPLEMENTACIÓN  -->
-                        <field name="cn006_tipo_soporte_id" attrs="{'invisible': [('cn006_es_implementacion', '=', False)]}"/>
+                        <field name="cn006_tipo_soporte_id" 
+                            options="{'no_open': True, 'no_create': True}"
+                            attrs="{'invisible': [('cn006_es_implementacion', '=', False)]}"/>
                     </group>
                     <group>
                         <field name="active" invisible="1"/>
@@ -191,7 +195,7 @@
                                 <field name="allow_subtasks" invisible="1"/>
                                 <field name="name" widget="name_with_subtask_count"/>
                                 <field name="id" optional="hide"/>
-                                <field name="project_id" optional="hide" options="{'no_open': 1}"/>
+                                <field name="project_id" optional="hide" options="{'no_open': True, 'no_create': True}"/>
                                 <field name="milestone_id" optional="hide" context="{'default_project_id': project_id if not parent_id or not display_project_id else display_project_id}" attrs="{'invisible': [('allow_milestones', '=', False)], 'column_invisible': [('parent.allow_milestones', '=', False)]}"/>
                                 <field name="partner_id" optional="hide"/>
                                 <field name="parent_id" optional="hide" attrs="{'invisible': [('allow_subtasks', '=', False)]}" groups="base.group_no_one"/>
@@ -268,13 +272,42 @@
                         <group>
                             <group>
                                 <field name="is_analytic_account_id_changed" invisible="1"/>
-                                <field name="parent_id" attrs="{'invisible': [('allow_subtasks', '=', False)]}" groups="base.group_no_one"/>
-                                <field name="analytic_account_id" groups="analytic.group_analytic_accounting" context="{'default_partner_id': partner_id}"/>
-                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                <field name="sequence" groups="base.group_no_one"/>
-                                <field name="email_from" invisible="1"/>
-                                <field name="email_cc" groups="base.group_no_one"/>
-                                <field name="displayed_image_id" groups="base.group_no_one" options="{'no_create': True}"/>
+                                <field name="parent_id" attrs="{'invisible': [('allow_subtasks', '=', False)]}" groups="base.group_no_one"
+                                    no_edit="1"
+                                    read_only="1"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    />
+                                <field name="analytic_account_id" groups="analytic.group_analytic_accounting" 
+                                    context="{'default_partner_id': partner_id}"
+                                    no_edit="1"
+                                    read_only="1"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    />
+                                <field name="company_id" groups="base.group_multi_company" 
+                                    no_edit="1"
+                                    read_only="1"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    />
+                                <field name="sequence" groups="base.group_no_one"
+                                    no_edit="1"
+                                    read_only="1"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    />
+                                <field name="email_from" invisible="1"
+                                    no_edit="1"
+                                    read_only="1"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    />
+                                <field name="email_cc" groups="base.group_no_one"
+                                    no_edit="1"
+                                    read_only="1"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    />
+                                <field name="displayed_image_id" groups="base.group_no_one" 
+                                    no_edit="1"
+                                    read_only="1"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    />
                             </group>
                             <group>
                                 <field name="date_assign" groups="base.group_no_one"/>
