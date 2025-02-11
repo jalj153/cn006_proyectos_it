@@ -50,8 +50,7 @@ def obtener_proyectos(p_tools: cCN006_globales):
                                         'company_id', 'partner_id', 'date_start', 'date',
                                         'description',
                                         'cn006_clasificacion_id', 
-                                        'stage_id', 'cn006_grado_complejidad_id', 'cn006_nivel_importancia_id', 
-                                        'cn006_nivel_urgencia_id', 'cn006_tamano_id', 'cn006_emergente',
+                                        'cn006_grado_avance_id', 'cn006_grado_complejidad_id', 'cn006_nivel_importancia_id', 'cn006_nivel_urgencia_id', 'cn006_tamano_id', 
                                         'cn006_project',
                                         'cn006_fecha_creacion_sistema', 'cn006_fecha_creacion_oficial', 'cn006_fecha_inicio_oficial', 'cn006_fecha_inicio_sistema', 
                                         'cn006_fecha_entrega_informatica_estimada', 'cn006_fecha_entrega_informatica_oficial', 'cn006_fecha_entrega_informatica_sistema', 
@@ -99,19 +98,19 @@ def obtener_proyectos(p_tools: cCN006_globales):
             proyecto['partner_id_name'] = None
             proyecto['partner_id'] = None
 
-        if proyecto['stage_id']:
-            proyecto['stage_id_name'] = proyecto['stage_id'][1]
-            proyecto['stage_id'] = proyecto['stage_id'][0]
-        else:
-            proyecto['stage_id_name'] = None
-            proyecto['stage_id'] = None
-        
         if proyecto['cn006_clasificacion_id']:
             proyecto['cn006_clasificacion_id_name'] = proyecto['cn006_clasificacion_id'][1]
             proyecto['cn006_clasificacion_id'] = proyecto['cn006_clasificacion_id'][0]
         else:
             proyecto['cn006_clasificacion_id_name'] = None
             proyecto['cn006_clasificacion_id'] = None
+        
+        if proyecto['cn006_grado_avance_id']:
+            proyecto['cn006_grado_avance_id_name'] = proyecto['cn006_grado_avance_id'][1]
+            proyecto['user_id'] = proyecto['cn006_grado_avance_id'][0]
+        else:
+            proyecto['cn006_grado_avance_id_name'] = None
+            proyecto['cn006_grado_avance_id'] = None
 
         if proyecto['cn006_grado_complejidad_id']:
             proyecto['cn006_grado_complejidad_name'] = proyecto['cn006_grado_complejidad_id'][1]
@@ -153,180 +152,12 @@ def obtener_proyectos(p_tools: cCN006_globales):
                 proyecto[campo] = datetime.strptime(fecha, "%Y-%m-%d")
         #endregion Manejo de fechas
 
-    # Agregando prefijo proy_
-    proyectos = [
-        {f'proy_{key}': value for key, value in detalle.items()}
-        for detalle in proyectos
-        ]  
-
     return proyectos
+
+
 #endregion OBTENER PROYECTOS
 
-#region OBTENER PARTES DE HORAS
-def obtener_partes_horas(p_proyectos, p_tools: cCN006_globales):
-    partes_horas_proyectos = []
-    for proyecto in p_proyectos:
-        partes_horas_proyectos.extend(proyecto.get('proy_timesheet_ids', []))
 
-    msj_debug(f"En total hay ({len(partes_horas_proyectos)}) partes de horas de proyectos\n", p_tools)
-    
-
-    if not partes_horas_proyectos:
-        print("No hay partes de horas para consultar.")
-        return []
-
-
-    msj_debug("Previo a consulta de detalle partes de horas en la base de datos", p_tools)
-    detalles_partes_horas = []
-    models = xmlrpc.client.ServerProxy(f"{p_tools.cnx_url}/xmlrpc/2/object")
-    detalles_partes_horas = models.execute_kw(
-        p_tools.cnx_db, p_tools.cnx_uid, p_tools.cnx_password,
-        'account.analytic.line', 'search_read',
-        [[('id', 'in', partes_horas_proyectos)]],
-        {'fields': ['project_id','id', 'name', 'date', 'unit_amount', 'amount', 
-                    'user_id', 'account_id', 'task_id',
-                    'create_date', 'create_uid', 'write_date', 'write_uid'
-                    ]}
-
-    )
-
-    msj_debug("regreso de consulta de detalle de partes de horas en la base de datos", p_tools)
-
-    for detalle in detalles_partes_horas:
-        fecha = detalle.get('date')
-        if not fecha:
-            detalle['date'] = None  # Si está en False, poner None
-        else:
-            # Convertir de string (Odoo) a datetime (Python) y dejarlo listo para Excel
-            detalle['date'] = datetime.strptime(fecha, "%Y-%m-%d")
-        
-        fecha = detalle.get('create_date')
-
-        # print(f"Dentro del ciclo, analizando Fecha: ({fecha})")
-
-        if not fecha:
-            detalle['create_date'] = None
-        else:
-            # Obtener la fecha desde el diccionario
-            fecha_utc = detalle.get('create_date')
-
-            # Asegurar que la fecha esté en formato datetime (si viene como string)
-            if isinstance(fecha_utc, str):
-                fecha_utc = datetime.strptime(fecha_utc, "%Y-%m-%d %H:%M:%S")  # Ajusta el formato si es diferente
-
-            # Definir zona horaria UTC
-            utc_zone = pytz.utc
-
-            # Definir zona horaria UTC-6
-            utc_minus_6 = pytz.timezone("America/Guatemala")  # Puedes usar "America/Mexico_City" según el país
-
-            # Convertir la fecha de UTC a UTC-6
-            fecha_utc = utc_zone.localize(fecha_utc)  # Asegurar que la fecha está en UTC
-            fecha_local = fecha_utc.astimezone(utc_minus_6)
-            
-            fecha_excel = fecha_local.replace(tzinfo=None)
-            
-            detalle['create_date'] = fecha_excel
-
-            
-            # print(f"Fecha excel: {fecha_excel}")
-
-    # Agregando prefijo ph_
-    detalles_partes_horas = [
-        {f'ph_{key}': value for key, value in detalle.items()}
-        for detalle in detalles_partes_horas
-        ]   
-        
-
-    # msj_debug("Estos son los registros de partes de horas", p_tools)
-    # for detalle in detalles_partes_horas:
-    #     print(f"\n{detalle}")
-    return detalles_partes_horas
-#endregion OBTENER PARTES DE HORAS
-
-#region OBTENER TAREAS
-def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
-    msj_debug(f"En total hay ({len(p_partes_horas)}) partes de horas de proyectos para obtener tareas\n", p_tools)
-    
-    if not p_partes_horas:
-        msj_debug("No hay partes de horas para consultar.", p_tools)
-        return []
-    
-    # print("Para verificación, estos son (5) registros de partes de horas DENTRO DE OBTENER TAREAS")
-    # contador = 0
-    # for parte_horas in p_partes_horas:
-    #     contador += 1
-    #     if contador <= 5:
-    #         print(f"Parte de horas: {parte_horas}\n")    
-
-    task_ids = list(set(p['ph_task_id'][0] for p in p_partes_horas if p.get('ph_task_id')))
-
-    if not task_ids:
-        msj_debug("No hay tareas asociadas a los partes de horas.", p_tools)
-        return p_partes_horas
-    
-    msj_debug(f"Consultando {len(task_ids)} tareas en la base de datos.", p_tools)
-    
-    msj_debug("Previo a consulta de TAREAS en la base de datos", p_tools)
-    models = xmlrpc.client.ServerProxy(f"{p_tools.cnx_url}/xmlrpc/2/object")
-    tareas = models.execute_kw(
-        p_tools.cnx_db, p_tools.cnx_uid, p_tools.cnx_password,
-        'project.task', 'read', [task_ids],
-        {'fields': ['analytic_account_id', 'cn006_es_implementacion', 'cn006_grado_avance_id', 
-                    'cn006_tipificacion_id', 'cn006_tipo_soporte_id', 'stage_id']}
-    )
-    
-    print(f"La base de datos retornó ({len(tareas)}) tareas asociadas a los partes de horas.")
-
-    tarea_dict = {t['id']: t for t in tareas}
-
-    # print(f"Esto es tarea_dict:\n")
-    # print(json.dumps(tarea_dict, indent=4, ensure_ascii=False))
-    # print("\n\n")
-
-    
-    for parte in p_partes_horas:
-        #task_id = parte.get('task_id')
-
-        #print(f"Parte de horas antes de asignar tarea: {parte}")
-        task_id = parte.get('ph_task_id')[0] if parte.get('ph_task_id') else None
-        #print(f"Task ID obtenido: {task_id}")
-
-        if task_id and task_id in tarea_dict:
-            tarea = tarea_dict[task_id]
-            #print(f"Tarea encontrada: {tarea}")
-            parte['tarea_analytic_account_id'] = tarea.get('analytic_account_id', [False])[0] if isinstance(tarea.get('analytic_account_id'), list) else tarea.get('analytic_account_id')
-            parte['tarea_analytic_account_id_name'] = tarea.get('analytic_account_id', [False])[1] if isinstance(tarea.get('analytic_account_id'), list) else ""
-            
-            parte['tarea_cn006_es_implementacion'] = tarea.get('cn006_es_implementacion', False)
-            parte['tarea_cn006_es_implementacion_name'] = "Sí" if tarea.get('cn006_es_implementacion') else "No"
-            
-            parte['tarea_cn006_grado_avance_id'] = tarea.get('cn006_grado_avance_id', [False])[0] if isinstance(tarea.get('cn006_grado_avance_id'), list) else tarea.get('cn006_grado_avance_id')
-            parte['tarea_cn006_grado_avance_id_name'] = tarea.get('cn006_grado_avance_id', [False])[1] if isinstance(tarea.get('cn006_grado_avance_id'), list) else ""
-            
-            parte['tarea_cn006_tipificacion_id'] = tarea.get('cn006_tipificacion_id', [False])[0] if isinstance(tarea.get('cn006_tipificacion_id'), list) else tarea.get('cn006_tipificacion_id')
-            parte['tarea_cn006_tipificacion_id_name'] = tarea.get('cn006_tipificacion_id', [False])[1] if isinstance(tarea.get('cn006_tipificacion_id'), list) else ""
-            
-            parte['tarea_cn006_tipo_soporte_id'] = tarea.get('cn006_tipo_soporte_id', [False])[0] if isinstance(tarea.get('cn006_tipo_soporte_id'), list) else tarea.get('cn006_tipo_soporte_id')
-            parte['tarea_cn006_tipo_soporte_id_name'] = tarea.get('cn006_tipo_soporte_id', [False])[1] if isinstance(tarea.get('cn006_tipo_soporte_id'), list) else ""
-            
-            parte['tarea_stage_id'] = tarea.get('stage_id', [False])[0] if isinstance(tarea.get('stage_id'), list) else tarea.get('stage_id')
-            parte['tarea_stage_id_name'] = tarea.get('stage_id', [False])[1] if isinstance(tarea.get('stage_id'), list) else ""
-            
-            #msj_debug(f"Tarea {task_id} procesada y asignada a parte de horas.", p_tools)
-    
-    msj_debug("Proceso de actualización de partes de horas completado.", p_tools)
-
-    # print(f"Estos son los (5) registros de partes de horas con las tareas asociadas DENTRO DE OBTENER TAREAS")
-    # contador = 0
-    # for detalle in p_partes_horas:
-    #     contador += 1
-    #     if contador <= 5:
-    #         print(f"\n{detalle}")   
-
-    return p_partes_horas
-    
-#endregion OBTENER TAREAS
 
 ################################################################################################################
 # Lógica principal
@@ -334,6 +165,8 @@ def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
 def main(p_ambiente, p_debug) :
     """ Retorna todo_ok, 
     """
+    
+    
     try:
 
         #region Instanciar tools
@@ -370,23 +203,56 @@ def main(p_ambiente, p_debug) :
         # for proyecto in proyectos:
         #     print(f"ID: {proyecto['id']}, Nombre: {proyecto['name']}, Responsable: {proyecto.get('user_id', 'N/A')}")
         #endregion Obtener proyectos que se procesarán
-    
-        #region Obtener los partes de horas asociadas a proyectos
-        msj_debug(f"070 - Listado de timesheets de todos los proyectos", tools)
-        detalles_partes_horas = []
-        detalles_partes_horas = obtener_partes_horas(proyectos, tools)
-        msj_debug(f"080 - Regresando obtener_partes_horas", tools)
-        #endregion Obtener los partes de horas asociadas a proyectos
-        
-        #region Obtener datos tareas asociadas a partes de horas
-        msj_debug(f"090 - Obtener listado de tareas asociadas a partes de horas", tools)
-        detalles_partes_horas = obtener_tareas(detalles_partes_horas, tools)
-        msj_debug(f"100 - Regresando de listado de tareas asociadas a partes de horas", tools)
 
-        # print(f"Estos son los registros de partes de horas deben tener las tareas asociadas")
-        # for detalle in detalles_partes_horas:
-        #     print(f"\n{detalle}")
-        #endregion Obtener datos tareas asociadas a partes de horas
+    
+        #region Obtener los IDs de partes de horas asociadas a proyectos
+        msj_debug(f"070 - Listado de timesheets de todos los proyectos", tools)
+        partes_horas_proyectos = []
+
+        for proyecto in proyectos:
+            partes_horas_proyectos.extend(proyecto.get('timesheet_ids', []))
+
+        msj_debug(f"En total hay ({len(partes_horas_proyectos)}) partes de horas de proyectos\n", tools)
+        #endregion Obtener los IDs de partes de horas asociadas a proyectos
+
+        #region obtener datos de los partes de horas
+        if not partes_horas_proyectos:
+            print("No hay partes de horas para consultar.")
+            return []
+
+
+        msj_debug("Previo a consulta de detalle partes de horas en la base de datos", tools)
+        detalles_partes_horas = []
+        models = xmlrpc.client.ServerProxy(f"{tools.cnx_url}/xmlrpc/2/object")
+        detalles_partes_horas = models.execute_kw(
+            tools.cnx_db, tools.cnx_uid, tools.cnx_password,
+            'account.analytic.line', 'search_read',
+            [[('id', 'in', partes_horas_proyectos)]],
+            {'fields': ['project_id','id', 'name', 'date', 'unit_amount', 'amount', 'user_id', 'account_id', 'task_id']}
+
+        )
+
+        detalles_partes_horas = [
+            {f'ph_{key}': value for key, value in detalle.items()}
+            for detalle in detalles_partes_horas
+            ]   
+
+
+        msj_debug("regreso de consulta de detalle de partes de horas en la base de datos", tools)
+
+        for detalle in detalles_partes_horas:
+            fecha = detalle.get('date')
+            if not fecha:
+                detalle['date'] = None  # Si está en False, poner None
+            else:
+                # Convertir de string (Odoo) a datetime (Python) y dejarlo listo para Excel
+                detalle['date'] = datetime.strptime(fecha, "%Y-%m-%d")
+            
+
+        msj_debug("Estos son los registros de partes de horas", tools)
+        for detalle in detalles_partes_horas:
+            print(f"\n{detalle}")
+        #endregion obtener datos de los partes de horas
 
         #region Unificar proyectos con sus partes de horas para el EXCEL
         
@@ -394,7 +260,7 @@ def main(p_ambiente, p_debug) :
 
         for proyecto in proyectos:
             #partes_horas = [parte for parte in detalles_partes_horas if parte["ph_project_id"] == proyecto["id"]]
-            partes_horas = [parte for parte in detalles_partes_horas if parte["ph_project_id"][0] == proyecto["proy_id"]]
+            partes_horas = [parte for parte in detalles_partes_horas if parte["ph_project_id"][0] == proyecto["id"]]
 
             # Escenario 1: Proyecto sin partes de horas
             if not partes_horas:
@@ -419,9 +285,6 @@ def main(p_ambiente, p_debug) :
                     if parte_convertida.get("ph_unit_amount") is not None:
                         parte_convertida["ph_unit_amount"] = parte_convertida["ph_unit_amount"] / 24
                     
-                    # msj_debug(f"Parte con ID {parte_convertida['ph_id']} tiene las siguientes claves: {parte_convertida.keys()}", tools)
-    
-
                     proyectos_info_total.append({**proyecto, **parte_convertida})
 
                     

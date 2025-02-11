@@ -105,6 +105,10 @@
                             <page name="description" string="Description">
                                 <field name="description" options="{'resizable': false}" placeholder="Project description..."/>
                             </page>
+                            <!--  TAB:  Partes de horas-->
+
+
+
                             <!--  TAB: Setting  -->
                             <page name="settings" string="Settings">
                                 <group>
@@ -188,7 +192,36 @@
                                             </div>
                                         </div>
                                     </group>
-                                    <group name="group_time_managment" string="Time Management" invisible="1" col="1" class="row mt16 o_settings_container"/>
+                                    <!-- <group name="group_time_managment" string="Time Management" invisible="1" col="1" class="row mt16 o_settings_container"/>  -->
+                                    <group name="group_time_managment" string="Gestión del tiempo" col="1" class="row mt16 o_settings_container">
+                                        <div class="o_setting_box" id="timesheet_settings" colspan="2">
+                                            <div class="o_setting_left_pane">
+                                                <field name="allow_timesheets" on_change="1"/>
+                                            </div>
+                                            <div class="o_setting_right_pane">
+                                                <label for="allow_timesheets" string="Partes de horas"/>
+                                                <div class="text-muted">
+                                                    Registrar el tiempo en las tareas
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="o_setting_box mt-4" colspan="2">
+                                            <div class="o_setting_left_pane">
+                                                <field name="allow_forecast"/>
+                                            </div>
+                                            <div class="o_setting_right_pane">
+                                                <label for="allow_forecast"/>
+                                                <div class="text-muted" id="allow_forecast_setting">
+                                                    Plan your resources for this project
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <field name="mesa_ayuda"/>
+                                    </group>
+
+
+
+
                                     <group name="group_documents_analytics" string="Analytics" col="1" class="row mt16 o_settings_container" attrs="{'invisible': [('allow_rating', '=', False)]}">
                                         <div>
                                             <field name="allow_rating" invisible="1"/>
@@ -221,7 +254,7 @@
                             </page>
                             <!--  TAB: Datos adicionales  -->
                             <page name="cn006_datos_adicionales" string="Datos Adicionales">
-                                <field name="active" readonly="1"/>
+                                <field name="active" string="Active" readonly="1"/>
                                 
                                 
                             </page>  <!-- (NT) Datos adicionales  -->
