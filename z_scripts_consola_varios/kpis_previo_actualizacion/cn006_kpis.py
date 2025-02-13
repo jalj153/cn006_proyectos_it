@@ -1,21 +1,24 @@
 import sys
 import os
-sys.path.append(os.path.abspath(".."))  # Agrega el directorio superior al path
-
-
-from cn006_kpis_globales import cCN006_globales
-import xlsxwriter
 import io
 
-
+import openpyxl
+#from openpyxl.utils import get_column_letter
+#from openpyxl.worksheet.table import Table, TableStyleInfo
 
 import xmlrpc.client
 import json
 import argparse
+import locale
+
 import pytz
-from datetime import datetime
+from pytz import timezone
+from datetime import datetime, timedelta
 from collections import defaultdict
 import codecs
+
+sys.path.append(os.path.abspath(".."))  # Agrega el directorio superior al path
+from cn006_kpis_globales import cCN006_globales
 
 
 #region EXPLICACIÓN DEL PROCESO
@@ -25,6 +28,30 @@ import codecs
     3. Combinar los tickets con los proyectos
 ************************************************************************  """
 #endregion
+
+#region GLOBALES
+    #region Variables tipo fecha
+COLUMNAS_FECHA = {
+    "ph_date", "proy_cn006_fecha_cierre_estimada", "proy_cn006_fecha_cierre_oficial",
+    "proy_cn006_fecha_cierre_sistema", "proy_cn006_fecha_creacion_oficial",
+    "proy_cn006_fecha_creacion_sistema", "proy_cn006_fecha_entrega_informatica_estimada",
+    "proy_cn006_fecha_entrega_informatica_oficial", "proy_cn006_fecha_entrega_informatica_sistema",
+    "proy_cn006_fecha_entrega_usuario_estimada", "proy_cn006_fecha_entrega_usuario_oficial",
+    "proy_cn006_fecha_entrega_usuario_sistema", "proy_cn006_fecha_inicio_oficial",
+    "proy_cn006_fecha_inicio_sistema", "proy_date", "proy_date_start"
+}
+
+COLUMNAS_FECHA_HORA = {
+    "ph_create_date", "ph_write_date", "proy_create_date", "proy_write_date"
+}
+
+DIAS_SEMANA = {1: "LUN", 2: "MAR", 3: "MIE", 4: "JUE", 5: "VIE", 6: "SAB", 7: "DOM"}
+MESES = {
+    1: "ENE", 2: "FEB", 3: "MAR", 4: "ABR", 5: "MAY", 6: "JUN",
+    7: "JUL", 8: "AGO", 9: "SEP", 10: "OCT", 11: "NOV", 12: "DIC"
+}
+    #endregion Variables tipo fecha
+#endregion GLOBALES
 
 def msj_debug (p_msj, p_tools: cCN006_globales):
     if p_tools.g_debug:
@@ -64,18 +91,6 @@ def obtener_proyectos(p_tools: cCN006_globales):
                                 )
     
     # Ajustando los campos para que sean manejables en excel
-    # Lista de campos tipo fecha
-    campos_fecha = [
-        'date_start', 'date',
-        'cn006_fecha_creacion_sistema', 'cn006_fecha_creacion_oficial', 
-        'cn006_fecha_inicio_oficial', 'cn006_fecha_inicio_sistema', 
-        'cn006_fecha_entrega_informatica_estimada', 'cn006_fecha_entrega_informatica_oficial', 
-        'cn006_fecha_entrega_informatica_sistema', 'cn006_fecha_entrega_usuario_estimada', 
-        'cn006_fecha_entrega_usuario_oficial', 'cn006_fecha_entrega_usuario_sistema', 
-        'cn006_fecha_cierre_estimada', 'cn006_fecha_cierre_oficial', 
-        'cn006_fecha_cierre_sistema'
-    ]
-
     for proyecto in proyectos:
         #region Campos que son estructura
         if proyecto['user_id']:
@@ -140,19 +155,28 @@ def obtener_proyectos(p_tools: cCN006_globales):
         else:
             proyecto['cn006_tamano_id_name'] = None
             proyecto['cn006_tamano_id'] = None
+
+        if proyecto['create_uid']:
+            proyecto['create_uid_name'] = proyecto['create_uid'][1]
+            proyecto['create_uid'] = proyecto['create_uid'][0]
+        else:
+            proyecto['create_uid_name'] = None
+            proyecto['create_uid'] = None
+
+        if proyecto['write_uid']:
+            proyecto['write_uid_name'] = proyecto['write_uid'][1]
+            proyecto['write_uid'] = proyecto['write_uid'][0]
+        else:
+            proyecto['write_uid_name'] = None
+            proyecto['write_uid'] = None
+
+
+        if proyecto['task_ids']:
+            proyecto['task_ids'] = ", ".join(map(str, proyecto['task_ids']  ))
+        else:
+            proyecto['task_ids'] = None
+
         #endregion Campos que son estructura
-
-        #region Manejo de fechas
-        for campo in campos_fecha:
-            fecha = proyecto.get(campo)
-
-            if not fecha:
-                proyecto[campo] = None  # Si está en False, poner None
-            else:
-                # Convertir de string (Odoo) a datetime (Python) y dejarlo listo para Excel
-                proyecto[campo] = datetime.strptime(fecha, "%Y-%m-%d")
-        #endregion Manejo de fechas
-
     # Agregando prefijo proy_
     proyectos = [
         {f'proy_{key}': value for key, value in detalle.items()}
@@ -192,52 +216,55 @@ def obtener_partes_horas(p_proyectos, p_tools: cCN006_globales):
 
     msj_debug("regreso de consulta de detalle de partes de horas en la base de datos", p_tools)
 
+    # Ajustando los campos para que sean manejables en excel
     for detalle in detalles_partes_horas:
-        fecha = detalle.get('date')
-        if not fecha:
-            detalle['date'] = None  # Si está en False, poner None
-        else:
-            # Convertir de string (Odoo) a datetime (Python) y dejarlo listo para Excel
-            detalle['date'] = datetime.strptime(fecha, "%Y-%m-%d")
-        
-        fecha = detalle.get('create_date')
+            if detalle['project_id']:
+                detalle['project_id_name'] = detalle['project_id'][1]
+                detalle['project_id'] = detalle['project_id'][0]
+            else:
+                detalle['project_id_name'] = None
+                detalle['project_id'] = None
 
-        # print(f"Dentro del ciclo, analizando Fecha: ({fecha})")
+            if detalle['user_id']:
+                detalle['user_id_name'] = detalle['user_id'][1]
+                detalle['user_id'] = detalle['user_id'][0]
+            else:
+                detalle['user_id_name'] = None
+                detalle['user_id'] = None
 
-        if not fecha:
-            detalle['create_date'] = None
-        else:
-            # Obtener la fecha desde el diccionario
-            fecha_utc = detalle.get('create_date')
+            if detalle['account_id']:
+                detalle['account_id_name'] = detalle['account_id'][1]
+                detalle['account_id'] = detalle['account_id'][0]
+            else:
+                detalle['account_id_name'] = None
+                detalle['account_id'] = None
 
-            # Asegurar que la fecha esté en formato datetime (si viene como string)
-            if isinstance(fecha_utc, str):
-                fecha_utc = datetime.strptime(fecha_utc, "%Y-%m-%d %H:%M:%S")  # Ajusta el formato si es diferente
+            if detalle['task_id']:
+                detalle['task_id_name'] = detalle['task_id'][1]
+                detalle['task_id'] = detalle['task_id'][0]
+            else:
+                detalle['task_id_name'] = None
+                detalle['task_id'] = None
 
-            # Definir zona horaria UTC
-            utc_zone = pytz.utc
+            if detalle['create_uid']:
+                detalle['create_uid_name'] = detalle['create_uid'][1]
+                detalle['create_uid'] = detalle['create_uid'][0]
+            else:
+                detalle['create_uid_name'] = None
+                detalle['create_uid_id'] = None
 
-            # Definir zona horaria UTC-6
-            utc_minus_6 = pytz.timezone("America/Guatemala")  # Puedes usar "America/Mexico_City" según el país
-
-            # Convertir la fecha de UTC a UTC-6
-            fecha_utc = utc_zone.localize(fecha_utc)  # Asegurar que la fecha está en UTC
-            fecha_local = fecha_utc.astimezone(utc_minus_6)
-            
-            fecha_excel = fecha_local.replace(tzinfo=None)
-            
-            detalle['create_date'] = fecha_excel
-
-            
-            # print(f"Fecha excel: {fecha_excel}")
-
+            if detalle['write_uid']:
+                detalle['write_uid_name'] = detalle['write_uid'][1]
+                detalle['write_uid'] = detalle['write_uid'][0]
+            else:
+                detalle['write_uid_name'] = None
+                detalle['write_uid_id'] = None
+    
     # Agregando prefijo ph_
     detalles_partes_horas = [
         {f'ph_{key}': value for key, value in detalle.items()}
         for detalle in detalles_partes_horas
         ]   
-        
-
     # msj_debug("Estos son los registros de partes de horas", p_tools)
     # for detalle in detalles_partes_horas:
     #     print(f"\n{detalle}")
@@ -246,6 +273,7 @@ def obtener_partes_horas(p_proyectos, p_tools: cCN006_globales):
 
 #region OBTENER TAREAS
 def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
+    msj_debug("\n\n*****  INICIO obtener_tareas", p_tools)
     msj_debug(f"En total hay ({len(p_partes_horas)}) partes de horas de proyectos para obtener tareas\n", p_tools)
     
     if not p_partes_horas:
@@ -259,7 +287,7 @@ def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
     #     if contador <= 5:
     #         print(f"Parte de horas: {parte_horas}\n")    
 
-    task_ids = list(set(p['ph_task_id'][0] for p in p_partes_horas if p.get('ph_task_id')))
+    task_ids = list(set(p['ph_task_id'] for p in p_partes_horas if p.get('ph_task_id')))
 
     if not task_ids:
         msj_debug("No hay tareas asociadas a los partes de horas.", p_tools)
@@ -284,12 +312,12 @@ def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
     # print(json.dumps(tarea_dict, indent=4, ensure_ascii=False))
     # print("\n\n")
 
-    
+    msj_debug("Previo al ciclo de análisis de partes de horas", p_tools)
     for parte in p_partes_horas:
         #task_id = parte.get('task_id')
 
         #print(f"Parte de horas antes de asignar tarea: {parte}")
-        task_id = parte.get('ph_task_id')[0] if parte.get('ph_task_id') else None
+        task_id = parte.get('ph_task_id') if parte.get('ph_task_id') else None
         #print(f"Task ID obtenido: {task_id}")
 
         if task_id and task_id in tarea_dict:
@@ -324,17 +352,256 @@ def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
     #     if contador <= 5:
     #         print(f"\n{detalle}")   
 
+    msj_debug("\n\n*****  FINALIZO obtener_tareas", p_tools)
     return p_partes_horas
     
 #endregion OBTENER TAREAS
+
+#region UNIFICAR DATOS PROYECTOS + PARTES DE HORAS +  TASKS
+def unificar_datos(p_proyectos, p_partes_horas,p_tools: cCN006_globales):
+    proyectos_info_total = []
+    for proyecto in p_proyectos:
+        #partes_horas = [parte for parte in p_partes_horas if parte["ph_project_id"][0] == proyecto["proy_id"]]
+        partes_horas = [parte for parte in p_partes_horas if parte["ph_project_id"] == proyecto["proy_id"]]
+
+        # Escenario 1: Proyecto sin partes de horas
+        if not partes_horas:
+            proyectos_info_total.append({**proyecto, 
+                                            "ph_project_id": None, 
+                                            "ph_id": None, 
+                                            "ph_name": None, 
+                                            "ph_date": None,
+                                            "ph_unit_amount": None, 
+                                            "ph_amount": None,
+                                            "ph_user_id": None, 
+                                            "ph_account_id": None, 
+                                            "ph_task_id": None
+                                        }
+                                            )
+
+        # Escenario 2 y 3: Proyecto con una o más partes de horas
+        else:
+            for parte in partes_horas:
+                parte_convertida = parte.copy()
+                # Conversión de horas decimales a formato de tiempo para Excel
+                if parte_convertida.get("ph_unit_amount") is not None:
+                    parte_convertida["ph_unit_amount"] = parte_convertida["ph_unit_amount"] / 24
+                
+                # msj_debug(f"Parte con ID {parte_convertida['ph_id']} tiene las siguientes claves: {parte_convertida.keys()}", tools)
+
+
+                proyectos_info_total.append({**proyecto, **parte_convertida})
+    return proyectos_info_total
+
+#endregion UNIFICAR DATOS PROYECTOS + PARTES DE HORAS +  TASKS
+
+#region AJUSTES FINALES DATA
+def _desglose_fecha(proyecto, campo, fecha):
+    """Agrega al diccionario los campos desglosados de la fecha."""
+    # Establecer el locale a español para los nombres de los meses
+    locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
+    if fecha is None:
+        proyecto[f"{campo}_sem_txt"] = ""
+        proyecto[f"{campo}_sem"] = 0
+        proyecto[f"{campo}_dd"] = 0
+        proyecto[f"{campo}_dd_nombre"] = ""
+        proyecto[f"{campo}_mm"] = 0
+        proyecto[f"{campo}_mm_nombre"] = ""
+        proyecto[f"{campo}_yy"] = 0
+        proyecto[f"{campo}_yyyy"] = 0
+    else:
+         # Calcular número de semana ISO
+        numero_semana = fecha.isocalendar().week
+
+        # Calcular el lunes de esa semana
+        lunes_semana = fecha - timedelta(days=fecha.weekday())
+        lunes_formateado = lunes_semana.strftime("%d-%b").lower()
+
+        proyecto[f"{campo}_sem_txt"] = f"({numero_semana:02d}) {lunes_formateado}"
+        proyecto[f"{campo}_sem"] = fecha.isocalendar()[1]
+        proyecto[f"{campo}_dd"] = fecha.isoweekday()
+        proyecto[f"{campo}_dd_nombre"] = DIAS_SEMANA.get(fecha.isoweekday(), "")
+        proyecto[f"{campo}_mm"] = fecha.month
+        proyecto[f"{campo}_mm_nombre"] = MESES.get(fecha.month, "")
+        proyecto[f"{campo}_yy"] = fecha.year % 100
+        proyecto[f"{campo}_yyyy"] = fecha.year
+
+def ajustes_finales_data(p_proyectos_info_total,p_tools: cCN006_globales):
+    # Zona horaria UTC-6 (Guatemala)
+    tz_gt = pytz.timezone("America/Guatemala")
+
+
+    msj_debug("\n\n*****  INICIO ajustes_finales_data", p_tools)
+    msj_debug(f"En total hay ({len(p_proyectos_info_total)}) registros de proyectos con partes de horas\n", p_tools)
+    
+    msj_debug("INICIANDO ciclo de revisión de datos", p_tools)
+    contador = 1
+
+    for proyecto in p_proyectos_info_total:
+        # Prefijos pendientes proyectos
+        if proyecto['proy_timesheet_ids']:
+            proyecto['proy_timesheet_ids'] = ", ".join(map(str, proyecto['proy_timesheet_ids']))
+        else:
+            proyecto['proy_timesheet_ids'] = None
+
+        # Generar lista de campos a procesar para evitar modificar el diccionario mientras se itera
+        campos_fecha = [campo for campo in proyecto.keys() if campo in COLUMNAS_FECHA or campo in COLUMNAS_FECHA_HORA]
+
+        if contador == 1:
+            msj_debug("Evaluando campos tipo fecha", p_tools)
+
+        for campo in campos_fecha:
+            valor = proyecto[campo]
+
+            # Si el valor es False o None, establecerlo como None y desglosar en ceros
+            if not valor:
+                proyecto[campo] = None
+                _desglose_fecha(proyecto, campo, None)
+                continue
+
+            # Convertir string a datetime si es necesario
+            if isinstance(valor, str):
+                formato = "%Y-%m-%d %H:%M:%S" if campo in COLUMNAS_FECHA_HORA else "%Y-%m-%d"
+                valor = datetime.strptime(valor, formato)
+
+            # Si es fecha_hora, ajustar a UTC-6
+            if campo in COLUMNAS_FECHA_HORA:
+                valor = pytz.utc.localize(valor).astimezone(tz_gt)
+
+            # Asignar el valor final al proyecto
+            proyecto[campo] = valor.replace(tzinfo=None)
+
+            # Desglosar la fecha en sus componentes
+            _desglose_fecha(proyecto, campo, valor)
+
+        if contador == 1:
+            msj_debug("FINALIZADO Evaluando campos tipo fecha\n", p_tools)
+        contador += 1
+
+   
+    msj_debug("FINALIZADO ciclo de revisión de datos", p_tools)    
+
+
+    msj_debug("Ajustes finales de datos completados.", p_tools)
+    msj_debug("\n\n*****  FINALIZO ajustes_finales_data", p_tools)
+    return p_proyectos_info_total
+#endregion AJUSTES FINALES DATA
+
+#region CREAR ARCHIVO EXCEL
+def escribir_fecha_excel(sheet, row, col, valor):
+    """
+    Convierte una fecha a datetime.date si es necesario y la escribe en la celda de Excel.
+    Si el valor es None, deja la celda vacía.
+    """
+    if isinstance(valor, str):  # Si viene como string, convertirlo
+        try:
+            valor = datetime.strptime(valor, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            valor = None  # Si falla la conversión, dejarlo como None
+
+    sheet.cell(row=row, column=col, value=valor)
+
+from openpyxl.worksheet.table import Table, TableStyleInfo
+from openpyxl.utils import get_column_letter
+
+def crear_archivo_excel(p_proyectos_info_total, p_tools):
+    msj_debug("\n***** Estoy en crear_archivo_excel", p_tools)
+    msj_debug(f"Se van a procesar ({len(p_proyectos_info_total)})", p_tools)
+
+    file_path = "cn006_kpi_v020.xlsx"
+
+    # Abrir el archivo Excel existente
+    msj_debug("Abriendo archivo existente", p_tools)
+    wb = openpyxl.load_workbook(file_path)
+
+    # Verificar si la hoja _odoo_data existe, si no, crearla
+    if "_odoo_data" not in wb.sheetnames:
+        msj_debug("Creando hoja '_odoo_data'", p_tools)
+        ws = wb.create_sheet("_odoo_data")
+    else:
+        ws = wb["_odoo_data"]
+
+    # Limpiar datos existentes en _odoo_data
+    ws.delete_rows(1, ws.max_row)
+
+    #region Encabezados EXCEL
+    msj_debug("Escribiendo encabezados en _odoo_data", p_tools)
+    headers = list(p_proyectos_info_total[0].keys()) if p_proyectos_info_total else []
+    for col, header in enumerate(headers, start=1):
+        ws.cell(row=1, column=col, value=header)
+    #endregion
+
+    #region Datos EXCEL
+    msj_debug("Escribiendo datos en _odoo_data", p_tools)
+    for row_idx, proyecto in enumerate(p_proyectos_info_total, start=2):
+        for col_idx, header in enumerate(headers, start=1):
+            valor = proyecto.get(header, None)
+            ws.cell(row=row_idx, column=col_idx, value=valor)
+
+            # Formatear celda si es fecha
+            if header in COLUMNAS_FECHA:
+                ws.cell(row=row_idx, column=col_idx).number_format = "YYYY-MM-DD"
+            elif header in COLUMNAS_FECHA_HORA:
+                ws.cell(row=row_idx, column=col_idx).number_format = "YYYY-MM-DD HH:MM:SS"
+    #endregion
+
+    #region Actualizar tabla _tbl_odoo_data
+    msj_debug("Actualizando tabla _tbl_odoo_data", p_tools)
+    tabla_existente = None
+
+    # Buscar si existe la tabla
+    tbl=""
+    msj_debug("\nBuscando tabla _tbl_odoo_data", p_tools)
+    
+
+    # tabla_existente = next((tbl for tbl in ws._tables if isinstance(tbl, Table) and tbl.name == "_tbl_odoo_data"), None)
+
+    tbl = ws.tables["_tbl_odoo_data"]
+    tabla_existente = tbl
+   
+    msj_debug(f"Tabla encontrada: (tabla_existente) ({tabla_existente})", p_tools)
+
+    # Calcular el rango de la tabla
+    msj_debug("Calculando rango de la tabla", p_tools)
+    max_row = len(p_proyectos_info_total) + 1  # +1 para incluir el encabezado
+    max_col = len(headers)
+    nuevo_rango = f"A1:{get_column_letter(max_col)}{max_row}"
+
+    if tabla_existente:
+        msj_debug(f"Actualizando el rango de la tabla a: {nuevo_rango}", p_tools)
+        tabla_existente.ref = nuevo_rango
+    else:
+        msj_debug("No se encontró una tabla existente, creando una nueva", p_tools)
+        tabla = Table(displayName="_tbl_odoo_data", ref=nuevo_rango)
+    
+        # Establecer estilo para la tabla
+        estilo = TableStyleInfo(
+            name="TableStyleMedium9",
+            showFirstColumn=False,
+            showLastColumn=False,
+            showRowStripes=True,
+            showColumnStripes=True,
+        )
+        tabla.tableStyleInfo = estilo
+        ws.add_table(tabla)
+    msj_debug(f"Se actualizó/creó tabla en excel", p_tools)
+    #endregion
+
+    # Guardar el archivo sin perder otras hojas
+    msj_debug("Guardando archivo Excel actualizado", p_tools)
+    wb.save(file_path)
+    msj_debug("\n***** FINALIZANDO crear_archivo_excel", p_tools)
+
+
+#endregion CREAR ARCHIVO EXCEL
 
 ################################################################################################################
 # Lógica principal
 ################################################################################################################
 def main(p_ambiente, p_debug) :
-    """ Retorna todo_ok, 
-    """
     try:
+
+       
 
         #region Instanciar tools
         if p_debug:
@@ -389,79 +656,28 @@ def main(p_ambiente, p_debug) :
         #endregion Obtener datos tareas asociadas a partes de horas
 
         #region Unificar proyectos con sus partes de horas para el EXCEL
-        
+        msj_debug(f"110 - Unificar datos de proyectos con partes de horas", tools)    
         proyectos_info_total = []
-
-        for proyecto in proyectos:
-            #partes_horas = [parte for parte in detalles_partes_horas if parte["ph_project_id"] == proyecto["id"]]
-            partes_horas = [parte for parte in detalles_partes_horas if parte["ph_project_id"][0] == proyecto["proy_id"]]
-
-            # Escenario 1: Proyecto sin partes de horas
-            if not partes_horas:
-                proyectos_info_total.append({**proyecto, 
-                                             "ph_project_id": None, 
-                                             "ph_id": None, 
-                                             "ph_name": None, 
-                                             "ph_date": None,
-                                             "ph_unit_amount": None, 
-                                             "ph_amount": None,
-                                             "ph_user_id": None, 
-                                             "ph_account_id": None, 
-                                             "ph_task_id": None
-                                            }
-                                             )
-
-            # Escenario 2 y 3: Proyecto con una o más partes de horas
-            else:
-                for parte in partes_horas:
-                    parte_convertida = parte.copy()
-                    # Conversión de horas decimales a formato de tiempo para Excel
-                    if parte_convertida.get("ph_unit_amount") is not None:
-                        parte_convertida["ph_unit_amount"] = parte_convertida["ph_unit_amount"] / 24
-                    
-                    # msj_debug(f"Parte con ID {parte_convertida['ph_id']} tiene las siguientes claves: {parte_convertida.keys()}", tools)
-    
-
-                    proyectos_info_total.append({**proyecto, **parte_convertida})
-
-                    
+        proyectos_info_total = unificar_datos(proyectos, detalles_partes_horas, tools)
+        msj_debug(f"120 - Regresando unificar_datos", tools)
 
         # Resultado final
         msj_debug(f"En total hay {len(proyectos_info_total)} registros combinados", tools)
-
         # for fila in proyectos_info_total:
         #     print(fila)
+        #endregion Unificar proyectos con sus partes de horas para el EXCEL
 
+        #region Ultimos ajustes antes de crear excel
+        msj_debug(f"130 - LLAMANDO ajustes_finales_data", tools)    
+        proyectos_info_total = ajustes_finales_data(proyectos_info_total, tools)
+        msj_debug(f"140 - REGRESÓ de ajustes_finales_data", tools)    
+        #endregion Ultimos ajustes antes de crear excel
+        
         #region Generar Excel
-        msj_debug("Generando archivo excel", tools)
-        output = io.BytesIO()
-        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        worksheet = workbook.add_worksheet("Proyectos")
-        
-        # Encabezados
-        msj_debug("Encabezado", tools)
-        headers = list(proyectos_info_total[0].keys()) if proyectos_info_total else []
-        for col, header in enumerate(headers):
-            worksheet.write(0, col, header)
-        
-        # Datos
-        msj_debug("Detalle", tools)
-        for row, proyecto in enumerate(proyectos_info_total, start=1):
-            for col, header in enumerate(headers):
-                valor = proyecto.get(header, "")
-                if isinstance(valor, list):  
-                    valor = ", ".join(map(str, valor))  # Convertir la lista en una cadena separada por comas
-                worksheet.write(row, col, valor)
-
-        
-        msj_debug("workbook.close", tools)
-        workbook.filename = "cn006_kpi.xlsx"
-        workbook.close()
-        msj_debug("output.seek", tools)
-        output.seek(0)
+        msj_debug("Llamando: Generando archivo excel", tools)
+        crear_archivo_excel(proyectos_info_total, tools)
+        msj_debug("Regresando: Archivo excel generado", tools)
         #endregion Generar Excel
-
-        msj_debug(f"080 - Regresando agregar_partes_horas_por_lotes", tools)
 
         return detalles_partes_horas
 
