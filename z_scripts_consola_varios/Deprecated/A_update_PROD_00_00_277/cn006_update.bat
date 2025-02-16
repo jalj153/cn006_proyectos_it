@@ -10,7 +10,7 @@ cls
 @echo. 
 @echo on
 
-python cn006_update.py --pAmbiente PROD --pDebug True
+REM python cn006_update.py --pAmbiente PROD --pDebug True
 
 @echo off
 @echo. 

@@ -51,18 +51,17 @@
                         <!-- (NT) Campos  -->
                         <group>  <!-- (NT) Sección superior-->
                             <group>  <!--  (NT) Lado Izquierdo  -->
+                                <field name="id" string="Número Ticket" readonly="1"/>
                                 <field name="cn006_project" widget="boolean_toggle" readonly="1"/> 
+                                <field name="cn006_stod_codigo"/>
                                 <field name="cn006_emergente" widget="boolean_toggle"/> 
                                 <field name="cn006_clasificacion_id" create="0" edit="0"/>
                                 <field name="cn006_grado_complejidad_id" create="0" edit="0"/>
                                 <field name="cn006_nivel_importancia_id" create="0" edit="0"/>
                                 <field name="cn006_nivel_urgencia_id" create="0" edit="0"/>
                                 <field name="cn006_tamano_id" create="0" edit="0"/>
-                                
-                                <!--  <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>  -->   
                                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" attrs="{'invisible': True}"/>
-
-                                <field name="company_id" groups="base.group_multi_company" readonly="1" options="{'no_open': True}"/>
+                                <field name="company_id" groups="base.group_multi_company" invisible="1" readonly="1" options="{'no_open': True}"/>
                             </group>
                             <group>  <!--  (NT) Lado Derecho  -->
                                 <field name="partner_id" widget="res_partner_many2one" string="Usuario Canella" domain="[('cn_is_portal_user', '=', True)]"/>
@@ -77,18 +76,13 @@
 
                                 <field name="cn006_fecha_creacion_oficial" widget="date"/>
                                 <field name="cn006_fecha_inicio_oficial" widget="date"/>
-
-                                <field name="cn006_fecha_entrega_informatica_estimada" widget="date"/>
                                 <field name="cn006_fecha_entrega_informatica_oficial" widget="date"/>
-
-                                <field name="cn006_fecha_entrega_usuario_estimada" widget="date"/>
-                                <field name="cn006_fecha_entrega_usuario_oficial" widget="date"/>
-
-                                <field name="cn006_fecha_cierre_estimada" widget="date"/>
+                                <!-- cn006_fecha_entrega_usuario_oficial se usó temporalmente como gerencia, solamente para validar la actualización luego debe  quitarse de la vista-->
+                                <field name="cn006_fecha_entrega_usuario_oficial" widget="date" readonly="1"/>
+                                <field name="cn006_fecha_gerencia_oficial" widget="date"/>
                                 <field name="cn006_fecha_cierre_oficial" widget="date"/>
-
                                 
-                                <!-- (NT)  
+                                <!-- (NT)  Cuando se tiene fecha de inicio y final (funcionalidad de Odoo)
                                 <field name="fecha_inicio" widget="date" string="Fecha de Inicio"/>
                                 <label for="date_start" string="Planned Date"/>
                                 <div name="dates" class="o_row">
@@ -102,15 +96,13 @@
                         </group>
                         <notebook>  <!--  (NT)  Sección inferior TABs-->
                             <!--  TAB: Descripción  -->
-                            <page name="description" string="Description">
+                            <page name="description" string="Descripción">
                                 <field name="description" options="{'resizable': false}" placeholder="Project description..."/>
                             </page>
                             <!--  TAB:  Partes de horas-->
 
-
-
                             <!--  TAB: Setting  -->
-                            <page name="settings" string="Settings">
+                            <page name="settings" string="Settings" invisible="1">
                                 <group>
                                     <group>
                                         <field name="analytic_account_id" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]" 
@@ -216,7 +208,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <field name="mesa_ayuda"/>
+                                        
                                     </group>
 
 
@@ -252,8 +244,9 @@
                                     </group>
                                 </group>
                             </page>
+                            
                             <!--  TAB: Datos adicionales  -->
-                            <page name="cn006_datos_adicionales" string="Datos Adicionales">
+                            <page name="cn006_datos_adicionales" string="Datos Adicionales" invisible="1">  
                                 <field name="active" string="Active" readonly="1"/>
                                 
                                 

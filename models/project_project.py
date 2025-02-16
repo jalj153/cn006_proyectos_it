@@ -16,10 +16,20 @@ class ProjectProject(models.Model):
 
     cn006_project   = fields.Boolean(required=False, string='Proyecto Marcado (CN006)', help='Permite filtrar los proyectos asociados al módulo', default=False)
     cn006_emergente = fields.Boolean(required=False, string='¿Es emergente?',           help='Determinar el grupo de gestión del proyecto', default=False)
+    cn006_stod_codigo = fields.Integer(required=False, string='Código STOD', help='Código de STOD asignado al proyecto')
 
     #region Fechas del Proyecto
     """ 
         SECCIÓN DE FECHAS
+        SOLAMENTE SE UTILIZARÁN LAS SIGUIENTES
+            creacion
+            inicio
+            entrega_informatica
+            entrega_gerencia(*)
+            cierre
+
+            (*) cn006_fecha_entrega_usuario_oficial, se utilizó temporalmente como gerencia.  debe ser actualizado posteriormente y dejarlo en FALSE
+        
         Típicamente una fecha tendrá variantes, el mismo significado pero con variantes
             _estimada: Fecha que se estimó para finalización (ya sea por el responsable del proyecto o Informática)
             _sistema : Es la fecha real cuando fue grabada en Odoo.  Importantes para ver la diferencia entre "el suceso real" y "la grabación al sistema"
@@ -27,23 +37,28 @@ class ProjectProject(models.Model):
     """
     #endregion Fechas del Proyecto
 
-    cn006_fecha_creacion_sistema = fields.Date(required=True,  string='(SIS) Fecha Creación', help='Fecha en que se grabó el proyecto en el sistema', default=fields.Date.context_today)
-    cn006_fecha_creacion_oficial = fields.Date(required=False, string='Fecha Creación'     , help='Fecha en que se gestó el proyecto.')
+    cn006_fecha_creacion_sistema = fields.Date(required=True,  string='Fecha Creación (Sistema)', help='Fecha en que se grabó el proyecto en el sistema', default=fields.Date.context_today)
+    cn006_fecha_creacion_oficial = fields.Date(required=False, string='Fecha Creación'          , help='Fecha en que se gestó el proyecto.')
 
-    cn006_fecha_inicio_oficial = fields.Date(required=False, string='Fecha Inicio'      , help='Fecha en que iniciaron trabajos en el proyecto.  El proyecto empezó a comsumir horas.')
-    cn006_fecha_inicio_sistema = fields.Date(required=False, string='(SIS) Fecha Inicio', help='Fecha en que actualizó el proyecto - Fecha en que iniciaron trabajos en el proyecto.  El proyecto empezó a comsumir horas.')
+    cn006_fecha_inicio_estimada = fields.Date(required=False, string='Fecha Inicio (Estimada)', help='Fecha en que el responsable (interno externo) debe iniciar el proyecto')
+    cn006_fecha_inicio_oficial  = fields.Date(required=False, string='Fecha Inicio'           , help='Fecha en que iniciaron trabajos en el proyecto.  El proyecto empezó a comsumir horas.')
+    cn006_fecha_inicio_sistema  = fields.Date(required=False, string='Fecha Inicio (Sistema)' , help='Fecha en que actualizó el proyecto - Fecha en que iniciaron trabajos en el proyecto.  El proyecto empezó a comsumir horas.')
 
-    cn006_fecha_entrega_informatica_estimada = fields.Date(required=False, string='Fecha Entrega a Informática'            , help='Fecha en que el responsable (interno externo) debe entregar a Informática')
-    cn006_fecha_entrega_informatica_oficial  = fields.Date(required=False, string='Fecha Real Entrega a Informática'       , help='Fecha en que el responsable (interno externo) realmente entregó a Informática')
-    cn006_fecha_entrega_informatica_sistema  = fields.Date(required=False, string='(SIS) Fecha Entrega Real a Informática' , help='Fecha en que se actualizó el proyecto - Fecha en que el responsable (interno externo) realmente entregó a Informática')
+    cn006_fecha_entrega_informatica_estimada = fields.Date(required=False, string='Fecha Informática (Estimada)', help='Fecha en que el responsable debe entregar a Informática')
+    cn006_fecha_entrega_informatica_oficial  = fields.Date(required=False, string='Fecha Informática'           , help='Fecha en que el responsable realmente entregó a Informática')
+    cn006_fecha_entrega_informatica_sistema  = fields.Date(required=False, string='Fecha Informática (Sistema)' , help='Fecha en que se actualizó el proyecto - Fecha en que el responsable (interno externo) realmente entregó a Informática')
 
-    cn006_fecha_entrega_usuario_estimada = fields.Date(required=False, string='Fecha Entrega a Usuario'            , help='Fecha en que se debe entregar a usuario')
-    cn006_fecha_entrega_usuario_oficial  = fields.Date(required=False, string='Fecha Real Entrega a Usuario'       , help='Fecha en que realmente se entregó a usuario')
-    cn006_fecha_entrega_usuario_sistema  = fields.Date(required=False, string='(SIS) Fecha Real Entrega a Usuario' , help='Fecha en que se actualizó el proyecto - Fecha en que realmente se entregó a usuario')
+    cn006_fecha_entrega_usuario_estimada = fields.Date(required=False, string='Fecha Usuario (Estimada)', help='Fecha en que se debe entregar a usuario')
+    cn006_fecha_entrega_usuario_oficial  = fields.Date(required=False, string='Fecha Usuario'           , help='Fecha en que realmente se entregó a usuario')
+    cn006_fecha_entrega_usuario_sistema  = fields.Date(required=False, string='Fecha Usuario (Sistema)' , help='Fecha en que se actualizó el proyecto - Fecha en que realmente se entregó a usuario')
 
-    cn006_fecha_cierre_estimada = fields.Date(required=False, string='Fecha cierre'           , help='Fecha en que se estima cerrar el proyecto')
-    cn006_fecha_cierre_oficial  = fields.Date(required=False, string='Fecha Real cierre'      , help='Fecha en que realmente se cerró el proyecto')
-    cn006_fecha_cierre_sistema  = fields.Date(required=False, string='(SIS) Fecha Real cierre', help='Fecha en que se actualizó el proyecto - Fecha en que realmente se cerró el proyecto')
+    cn006_fecha_gerencia_estimada = fields.Date(required=False, string='Fecha Gerencia (Estimada)', help='Fecha en que se debe entregar a gerencia')
+    cn006_fecha_gerencia_oficial  = fields.Date(required=False, string='Fecha Gerencia'           , help='Fecha en que realmente se entregó a gerencia')
+    cn006_fecha_gerencia_sistema  = fields.Date(required=False, string='Fecha Gerencia (Sistema)' , help='Fecha en que se actualizó el proyecto - Fecha en que realmente se entregó a gerencia')
+
+    cn006_fecha_cierre_estimada = fields.Date(required=False, string='Fecha Cierre (Estimada)', help='Fecha en que se estima cerrar el proyecto')
+    cn006_fecha_cierre_oficial  = fields.Date(required=False, string='Fecha Cierre'           , help='Fecha en que realmente se cerró el proyecto')
+    cn006_fecha_cierre_sistema  = fields.Date(required=False, string='Fecha Cierre (Sistema)' , help='Fecha en que se actualizó el proyecto - Fecha en que realmente se cerró el proyecto')
 
 
 #region Métodos propios de la gestión del modelo (creates, updates, etc)

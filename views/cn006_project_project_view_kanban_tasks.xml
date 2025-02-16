@@ -64,7 +64,7 @@
                                                         name="cn006_method_view_project_tasks" 
                                                         type="object" 
                                                         context="{'default_project_id': active_id, 'show_project_update': True}">
-                                                        (cn006) Tareas Botón
+                                                        EDITAR TAREAS
                                                     </button>
                                                 </div>   
 
