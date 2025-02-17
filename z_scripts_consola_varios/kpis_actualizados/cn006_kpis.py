@@ -29,7 +29,9 @@ from cn006_kpis_globales import cCN006_globales
 ************************************************************************  """
 #endregion
 
+######################################################################################################
 #region GLOBALES
+    ######################################################################################################
     #region Variables tipo fecha
 COLUMNAS_FECHA = {
     "ph_date", "proy_cn006_fecha_cierre_estimada", "proy_cn006_fecha_cierre_oficial",
@@ -38,6 +40,7 @@ COLUMNAS_FECHA = {
     "proy_cn006_fecha_entrega_informatica_oficial", "proy_cn006_fecha_entrega_informatica_sistema",
     "proy_cn006_fecha_entrega_usuario_estimada", "proy_cn006_fecha_entrega_usuario_oficial",
     "proy_cn006_fecha_entrega_usuario_sistema", "proy_cn006_fecha_inicio_oficial",
+    'proy_cn006_fecha_gerencia_estimada','proy_cn006_fecha_gerencia_oficial','proy_cn006_fecha_gerencia_sistema',
     "proy_cn006_fecha_inicio_sistema", "proy_date", "proy_date_start"
 }
 
@@ -51,7 +54,9 @@ MESES = {
     7: "JUL", 8: "AGO", 9: "SEP", 10: "OCT", 11: "NOV", 12: "DIC"
 }
     #endregion Variables tipo fecha
+    ######################################################################################################
 #endregion GLOBALES
+######################################################################################################
 
 def msj_debug (p_msj, p_tools: cCN006_globales):
     if p_tools.g_debug:
@@ -62,6 +67,7 @@ def msj_debug (p_msj, p_tools: cCN006_globales):
 # Extracción de información
 ################################################################################################################
 
+######################################################################################################
 #region OBTENER PROYECTOS
 def obtener_proyectos(p_tools: cCN006_globales):
     models = xmlrpc.client.ServerProxy(f"{p_tools.cnx_url}/xmlrpc/2/object")
@@ -84,6 +90,7 @@ def obtener_proyectos(p_tools: cCN006_globales):
                                         'cn006_fecha_entrega_informatica_estimada', 'cn006_fecha_entrega_informatica_oficial', 'cn006_fecha_entrega_informatica_sistema', 
                                         'cn006_fecha_entrega_usuario_estimada', 'cn006_fecha_entrega_usuario_oficial', 'cn006_fecha_entrega_usuario_sistema', 
                                         'cn006_fecha_cierre_estimada', 'cn006_fecha_cierre_oficial', 'cn006_fecha_cierre_sistema',
+                                        'cn006_fecha_gerencia_estimada','cn006_fecha_gerencia_oficial','cn006_fecha_gerencia_sistema',
                                         'create_date', 'create_uid', 'write_date', 'write_uid',
                                         'timesheet_ids', 'task_ids'
                                         ]
@@ -185,7 +192,9 @@ def obtener_proyectos(p_tools: cCN006_globales):
 
     return proyectos
 #endregion OBTENER PROYECTOS
+######################################################################################################
 
+######################################################################################################
 #region OBTENER PARTES DE HORAS
 def obtener_partes_horas(p_proyectos, p_tools: cCN006_globales):
     partes_horas_proyectos = []
@@ -270,7 +279,9 @@ def obtener_partes_horas(p_proyectos, p_tools: cCN006_globales):
     #     print(f"\n{detalle}")
     return detalles_partes_horas
 #endregion OBTENER PARTES DE HORAS
+######################################################################################################
 
+######################################################################################################
 #region OBTENER TAREAS
 def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
     msj_debug("\n\n*****  INICIO obtener_tareas", p_tools)
@@ -356,7 +367,9 @@ def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
     return p_partes_horas
     
 #endregion OBTENER TAREAS
+######################################################################################################
 
+######################################################################################################
 #region UNIFICAR DATOS PROYECTOS + PARTES DE HORAS +  TASKS
 def unificar_datos(p_proyectos, p_partes_horas,p_tools: cCN006_globales):
     proyectos_info_total = []
@@ -394,7 +407,9 @@ def unificar_datos(p_proyectos, p_partes_horas,p_tools: cCN006_globales):
     return proyectos_info_total
 
 #endregion UNIFICAR DATOS PROYECTOS + PARTES DE HORAS +  TASKS
+######################################################################################################
 
+######################################################################################################
 #region AJUSTES FINALES DATA
 def _desglose_fecha(proyecto, campo, fecha):
     """Agrega al diccionario los campos desglosados de la fecha."""
@@ -435,21 +450,34 @@ def ajustes_finales_data(p_proyectos_info_total,p_tools: cCN006_globales):
     msj_debug(f"En total hay ({len(p_proyectos_info_total)}) registros de proyectos con partes de horas\n", p_tools)
     
     msj_debug("INICIANDO ciclo de revisión de datos", p_tools)
-    contador = 1
 
+    proyectos_vistos = set()
+
+    stage_order = {
+            "COLA": "10-COLA",
+            "ASIGNADO": "20-ASIGNADO",
+            "ANALISIS": "30-ANALISIS",
+            "DESARROLLO": "40-DESARROLLO",
+            "IMPLEMENTACION": "50-IMPLEMENTACION",
+            "CERTIFICADO": "60-CERTIFICADO"
+        }
     for proyecto in p_proyectos_info_total:
-        # Prefijos pendientes proyectos
+        #############################################################
+        #region Prefijos pendientes proyectos
         if proyecto['proy_timesheet_ids']:
             proyecto['proy_timesheet_ids'] = ", ".join(map(str, proyecto['proy_timesheet_ids']))
         else:
             proyecto['proy_timesheet_ids'] = None
+        #endregion Prefijos pendientes proyectos
+        #############################################################
+
+        #############################################################
+        #region procesar campos de fecha
 
         # Generar lista de campos a procesar para evitar modificar el diccionario mientras se itera
         campos_fecha = [campo for campo in proyecto.keys() if campo in COLUMNAS_FECHA or campo in COLUMNAS_FECHA_HORA]
 
-        if contador == 1:
-            msj_debug("Evaluando campos tipo fecha", p_tools)
-
+        # Procesar campos de fecha
         for campo in campos_fecha:
             valor = proyecto[campo]
 
@@ -474,11 +502,24 @@ def ajustes_finales_data(p_proyectos_info_total,p_tools: cCN006_globales):
             # Desglosar la fecha en sus componentes
             _desglose_fecha(proyecto, campo, valor)
 
-        if contador == 1:
-            msj_debug("FINALIZADO Evaluando campos tipo fecha\n", p_tools)
-        contador += 1
+        #endregion procesar campos de fecha
+        #############################################################
 
-   
+        #############################################################
+        #region identificar proyectos únicos
+        proy_id = proyecto.get('proy_id')
+        if proy_id not in proyectos_vistos:
+            proyecto['proy_id_unico'] = "x"
+            proyectos_vistos.add(proy_id)
+        else:
+            proyecto['proy_id_unico'] = ""
+        #endregion identificar proyectos únicos
+        #############################################################
+
+        stage = proyecto.get('proy_stage_id_name', '')
+        proyecto['proy_stage_id_name'] = stage_order.get(stage, stage)
+
+
     msj_debug("FINALIZADO ciclo de revisión de datos", p_tools)    
 
 
@@ -486,7 +527,9 @@ def ajustes_finales_data(p_proyectos_info_total,p_tools: cCN006_globales):
     msj_debug("\n\n*****  FINALIZO ajustes_finales_data", p_tools)
     return p_proyectos_info_total
 #endregion AJUSTES FINALES DATA
+######################################################################################################
 
+######################################################################################################
 #region CREAR ARCHIVO EXCEL
 def escribir_fecha_excel(sheet, row, col, valor):
     """
@@ -559,7 +602,7 @@ def crear_archivo_excel(p_proyectos_info_total, p_tools):
     tbl = ws.tables["_tbl_odoo_data"]
     tabla_existente = tbl
    
-    msj_debug(f"Tabla encontrada: (tabla_existente) ({tabla_existente})", p_tools)
+    #msj_debug(f"Tabla encontrada: (tabla_existente) ({tabla_existente})", p_tools)
 
     # Calcular el rango de la tabla
     msj_debug("Calculando rango de la tabla", p_tools)
@@ -592,13 +635,23 @@ def crear_archivo_excel(p_proyectos_info_total, p_tools):
     wb.save(file_path)
     msj_debug("\n***** FINALIZANDO crear_archivo_excel", p_tools)
 
-
 #endregion CREAR ARCHIVO EXCEL
+######################################################################################################
+
 
 ################################################################################################################
 # Lógica principal
 ################################################################################################################
 def main(p_ambiente, p_debug) :
+    """  ****************************************************************************************
+    ESTE SCRIPT GENERA TODA LA INFORMACIÓN DE PROYECTOS, PARTES DE HORAS Y TAREAS ASOCIADAS
+    PARA CREAR UN ARCHIVO EXCEL CON TODA LA INFORMACIÓN.
+
+    ES LA BASE PARA ELABORAR LOS KPIs DE PROYECTOS.
+
+    EL DESARROLLO TERMINA ACÁ COMO UN PROTOTIPO Y SE CONTINUA BAJO EL MODELO DE HELPDESK.
+    ****************************************************************************************  """
+
     try:
 
        

@@ -140,38 +140,6 @@ def agregar_codigo_stod_a_proyectos(p_tools: cCN006_globales):
     #endregion Actualizar STOD_codigo en proyectos existentes
     ############################################################################################################
 
-    ############################################################################################################
-    #region agregar_proyectos
-def agregar_proyectos(p_tools: cCN006_globales):
-    """Actualiza el campo cn006_fecha_gerencia_oficial
-    con el valor de cn006_fecha_entrega_usuario_oficial
-    para todos los proyectos donde cn006_project = True.
-    """
-
-    try:
-        p_tools.msj_debug(f"\n\n>>>>>***********************************************************")
-        p_tools.msj_debug(f"*****  INICIANDO agregar_proyectos\n\n")
-
-        models = xmlrpc.client.ServerProxy(f"{p_tools.cnx_url}/xmlrpc/2/object")
-
-        # Buscar todos los proyectos donde cn006_project = True
-        project_ids = models.execute_kw(
-            p_tools.cnx_db, p_tools.cnx_uid, p_tools.cnx_password,
-            'project.project', 'search',
-            [[('cn006_project', '=', True)]]
-        )
-
-        
-        p_tools.msj_debug(f"\n\n*****  FINALIZADO agregar_proyectos\n\n")
-        p_tools.msj_debug(f">>>>>***********************************************************\n")
-
-    except Exception as e:
-        p_tools.msj_debug(f"\n\n*****   Error en método (agregar_proyectos):\n>>>>>>>>\n{e}")
-        return []
-
-    #endregion agregar_proyectos
-    ############################################################################################################   
-
 #endregion Procesos específicos
 ################################################################################################################
 
@@ -218,6 +186,7 @@ def main(p_ambiente, p_debug) :
 
         #***********************************************************
         #region Agregar proyectos
+        # SE HARÁ MMANUALMENTE
         #endregion Agregar proyectos
         #***********************************************************
 

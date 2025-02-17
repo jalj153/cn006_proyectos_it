@@ -8,9 +8,10 @@ cls
 @echo .
 @echo . 
 @echo . 
-@echo on
 
-python cn006_update_00_00_xxx.py --pAmbiente DESA --pDebug True
+REM python cn006_update_00_00_290.py --pAmbiente PROD --pDebug True
+echo YA SE EJECUTÓ EN PRODUCCIÓN
+echo NO DEBE USARSE OTRA VEZ
 
 @echo off
 @echo. 
