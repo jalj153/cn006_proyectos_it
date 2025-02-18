@@ -1,0 +1,16 @@
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui"> 
+   <ribbon> 
+     <tabs> 
+       <tab id="NTTab01" label="🚀 Proyectos IT"> 
+         
+         <group id="NTGrp01" label="Proyectos IT"> 
+           <button id="NTBtnImportar" label="Importar" size="large" imageMso="GetExternalDataImportClassic" onAction="NTProcesarMenuProyectosIT" /> 
+           <button id="NTBtnCfg" label="CFG Conexión" size="large" imageMso="ServerConnection" onAction="NTProcesarMenuProyectosIT" /> 
+         </group> 
+         <group id="NTGrp99" label="Ayuda"> 
+           <button id="NTBtnAcercaDe" label="Acerca de" size="large" imageMso="Info" onAction="NTProcesarMenuProyectosIT" /> 
+         </group>
+       </tab>
+     </tabs>
+   </ribbon>
+ </customUI>

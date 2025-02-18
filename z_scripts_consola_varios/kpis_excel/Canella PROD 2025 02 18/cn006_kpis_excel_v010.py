@@ -1,21 +1,15 @@
-import sys
-import os
-import io
-
-import openpyxl
-#from openpyxl.utils import get_column_letter
-#from openpyxl.worksheet.table import Table, TableStyleInfo
-
-import xmlrpc.client
-import json
 import argparse
-import locale
-
-import pytz
-from pytz import timezone
-from datetime import datetime, timedelta
 from collections import defaultdict
-import codecs
+from datetime import datetime, timedelta
+import json
+import locale
+import openpyxl
+import os
+import pytz
+import sys
+import xmlrpc.client
+
+
 
 sys.path.append(os.path.abspath(".."))  # Agrega el directorio superior al path
 from cn006_kpis_globales import cCN006_globales
@@ -316,7 +310,7 @@ def obtener_tareas(p_partes_horas, p_tools: cCN006_globales):
                     'cn006_tipificacion_id', 'cn006_tipo_soporte_id', 'stage_id']}
     )
     
-    print(f"La base de datos retornó ({len(tareas)}) tareas asociadas a los partes de horas.")
+    msj_debug(f"La base de datos retornó ({len(tareas)}) tareas asociadas a los partes de horas.", p_tools)
 
     tarea_dict = {t['id']: t for t in tareas}
 
@@ -567,12 +561,26 @@ def seleccionar_campos_finales(p_proyectos_info_total, p_tools: cCN006_globales)
     # Extraer solo los campos definidos en la estructura y cambiar sus nombres
     resultado = []
     for proyecto in p_proyectos_info_total:
-        nuevo_registro = {}
-        for campo in campos_seleccionados:
-            nombre_actual = campo['nombre_actual']
-            nombre_nuevo = campo['nombre_nuevo']
-            nuevo_registro[nombre_nuevo] = proyecto.get(nombre_actual, None)
-        resultado.append(nuevo_registro)
+        if proyecto.get('proy_id_unico', '').strip().upper() == 'X':
+            
+            nuevo_registro = {}
+            for campo in campos_seleccionados:
+                nombre_actual = campo['nombre_actual']
+                nombre_nuevo = campo['nombre_nuevo']
+                valor = proyecto.get(nombre_actual, "")
+
+                #Evitar None en excel
+                if valor == None:
+                    valor = ""
+
+                # Si es un campo de fecha y es datetime, convertir a date
+                if "cn006_fecha" in nombre_actual and isinstance(valor, datetime):
+                    valor = valor.strftime('%Y-%m-%d')
+
+                nuevo_registro[nombre_nuevo] = valor
+
+            resultado.append(nuevo_registro)
+            msj_debug(f"Proyecto campos seleccionados {proyecto}\n\n", p_tools)
 
     p_tools.msj_debug(f"Se han seleccionado {len(resultado)} registros con los campos definidos.")
     return resultado
@@ -689,6 +697,62 @@ def crear_archivo_excel(p_proyectos_info_total, p_tools):
 #endregion CREAR ARCHIVO EXCEL
 ######################################################################################################
 
+######################################################################################################
+#region JSON PARA INTERFAZ VBA
+def convertir_a_json(p_proyectos_info_total, p_tools: cCN006_globales):
+    msj_debug(f"\nIniciando convertir_a_json  ({datetime.now().strftime('%Y-%m-%d %H:%M:%S')})", p_tools)
+
+    # Convertir fechas a cadenas
+    for item in p_proyectos_info_total:
+        for key, value in item.items():
+            if isinstance(value, datetime):
+                item[key] = value.isoformat()  # Formato: 'YYYY-MM-DDTHH:MM:SS'
+
+    try:
+        proyectos_tmp = json.dumps(p_proyectos_info_total, default=lambda x: "" if x is None else x, ensure_ascii=False, indent=4)
+
+        
+
+    except (TypeError, ValueError) as e:
+        msj_debug(f"Error al convertir a JSON: {e}", p_tools)
+        return None
+
+    msj_debug(f"\nFinalizó convertir_a_json  ({datetime.now().strftime('%Y-%m-%d %H:%M:%S')})", p_tools)
+    return proyectos_tmp
+
+def crear_salida (p_proyectos, p_tools: cCN006_globales ):
+    msj_debug(f"\nIniciando crear_salida  ({datetime.now().strftime("%Y-%m-%d %H:%M:%S")})", p_tools)
+
+    proyectos_json = ""
+    proyectos_json = convertir_a_json(p_proyectos, p_tools)
+    data = json.loads(proyectos_json)
+
+    if isinstance(data, list) and len(data) > 0 and isinstance(data[0], dict):
+        msj_debug(f"Obtener nombres de campos  ({datetime.now().strftime("%Y-%m-%d %H:%M:%S")})", p_tools)
+
+        # Obtener los nombres de los campos
+        fields = data[0].keys()
+
+        # Crear la salida
+        output = []
+
+        msj_debug(f"Añadir los nombres de los campos a la salida  ({datetime.now().strftime("%Y-%m-%d %H:%M:%S")})", p_tools)
+        # Añadir los nombres de los campos a la salida
+        output.append("|NT|".join(fields))
+
+        msj_debug(f"Añadir cada registro a la salida (ciclo)  ({datetime.now().strftime("%Y-%m-%d %H:%M:%S")})", p_tools)
+
+        # Añadir cada registro a la salida
+        for record in data:
+            for key in record:
+                if isinstance(record[key], str):
+                    record[key] = record[key].replace('\n', ' ** ')
+
+            row = [str(record.get(field, '')) for field in fields]
+            output.append("|NT|".join(row))
+    return output
+#endregion PRESENTAR JSON PARA INTERFAZ VBA
+######################################################################################################
 
 ################################################################################################################
 # Lógica principal
@@ -704,8 +768,6 @@ def main(p_ambiente, p_debug) :
     ****************************************************************************************  """
 
     try:
-
-       
 
         #region Instanciar tools
         if p_debug:
@@ -737,9 +799,6 @@ def main(p_ambiente, p_debug) :
             msj_debug(f"Se ecnontraron ({len(proyectos)}) registros de proyectos", tools)
         else:
             msj_debug(f"*** NO SE ENCONTRARON REGISTROS DE PROYECTOS", tools)
-        
-        # for proyecto in proyectos:
-        #     print(f"ID: {proyecto['id']}, Nombre: {proyecto['name']}, Responsable: {proyecto.get('user_id', 'N/A')}")
         #endregion Obtener proyectos que se procesarán
     
         #region Obtener los partes de horas asociadas a proyectos
@@ -783,16 +842,21 @@ def main(p_ambiente, p_debug) :
         msj_debug("160 Regresando: Campos finales seleccionados", tools)
         #endregion Seleccionar campos finales
 
-        #region Generar Excel
-        msj_debug("Llamando: Generando archivo excel", tools)
-        crear_archivo_excel(proyectos_info_total, tools)
-        msj_debug("Regresando: Archivo excel generado", tools)
+        #region Generar Datos para interfaz VBA
+        msj_debug("Llamando: Generando información para interfaz", tools)
+        # crear_archivo_excel(proyectos_info_total, tools)
+        salida = []
+        salida = crear_salida(proyectos_info_total, tools)
+        msj_debug("Regresando: Generando información para interfaz", tools)
+        for linea in salida:
+            print(linea)
         #endregion Generar Excel
 
         return detalles_partes_horas
 
     except Exception as e:
         print(f"\n\n*****   Error general en el proceso:\n>>>>>>>>\n{e}")
+        input("Presione cualquier tecla para continuar")
         return []
 
 
@@ -800,14 +864,17 @@ def main(p_ambiente, p_debug) :
     except xmlrpc.client.ProtocolError as error:
         tools.asigna_error(f"Error de protocolo.  {error}|")
         print (f"|Todo Ok: {tools.g_todo_ok}\n*|* conexión: {tools.formatear_datos_conexion()}\n*|* msj: {tools.g_msj}|")            
+        input("Presione cualquier tecla para continuar")
         #return g_todo_ok, g_datos_conexion, g_msj
     except xmlrpc.client.Fault as error:
         tools.asigna_error(f"Error de RPC: {error}")
         print (f"|Todo Ok: {tools.g_todo_ok}\n*|* conexión: {tools.formatear_datos_conexion()}\n*|* msj: {tools.g_msj}|")            
+        input("Presione cualquier tecla para continuar")
         #return g_todo_ok, g_datos_conexion, g_msj
     except Exception as error:
         tools.asigna_error(f"Error general: {error}")
         print (f"|Todo Ok: {tools.g_todo_ok}\n*|* conexión: {tools.formatear_datos_conexion()}\n*|* msj: {tools.g_msj}|")            
+        input("Presione cualquier tecla para continuar")
         #return g_todo_ok, g_datos_conexion, g_msj
 
 ################################################################################################################
@@ -821,7 +888,7 @@ if __name__ == "__main__":
     # Instanciar cCN006_globales antes de usar str2bool
     tmp = cCN006_globales("DESA", False )
 
-    parser.add_argument('--pAmbiente', type=str,                      nargs='?', const="DESA", default="DESA", help="Ambiente para ejecutar (DESA/PROD)")
+    parser.add_argument('--pAmbiente', type=str,          nargs='?', const="DESA", default="DESA", help="Ambiente para ejecutar (DESA/PROD)")
     parser.add_argument('--pDebug',    type=tmp.str2bool, nargs='?', const=True,   default=False,  help="True - Despliega mensajes de seguimiento | False - para correr en producción")
 
     parser.set_defaults(pAmbiente="DESA", pDebug=False)
@@ -830,6 +897,7 @@ if __name__ == "__main__":
     args.pAmbiente = args.pAmbiente.upper()
 
     del tmp
+
 
     # Pasar la instancia globales a main
     main(args.pAmbiente, args.pDebug)
