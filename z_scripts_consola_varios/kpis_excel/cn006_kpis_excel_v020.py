@@ -88,7 +88,8 @@ def obtener_proyectos(p_tools: cCN006_globales):
                                         'cn006_fecha_gerencia_estimada','cn006_fecha_gerencia_oficial','cn006_fecha_gerencia_sistema',
                                         'create_date', 'create_uid', 'write_date', 'write_uid',
                                         'timesheet_ids', 'task_ids'
-                                        ]
+                                        ],
+                                        'context': {'lang': 'es_GT'} 
                                     }
                                 )
     
