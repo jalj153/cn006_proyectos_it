@@ -6,6 +6,7 @@ from . import cn006_proyecto_tamano
 from . import cn006_proyecto_tarea_grado_avance
 from . import cn006_proyecto_tarea_tipificacion
 from . import cn006_proyecto_tarea_tipo_soporte
+from . import cn006_proyecto_tipo
 
 from . import project_project_stage
 from . import project_project

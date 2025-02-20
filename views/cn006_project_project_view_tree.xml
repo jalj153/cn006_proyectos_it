@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="cn006_project_project_view_tree" model="ir.ui.view">
+        <field name="name">(CN006) Proyecto - Tree</field>
+        <field name="model">project.project</field>
+        <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+            <tree decoration-muted="active == False" string="Projects" multi_edit="1" sample="1" default_order="sequence, name, id">
+                <field name="company_id" invisible="1"/>
+                <field name="sequence" optional="show" widget="handle"/>
+                <field name="message_needaction" invisible="1"/>
+                <field name="active" invisible="1"/>
+                <field name="is_favorite" nolabel="1" width="1" widget="boolean_favorite"/>
+
+                <!-- Nueva columna para el botón de tareas -->
+                <button type="object" name="cn006_method_view_project_tasks" 
+                        icon="fa-tasks" title="Ver Actividades"
+                        context="{'default_project_id': active_id, 'show_project_update': True}"/>
+
+                <field name="task_count" string="Tareas" optional="show"/> 
+                <field name="id" string="ID" optional="show"/>
+                <field name="display_name" string="Descripción" class="fw-bold"/>
+                <field name="user_id" optional="show" string="Asignado a" widget="many2one_avatar_user" 
+                    options="{'no_open':True, 'no_create': True, 'no_create_edit': True}"/>
+                <field name="partner_id" optional="hide" string="Solicitante"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company" 
+                    options="{'no_create': True, 'no_create': True}"/>
+                <field name="analytic_account_id" optional="hide" groups="analytic.group_analytic_accounting"/>
+                <field name="stage_id" string="Etapa" options="{'no_open': True}" optional="show"/>
+            </tree>
+
+
+
+        </field>  <!--  arch-->
+    </record>  <!--  id="cn006_project_project_view_tree" model="ir.ui.view"  -->
+
+</odoo>

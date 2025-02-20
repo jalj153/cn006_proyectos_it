@@ -4,7 +4,7 @@
     <record id="cn006_action_project_task_kanban" model="ir.actions.act_window">
         <field name="name">(CN006) Mantenimiento de Tareas</field>
         <field name="res_model">project.project</field>
-        <field name="view_mode">kanban,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="context">
             {
                 'group_by': 'stage_id',
@@ -18,11 +18,13 @@
         <field name="view_ids" eval="[
             (5, 0, 0),
             (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_project_view_kanban_tasks')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('cn006_proyectos_it.cn006_project_project_view_tree')}),
             (0, 0, {'view_mode': 'form','view_id': ref('cn006_proyectos_it.cn006_project_project_view_form')})
         ]"/>
         <field name="search_view_id" ref="cn006_proyectos_it.cn006_project_project_view_kanban_filter"/>
         <field name="domain">[('cn006_project', '=', True)]</field>
     </record>
+
     <!-- Listar proyectos y modificar proyectos -->
     <record id="cn006_action_project_project_kanban" model="ir.actions.act_window">
         <field name="name">(CN006) Mantenimiento Proyectos</field>

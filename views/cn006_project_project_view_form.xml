@@ -51,10 +51,11 @@
                         <!-- (NT) Campos  -->
                         <group>  <!-- (NT) Sección superior-->
                             <group>  <!--  (NT) Lado Izquierdo  -->
-                                <field name="id" string="Número Ticket" readonly="1"/>
+                                <field name="id" string="Número Ticket" readonly="1"/> 
                                 <field name="cn006_project" widget="boolean_toggle" readonly="1"/> 
                                 <field name="cn006_stod_codigo"/>
                                 <field name="cn006_emergente" widget="boolean_toggle"/> 
+                                <!--  <field name="cn006_tipo_proyecto_id" create="0" edit="0"/>  -->
                                 <field name="cn006_clasificacion_id" create="0" edit="0"/>
                                 <field name="cn006_grado_complejidad_id" create="0" edit="0"/>
                                 <field name="cn006_nivel_importancia_id" create="0" edit="0"/>

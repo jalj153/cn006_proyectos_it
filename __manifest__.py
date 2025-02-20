@@ -6,7 +6,7 @@
 
 {
     'name': '(CN006) Gestión Proyectos IT',
-    'version': '00.00.294',
+    'version': '00.00.311',
     'summary': '(CN006) Gestión Proyectos IT',
     'description': '(CN006) Gestión de proyectos del área de IT',
     'author': 'Neotropo®',
@@ -31,6 +31,7 @@
             'data/cn006_proyecto_stage.xml',
             'data/cn006_proyecto_tamano.xml',
             'data/cn006_proyecto_task_type.xml',
+            'data/cn006_proyecto_tipo.xml',
             'data/cn006_tarea_grado_avance.xml',
             'data/cn006_tarea_tipificacion.xml',
             'data/cn006_tarea_tipo_soporte.xml',
@@ -40,6 +41,7 @@
                 'views/cn006_project_project_view_kanban_tasks.xml',
                 'views/cn006_project_project_view_kanban.xml',
 
+                'views/cn006_project_project_view_tree.xml',
                 'views/cn006_project_task_view_form.xml',
                 'views/cn006_project_task_view_kanban_filter.xml',
                 'views/cn006_project_task_view_kanban.xml',

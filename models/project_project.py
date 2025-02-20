@@ -11,6 +11,7 @@ class ProjectProject(models.Model):
     cn006_grado_complejidad_id = fields.Many2one('cn006.proyecto.grado.complejidad', string='Grado Compejidad', help='Grado de complejidad del proyecto.')
     cn006_nivel_importancia_id = fields.Many2one('cn006.proyecto.nivel.importancia', string='Importancia', help='Nivel de importancia del proyecto.')
     cn006_nivel_urgencia_id    = fields.Many2one('cn006.proyecto.nivel.urgencia',    string='Urgencia', help='Nivel de urgencia del proyecto.')
+    cn006_tipo_proyecto_id     = fields.Many2one('cn006.proyecto.tipo.proyecto',     string='Tipo', help='Tipo del proyecto.')
     cn006_tamano_id            = fields.Many2one('cn006.proyecto.tamano',            string='Tamaño', help='Tamaño del proyecto.')
     #endregion Campos relacionados
 
