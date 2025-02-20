@@ -17,12 +17,19 @@
                 <field name="stage_id" string="Etapa" groups="project.group_project_stages"/>
 
                 <!--  Filtros  -->
-                <filter string="Mis Proyectos" name="own_projects" domain="[('user_id', '=', uid)]"/>
+                <!--  <filter string="Mis Proyectos" name="own_projects" domain="[('user_id', '=', uid)]"/>  -->
+
+                <filter string="Mis Proyectos" name="own_projects" domain="[
+                        '|', 
+                        ('user_id', '=', uid), 
+                        ('message_partner_ids.user_ids', '=', uid) 
+                    ]"/>
+
                 <filter string="Mi Prioridad (favoritos)" name="my_projects" domain="[('favorite_user_ids', 'in', uid)]"/>
                 <filter string="Proyectos en que Participo" name="followed_by_me" domain="[('message_is_follower', '=', True)]"/>
                 <filter string="Sin Asignar" name="unassigned_projects" domain="[('user_id', '=', False)]"/>
                 <separator/>
-                <filter string="Hitos Tardíos" name="late_milestones" domain="[('is_milestone_exceeded', '=', True)]" groups="project.group_project_milestone"/>
+                <filter string="Hitos Retrasados" name="late_milestones" domain="[('is_milestone_exceeded', '=', True)]" groups="project.group_project_milestone"/>
                 <separator/>
                 <filter string="Abierto" name="open_project" domain="[('stage_id.fold', '=', False)]" groups="project.group_project_stages"/>
                 <filter string="Certificado" name="closed_project" domain="[('stage_id.fold', '=', True)]" groups="project.group_project_stages"/>

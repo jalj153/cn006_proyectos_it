@@ -2,11 +2,14 @@
 # .\__manifest__.py
 
 # ***************************************************************************
+# Grupo: (cn006_proyectos_it_usuarios) : (CN006) Usuarios Proyectos IT
+#   id = 191
+#   Está quemado en código porque Odoo no puede resolver la referencia
 # ***************************************************************************
 
 {
     'name': '(CN006) Gestión Proyectos IT',
-    'version': '00.00.311',
+    'version': '00.00.329',
     'summary': '(CN006) Gestión Proyectos IT',
     'description': '(CN006) Gestión de proyectos del área de IT',
     'author': 'Neotropo®',

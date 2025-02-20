@@ -6,7 +6,8 @@ class CN006ProyectoTipo(models.Model):
     _description = '(CN006) Tipo de proyectos IT'
     _order = 'name ASC'
 
-    cn006_tipo_proyecto = fields.Char(string='Tipo', required=True) 
+    #cn006_tipo_proyecto = fields.Char(string='Tipo', required=True) 
+    name = fields.Char(string='Tipo Proyecto', required=True)
     cn006_descripcion = fields.Char(string='Descripción', required=False)
 
     

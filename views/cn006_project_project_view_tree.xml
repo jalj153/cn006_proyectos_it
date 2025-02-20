@@ -23,10 +23,21 @@
                 <field name="user_id" optional="show" string="Asignado a" widget="many2one_avatar_user" 
                     options="{'no_open':True, 'no_create': True, 'no_create_edit': True}"/>
                 <field name="partner_id" optional="hide" string="Solicitante"/>
+                
+                
+                <field name="stage_id" string="Etapa" options="{'no_open': True}" optional="show"/>
+                
+                <field name="cn006_emergente" string="Es emergente" optional="hide"/>
+                <field name="cn006_fecha_gerencia_oficial" string="Fecha Gerencia" optional="hide"/>
+                <field name="cn006_grado_complejidad_id" string="Complejidad" options="{'no_open': True}" optional="hide"/>
+                <field name="cn006_nivel_importancia_id" string="Importancia" options="{'no_open': True}" optional="hide"/>
+                <field name="cn006_nivel_urgencia_id" string="Urgencia" options="{'no_open': True}" optional="hide"/>
+                <field name="cn006_tamano_id" string="Tamaño" options="{'no_open': True}" optional="hide"/>
+                <field name="cn006_tipo_proyecto_id" string="Tipo" options="{'no_open': True}" optional="hide"/>
+
                 <field name="company_id" optional="hide" groups="base.group_multi_company" 
                     options="{'no_create': True, 'no_create': True}"/>
                 <field name="analytic_account_id" optional="hide" groups="analytic.group_analytic_accounting"/>
-                <field name="stage_id" string="Etapa" options="{'no_open': True}" optional="show"/>
             </tree>
 
 

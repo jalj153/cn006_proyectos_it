@@ -1,12 +1,12 @@
 <odoo>
-    <data noupdate="0">
-        <record id="cn006_proyecto_tipo_proyecto" model="cn006.proyecto.tipo.proyecto">
-            <field name="cn006_tipo_proyecto">PROYECTO</field>
-            <field name="cn006_descripcion">La actividad principal de de desarrollo</field>
+    <data noupdate="1">
+        <record id="cn006_proyecto_tipo_proyecto_new" model="cn006.proyecto.tipo.proyecto" forcecreate="1">
+            <field name="name">PROYECTO</field>
+            <field name="cn006_descripcion">La actividad principal es de desarrollo</field>
         </record>
-        <record id="cn006_proyecto_tipo_soporte" model="cn006.proyecto.tipo.proyecto">
-            <field name="cn006_tipo_proyecto">SOPORTE/CAPACITACIÓN</field>
-            <field name="cn006_descripcion">Principal actividad es soporte</field>
+        <record id="cn006_proyecto_tipo_soporte_new" model="cn006.proyecto.tipo.proyecto" forcecreate="1">
+            <field name="name">SOPORTE/CAPACITACIÓN</field>
+            <field name="cn006_descripcion">Principal actividad es de soporte</field>
         </record>
     </data>
 </odoo>

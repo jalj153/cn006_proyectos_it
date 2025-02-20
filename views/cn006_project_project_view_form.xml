@@ -55,7 +55,7 @@
                                 <field name="cn006_project" widget="boolean_toggle" readonly="1"/> 
                                 <field name="cn006_stod_codigo"/>
                                 <field name="cn006_emergente" widget="boolean_toggle"/> 
-                                <!--  <field name="cn006_tipo_proyecto_id" create="0" edit="0"/>  -->
+                                <field name="cn006_tipo_proyecto_id" create="0" edit="0"/> 
                                 <field name="cn006_clasificacion_id" create="0" edit="0"/>
                                 <field name="cn006_grado_complejidad_id" create="0" edit="0"/>
                                 <field name="cn006_nivel_importancia_id" create="0" edit="0"/>
@@ -72,7 +72,18 @@
                                     string="Responsable" 
                                     widget="many2one_avatar_user" 
                                     attrs="{'readonly':[('active','=',False)]}" 
-                                    domain="[('groups_id', 'in', [191]), ('share', '=', False)]"/>
+                                    domain="[('groups_id', 'in', [191]), ('share', '=', False)]"
+                                    options="{'no_create': True, 'no_open': True}"
+                                    />
+
+                                <!-- (NT)  Personas adicionales en el proyecto  -->
+                                <field name="message_partner_ids" 
+                                    string="Adicionales"
+                                    widget="many2many_tags" 
+                                    options="{'no_create': True, 'no_open': True, 'widget': 'many2many_tags_search'}"
+                                    domain="[('user_ids.groups_id', '=', 191)]" 
+                                />
+
 
 
                                 <field name="cn006_fecha_creacion_oficial" widget="date"/>
@@ -255,7 +266,17 @@
                         </notebook>  <!--  (NT)  Sección inferior TABs-->
                     </sheet>
                     <div class="oe_chatter">
+                        <!-- 
                         <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                        -->
+
+                        <field name="message_follower_ids" invisible="1" options="{'post_refresh':True}" 
+                            help="Siga este proyecto para estar actualizado de los eventos asociados a tareas y asuntos del proyecto."
+                            domain="[('partner_id.user_ids.groups_id', 'in', [191])]"
+                        />
+
+
+
                         <field name="activity_ids"/>
                         <field name="message_ids"/>
                     </div>

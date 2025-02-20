@@ -23,6 +23,6 @@ cn006_usu_proy_tarea_tipificacion,CN006 - Usuarios - Proy Tarea Tipificacion,cn0
 cn006_adm_proy_tarea_tipo_soporte,CN006 - Administradores - Proy Tarea Tipo Soporte,cn006_proyectos_it.model_cn006_proyecto_tarea_tipo_soporte,cn006_proyectos_it_administradores,1,1,1,1
 cn006_sup_proy_tarea_tipo_soporte,CN006 - Supervisores - Proy Tarea Tipo Soporte,cn006_proyectos_it.model_cn006_proyecto_tarea_tipo_soporte,cn006_proyectos_it_supervisores,1,1,1,0
 cn006_usu_proy_tarea_tipo_soporte,CN006 - Usuarios - Proy Tarea Tipo Soporte,cn006_proyectos_it.model_cn006_proyecto_tarea_tipo_soporte,cn006_proyectos_it_usuarios,1,1,1,0
-cn006_adm_proy_tipo_proyecto,CN006 - Administradores - Proy Tipo Proyecto,cn006_proyectos_it.model_cn006_proyecto_tipo,cn006_proyectos_it_administradores,1,1,1,1
-cn006_sup_proy_tipo_proyecto,CN006 - Supervisores - Proy Tipo Proyecto,cn006_proyectos_it.model_cn006_proyecto_tipo,cn006_proyectos_it_supervisores,1,1,1,0
-cn006_usu_proy_tipo_proyecto,CN006 - Usuarios - Proy Tipo Proyecto,cn006_proyectos_it.model_cn006_proyecto_tipo,cn006_proyectos_it_usuarios,1,1,1,0
+cn006_adm_proy_tipo_proyecto,CN006 - Administradores - Proy Tipo Proyecto,cn006_proyectos_it.model_cn006_proyecto_tipo_proyecto,cn006_proyectos_it_administradores,1,1,1,1
+cn006_sup_proy_tipo_proyecto,CN006 - Supervisores - Proy Tipo Proyecto,cn006_proyectos_it.model_cn006_proyecto_tipo_proyecto,cn006_proyectos_it_supervisores,1,1,1,0
+cn006_usu_proy_tipo_proyecto,CN006 - Usuarios - Proy Tipo Proyecto,cn006_proyectos_it.model_cn006_proyecto_tipo_proyecto,cn006_proyectos_it_usuarios,1,1,1,0
