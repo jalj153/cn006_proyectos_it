@@ -181,6 +181,15 @@ def obtener_proyectos(p_tools: cCN006_globales):
 
         #endregion Campos que son estructura
     
+        #region emergente de BOOLEAN a Texto
+        es_emergente_temporal = proyecto['cn006_emergente']
+        if es_emergente_temporal:
+            proyecto['cn006_emergente'] = "EMERGENTE"
+        else:
+            proyecto['cn006_emergente'] = "PLANIFICADO"
+
+        #endregion emergente de BOOLEAN a Texto
+
     #region Agregando prefijo proy_
     proyectos = [
         {f'proy_{key}': value for key, value in detalle.items()}

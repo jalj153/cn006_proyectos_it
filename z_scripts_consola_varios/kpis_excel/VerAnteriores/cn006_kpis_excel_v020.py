@@ -180,15 +180,11 @@ def obtener_proyectos(p_tools: cCN006_globales):
             proyecto['task_ids'] = None
 
         #endregion Campos que son estructura
-    
-    #region Agregando prefijo proy_
+    # Agregando prefijo proy_
     proyectos = [
         {f'proy_{key}': value for key, value in detalle.items()}
         for detalle in proyectos
         ]  
-    #endregion Agregando prefijo proy_
-
-    
 
     return proyectos
 #endregion OBTENER PROYECTOS
@@ -515,8 +511,6 @@ def ajustes_finales_data(p_proyectos_info_total,p_tools: cCN006_globales):
             proyecto['proy_id_unico'] = ""
         #endregion identificar proyectos únicos
         #############################################################
-
-        
 
         stage = proyecto.get('proy_stage_id_name', '')
         proyecto['proy_stage_id_name'] = stage_order.get(stage, stage)
