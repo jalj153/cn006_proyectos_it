@@ -96,7 +96,8 @@
                 <group>
                     <group>
                         <!--  CAMPOS  -->
-                        <field name="project_id" placeholder="Private" domain="[('active', '=', True), ('company_id', '=', company_id)]" 
+                        <field name="project_id" placeholder="Proyecto al que pertenece la tarea" 
+                                    domain="[('active', '=', True), ('company_id', '=', company_id), ('cn006_project', '=', True)]"
                                     attrs="{'invisible': [('parent_id', '!=', False)]}" widget="project_private_task"
                                     read_only="1"
                                     options="{'no_open': True, 'no_create': True}"

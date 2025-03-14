@@ -45,6 +45,7 @@
         <field name="domain">[('cn006_project', '=', True)]</field>
     </record>
 
+
      <!--  Abrir formulario para modificar tareas -->
     <!--  
     <record id="cn006_action_project_task_form" model="ir.actions.act_window">
@@ -56,7 +57,7 @@
     </record>
     -->
 
-    <!-- Listar tareas para después editarlas. -->
+    <!-- Listar tareas para después editarlas con base en un proyecto específico. -->
     <record id="cn006_action_project_task_view_kanban" model="ir.actions.act_window">
         <field name="name">(CN006) Tareas (para editar)</field>
         <field name="res_model">project.task</field>
@@ -69,17 +70,38 @@
             
         ]"/>
         <field name="domain">[('project_id', '=', context.get('default_project_id'))]</field>
-        <!--  
-                'default_cn006_tipificacion_id': ref('cn006.proyecto.tarea.tipificacion.cn006_proyecto_tarea_tipificacion_010'),        
-                'default_cn006_tipo_soporte_id': ref('cn006.proyecto.tarea.tipo.soporte.cn006_proyecto_tarea_tipo_soporte_001')                
-        -->
         <field name="context">
             {
                 'default_user_ids': [(4, uid)],
-                'default_order': 'sequence'
+                'default_order': 'priority desc, sequence',
+                'search_default_my_tasks': 1
             }
         </field>
     </record>
+
+    <!--  Menú > Proyectos > Mis Tareas  (todas las tareas de todos los proyecto cn006_project = True) -->
+    <record id="cn006_action_project_task_my_tasks_view_kanban" model="ir.actions.act_window">
+        <field name="name">(CN006) Mis Tareas</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="search_view_id" ref="cn006_proyectos_it.cn006_project_task_view_kanban_filter"/>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('cn006_proyectos_it.cn006_project_task_view_kanban')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('cn006_proyectos_it.cn006_project_task_view_form')})
+        ]"/>
+        <field name="domain">[
+            ('project_id.cn006_project', '=', True),
+        ]</field>
+        <field name="context">
+            {
+                'default_user_ids': [(4, uid)],
+                'default_order': 'priority desc, sequence',
+                'search_default_my_tasks': 1
+            }
+        </field>
+    </record>
+
 
     <!--  Menú > Configuración > Etapas Proyectos-->
     <record id="cn006_action_proyecto_etapa" model="ir.actions.act_window">

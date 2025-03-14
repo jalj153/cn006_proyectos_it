@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- Menú Principal -->
-    <menuitem id="CN006_menu_principal" name="Proyectos IT (CN006)" sequence="10"/>
+    <menuitem id="CN006_menu_principal" name="Proyectos IT (CN006)" sequence="10" action="cn006_action_project_task_my_tasks_view_kanban"/>
+
 
     <!-- Submenús del menú principal -->
-    <!--  <menuitem parent="CN006_menu_principal" sequence="10" id="CN006_menu_tareas"        name="Tareas"        action="cn006_action_dummy" />  -->
     <menuitem parent="CN006_menu_principal" sequence="20" id="CN006_menu_proyectos_it"  name="Proyectos"     />
         <!--  
         <menuitem parent="CN006_menu_proyectos_it" sequence="10" id="CN006_menu_proyecto_tareas"        name="Mantenimiento Tareas"    action="cn006_action_project_kanban_tasks" />
         <menuitem parent="CN006_menu_proyectos_it" sequence="20" id="CN006_menu_proyecto_mantenimiento" name="Mantenimiento Proyectos" action="cn006_action_project_task_kanban" />
         <menuitem parent="CN006_menu_proyectos_it" sequence="20" id="CN006_menu_proyecto_mantenimiento" name="Mantenimiento Proyectos" action="cn006_action_project_project_kanban" />
         -->
-        <menuitem parent="CN006_menu_proyectos_it" sequence="10" id="CN006_menu_proyecto_tareas"        name="Mantenimiento Tareas"    action="cn006_action_project_task_kanban" />
+        <menuitem parent="CN006_menu_proyectos_it" sequence="10" id="CN006_menu_proyecto_proyectos" name="Proyectos" action="cn006_action_project_task_kanban" />
+        <menuitem parent="CN006_menu_proyectos_it" sequence="20" id="CN006_menu_proyecto_tareas"    name="Tareas"    action="cn006_action_project_task_my_tasks_view_kanban" />
         
         
         

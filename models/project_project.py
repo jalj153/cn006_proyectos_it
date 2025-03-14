@@ -63,6 +63,30 @@ class ProjectProject(models.Model):
 
 
 #region Métodos propios de la gestión del modelo (creates, updates, etc)
+    def name_get(self):
+        result = []
+        for record in self:
+            
+            if record.cn006_project:
+                # Formatear el ID con 7 dígitos y comas cada tres posiciones
+                project_id = f"{record.id:,}".replace(",", "")  # Eliminar comas para asegurar formato limpio
+                project_id = f"{int(project_id):,}"  # Aplicar formato con comas
+
+                # Si cn006_stod_codigo tiene valor, formatearlo con comas
+                if record.cn006_stod_codigo:
+                    stod_codigo = f"{record.cn006_stod_codigo:,}".replace(",", "")  # Eliminar comas
+                    stod_codigo = f"{int(stod_codigo):,}"  # Aplicar formato con comas
+                    name = f"({project_id}) (STOD: {stod_codigo}) {record.name}"
+                else:
+                    name = f"({project_id}) {record.name}"
+            else:
+                # Si cn006_project no es True, devolver el nombre predeterminado sin formato especial
+                name = record.name
+
+            result.append((record.id, name))
+
+        return result
+
     @api.model_create_multi
     def create(self, vals_list):
         """ Al crear un proyecto, asigna las etapas solo si es CN006 """
