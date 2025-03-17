@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
     <!--  Lista proyectos para luego editar sus tareas -->
     <record id="cn006_project_project_view_kanban_tasks" model="ir.ui.view">
         <field name="name">(CN006) Proyectos (mantenimiento tareas)</field>

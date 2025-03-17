@@ -7,6 +7,13 @@
             <field name="fold">False</field>
             <field name="description">Tareas pendientes de iniciar (solamente están definidas).  Equivalente a "planificadas".</field>
         </record>
+        <record id="cn006_task_type_esta_semana" model="project.task.type">
+            <field name="name">ESTA SEMANA</field>
+            <field name="cn006_task_type">True</field>
+            <field name="sequence">515</field>
+            <field name="fold">False</field>
+            <field name="description">Tareas que se realizarán esta semana.  Compromiso del developer.</field>
+        </record>
         <record id="cn006_task_type_avance025" model="project.task.type">
             <field name="name">AVANCE 25%</field>
             <field name="cn006_task_type">True</field>

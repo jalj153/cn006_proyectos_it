@@ -12,7 +12,8 @@
                 'default_cn006_project': True,
                 'default_alias_enabled': False,
                 'search_default_own_projects': 1,
-                'create': {'name': 'Nuevo Proyecto'}
+                'create': {'name': 'Nuevo Proyecto'},
+                'cn006_mode': True
             }
         </field>
         <field name="view_ids" eval="[
@@ -33,7 +34,8 @@
         <field name="context">
                 {
                     'group_by': 'stage_id',
-                    'search_default_order': 'stage_id.sequence ASC, sequence ASC'
+                    'search_default_order': 'stage_id.sequence ASC, sequence ASC',
+                    'cn006_mode': True
                 }
         </field>
         <field name="view_ids" eval="[

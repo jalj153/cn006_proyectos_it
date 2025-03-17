@@ -15,6 +15,7 @@
                 <field name="user_id" string="Asignado a"/>
                 <field name="partner_id" string="Solicitante" filter_domain="[('partner_id', 'child_of', self)]"/>
                 <field name="stage_id" string="Etapa" groups="project.group_project_stages"/>
+                
 
                 <!--  Filtros  -->
                 <!--  <filter string="Mis Proyectos" name="own_projects" domain="[('user_id', '=', uid)]"/>  -->

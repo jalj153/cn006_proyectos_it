@@ -18,9 +18,10 @@
 
                 <field name="color"/>
                 <field name="priority"/>
-                <!--  <field name="stage_id" options="{&quot;group_by_tooltip&quot;: {&quot;description&quot;: &quot;Description&quot;}}"/>  -->
-                <field name="stage_id" 
-                    options="{&quot;group_by_tooltip&quot;: {&quot;description&quot;: &quot;Description&quot;}, &quot;group_expand&quot;: &quot;_read_group_stage_ids&quot;}"/>
+                <!-- <field name="stage_id" options="   {&quot;group_by_tooltip&quot;: {&quot;description&quot;: &quot;Description&quot;}, &quot;group_expand&quot;: &quot;_read_group_stage_ids&quot;}"/>  -->
+
+                <field name="stage_id" options="{'group_by_tooltip': {'description': 'Description'}, 'group_expand': '_read_group_stage_ids', 'no_create': True, 'no_edit': True}"/>
+
 
                 <field name="user_ids"/>
                 <field name="partner_id"/>

@@ -1,7 +1,7 @@
 import logging
 from odoo import models, fields, api
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("(CN006)")
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'
@@ -86,7 +86,7 @@ class ProjectProject(models.Model):
             result.append((record.id, name))
 
         return result
-
+    
     @api.model_create_multi
     def create(self, vals_list):
         """ Al crear un proyecto, asigna las etapas solo si es CN006 """
@@ -123,6 +123,20 @@ class ProjectProject(models.Model):
 
         if updates:
             self.write(updates)  # Solo escribe si hay algo que actualizar
+    
+    @api.model
+    def _read_group_stage_ids(self, stages, domain, order):
+        """Carga solo las etapas relevantes en Kanban para CN006, mantiene el comportamiento normal en otros casos."""
+
+        # Verifica si estamos en modo CN006
+        is_cn006 = self._context.get("cn006_mode", False)
+
+        if is_cn006:
+            _logger.info(f"🖐️🟢 Estamos en modo CN006. (project.project) Aplicando filtro en etapas.")
+            return self.env['project.project.stage'].search([('cn006_stage', '=', True)])
+
+        _logger.info(f"🖐️🔥 NO estamos en modo CN006. (project.project) Aplicando comportamiento normal.")
+        return super()._read_group_stage_ids(stages, domain, order)
 
 #endregion Métodos propios de la gestión del modelo (creates, updates, etc)
 
