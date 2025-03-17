@@ -9,7 +9,7 @@
 
 {
     'name': '(CN006) Gestión Proyectos IT',
-    'version': '00.00.334',
+    'version': '00.00.336',
     'summary': '(CN006) Gestión Proyectos IT',
     'description': '(CN006) Gestión de proyectos del área de IT',
     'author': 'Neotropo®',

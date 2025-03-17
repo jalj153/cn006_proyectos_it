@@ -91,13 +91,16 @@
             (0, 0, {'view_mode': 'form', 'view_id': ref('cn006_proyectos_it.cn006_project_task_view_form')})
         ]"/>
         <field name="domain">[
+            '|',
             ('project_id.cn006_project', '=', True),
+            ('stage_id.cn006_task_type', '=', True)
         ]</field>
         <field name="context">
             {
                 'default_user_ids': [(4, uid)],
                 'default_order': 'priority desc, sequence',
                 'search_default_my_tasks': 1
+                'cn006_mode': True
             }
         </field>
     </record>
