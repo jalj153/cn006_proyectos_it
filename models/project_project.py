@@ -136,6 +136,13 @@ class ProjectProject(models.Model):
             return self.env['project.project.stage'].search([('cn006_stage', '=', True)])
 
         _logger.info(f"🖐️🔥 NO estamos en modo CN006. (project.project) Aplicando comportamiento normal.")
+        _logger.info(f"🖐️🎯 dominio original ({domain})")
+
+        if ('project.project.stage.cn006_stage', '=', False) not in domain:
+            domain.append(('project.project.stage.cn006_stage', '=', False))
+        
+        _logger.info(f"🖐️🎯 dominio modificado ({domain})")
+
         return super()._read_group_stage_ids(stages, domain, order)
 
 #endregion Métodos propios de la gestión del modelo (creates, updates, etc)

@@ -35,8 +35,8 @@ class cCN006_globales:
         
         match p_ambiente:
             case "DESA":
-                self.cnx_url = "https://canella-canellatest2-17948159.dev.odoo.com"
-                self.cnx_db = "canella-canellatest2-17948159"
+                self.cnx_url = "https://canella-canellatest2-18823178.dev.odoo.com"
+                self.cnx_db = "canella-canellatest2-18823178"
                 self.cnx_user_name = "odoo_reportes@canella.com.gt"
                 self.cnx_password = "2adb5989440eaad90ad2b706d69e311757d6d389"
             case "PROD":

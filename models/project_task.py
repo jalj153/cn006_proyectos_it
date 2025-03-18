@@ -1,4 +1,7 @@
 from odoo import models, fields, api
+import datetime
+
+
 import logging
 
 _logger = logging.getLogger("CN006")
@@ -11,7 +14,28 @@ class ProjectTask(models.Model):
     cn006_tipo_soporte_id   = fields.Many2one('cn006.proyecto.tarea.tipo.soporte', string='Tipo Soporte Asociado', help='Si la tarea es IMPLEMENTACIÓN se debe seleccionar la incidencia')
 
 
+    
+    def name_get(self):
+        result = []
+        for task in self:
+            # Convertir ID a cadena y separar cada 3 dígitos con comas
+            formatted_id = "{:,}".format(task.id)
+            
+            # Crear el nombre con el formato deseado
+            name = f"({formatted_id}) {task.name}"  # Esto debería mostrar el ID correctamente formateado
+           
+            result.append((task.id, name))
+        return result
+    
     @api.model
+    def create(self, vals):
+        task = super(ProjectTask, self).create(vals)
+        task._assign_deadline_if_needed()
+        return task
+
+        
+    
+
     def _read_group_stage_ids(self, stages, domain, order):
         """Carga todas las etapas en Kanban solo para CN006, manteniendo el comportamiento normal en otros casos."""
         
@@ -19,14 +43,40 @@ class ProjectTask(models.Model):
         is_cn006 = self._context.get("cn006_mode", False)
 
         if is_cn006:
-            _logger.info(f"🖐️🟢 Estamos en modo CN006.  Aplicando filtro.")
             # Aplicar el filtro solo si estamos en el módulo CN006
             return self.env['project.task.type'].search([('cn006_task_type', '=', True)])
 
         # Si no estamos en CN006, devolver el comportamiento normal de Odoo
-        _logger.info(f"🖐️🔥 NO NO NO Estamos en modo CN006.  Lo normal de Odoo.")
+
+        if ('cn006_task_type', '=', False) not in domain:
+            domain.append(('cn006_task_type', '=', False))
+
         return super()._read_group_stage_ids(stages, domain, order)
 
+    @api.constrains('stage_id')  # Se ejecuta solo cuando cambia la etapa
+    def _assign_deadline_if_needed(self):
+        for task in self:
+            if not task.project_id.cn006_project:
+                return
+
+            # Si la etapa es "Backlog", eliminar la fecha de vencimiento
+            if task.stage_id == self.env.ref('cn006_proyectos_it.cn006_task_type_avance000'):
+                task.date_deadline = False  # Usar False en lugar de ""
+                return  
+
+            # Si la etapa es "ESTA SEMANA" y no tiene fecha, asignar la fecha
+            if not task.date_deadline:
+                today = datetime.date.today()
+                weekday = today.weekday()
+
+                if weekday in (5, 6):  # Sábado (5) o Domingo (6)
+                    days_since_friday = weekday - 4  
+                    friday_date = today - datetime.timedelta(days=days_since_friday)  
+                else:
+                    days_until_friday = (4 - weekday + 7) % 7  
+                    friday_date = today + datetime.timedelta(days=days_until_friday)
+
+                task.date_deadline = friday_date
 
     @api.depends('cn006_tipificacion_id')
     def _compute_cn006_es_implementacion(self):
