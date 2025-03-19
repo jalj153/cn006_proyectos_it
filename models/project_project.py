@@ -132,39 +132,30 @@ class ProjectProject(models.Model):
         is_cn006 = self._context.get("cn006_mode", False)
 
         if is_cn006:
-            _logger.info(f"🖐️🟢 Estamos en modo CN006. (project.project) Aplicando filtro en etapas.")
             return self.env['project.project.stage'].search([('cn006_stage', '=', True)])
-
-        _logger.info(f"🖐️🔥 NO estamos en modo CN006. (project.project) Aplicando comportamiento normal.")
-        _logger.info(f"🖐️🎯 dominio original ({domain})")
 
         if ('project.project.stage.cn006_stage', '=', False) not in domain:
             domain.append(('project.project.stage.cn006_stage', '=', False))
         
-        _logger.info(f"🖐️🎯 dominio modificado ({domain})")
-
         return super()._read_group_stage_ids(stages, domain, order)
 
 #endregion Métodos propios de la gestión del modelo (creates, updates, etc)
 
 #region Métodos para Acciones de Kanban Dashboard   
-#   Estos métodos se llaman desde el kanban view inicial del módulo CN004
-#   No tiene sentido llamarlos desde otros módulos
-#   No se valida que están en módulo CN004 porque el nombre debe evitar llamadas no requeridas
 # 
     def cn006_method_view_project_tasks(self, **kwargs):
         # Validar y forzar que venga solamente 1 registro
         self.ensure_one()  
 
-        _logger.info(f"(cn006) Contexto recibido:\n ({self.env.context})\n\n")
+        _logger.info(f"✋✋ Contexto recibido:\n ({self.env.context})\n\n")
 
         # Obtener la acción creada por el módulo
-        _logger.info(f"(cn006) Tomando la acción de Neotropo")
+        _logger.info(f"✋✋ Tomando la acción de Neotropo")
         action = self.env.ref('cn006_proyectos_it.cn006_action_project_task_view_kanban').read()[0]
-        _logger.info(f"(cn006) Ya se tiene la acción Neotropo\n***********\n\n{action}\n***********\n\n")
+        _logger.info(f"✋✋ Ya se tiene la acción Neotropo\n***********\n\n{action}\n***********\n\n")
         
         if not isinstance(action, dict):
-            raise TypeError(f"El valor de 'action' no es un diccionario. Es de tipo: {type(action)}\n  valor: {action}")
+            raise TypeError(f" 🚨🚨🚨 El valor de 'action' no es un diccionario. Es de tipo: {type(action)}\n  valor: {action}")
         
         return action  #cn006_method_view_project_tasks
 #endregion Métodos para Acciones de Kanban Dashboard   

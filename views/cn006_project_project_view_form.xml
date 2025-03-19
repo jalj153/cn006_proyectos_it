@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<odoo>
+<odoo>s
     <record id="cn006_project_project_view_form" model="ir.ui.view">
         <field name="name">(CN006) Proyecto - Proyecto - Edición</field>
         <field name="model">project.project</field>
@@ -9,6 +9,14 @@
                     <field name="company_id" invisible="1"/>
                     <field name="analytic_account_id" invisible="1"/>
                     <header>
+                        <button name="cn006_method_view_project_tasks" 
+                            string="Agregar Tareas" 
+                            type="object" 
+                            context="{'default_project_id': active_id, 'show_project_update': True}"
+                            icon="fa-file-text-o" class="oe_highlight" 
+                            attrs="{'invisible': [('id', '=', False)]}"
+                        />
+
                         <field name="stage_id" widget="statusbar" 
                             options="{'clickable': '1', 'fold_field': 'fold'}" 
                             domain="[('cn006_stage', '=', True)]" 
